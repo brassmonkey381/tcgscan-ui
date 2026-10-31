@@ -50,6 +50,24 @@ export interface KitSkin {
   lip?: LipSkin;
   /** A screen-style text input (BiBo: navy, cyan pixel text, a sideways-scrolling placeholder). */
   input?: InputSkin;
+  /**
+   * Pop-ups (Sheet, Dialog, PopupSurface) drawn as their own surface: `colors` override the palette
+   * inside them (BiBo: a navy screen, light ink, cyan links), `edge` is a band along the top edge.
+   */
+  popup?: PopupSkin;
+  /** Checkbox colours: the checked fill and its tick (BiBo: navy with a glowing cyan tick). */
+  check?: { fill: string; tick: string; glow?: boolean };
+  /** The loading pixels' colour (BiBo: deep cyan on light grounds). */
+  loading?: { color: string };
+}
+
+export interface PopupSkin {
+  colors: Partial<Palette>;
+  edge?: string;
+  edgeWidth?: number;
+  /** The pop-up title's colour, and whether it glows (BiBo: cyan on navy). */
+  title?: string;
+  titleGlow?: boolean;
 }
 
 export interface InkSkin {

@@ -4,7 +4,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Breakpoints } from 'tcgscan-theme';
 import { Button } from './button';
 import { Height, SheetSize, TypeScale } from './scale';
-import { useKit } from './skin';
+import { GLOW, popupColors } from './popup';
+import { KitProvider, useKit } from './skin';
 import { useWindowSize } from './window-size';
 /**
  * A sheet: title row 56, body, button row 72. Buttons live in the bottom row and nowhere else,
@@ -13,12 +14,16 @@ import { useWindowSize } from './window-size';
  * Bottom-anchored on a phone; a centred panel once the window has room for the rail.
  */
 export function Sheet({ visible, title, onClose, actions, children, }) {
-    const { colors, skin } = useKit();
+    const kit = useKit();
+    const { skin } = kit;
+    // Inside a pop-up everything draws in the skin's popup palette (or the page's, without one).
+    const colors = popupColors(kit);
+    const edge = skin.popup?.edge ? { borderTopWidth: skin.popup.edgeWidth ?? 5, borderTopColor: skin.popup.edge } : null;
     const { width } = useWindowSize();
     const insets = useSafeAreaInsets();
     const wide = width >= Breakpoints.rail;
     const radius = skin.radius.sheet;
-    return (_jsx(Modal, { visible: visible, transparent: true, animationType: wide ? 'fade' : 'slide', onRequestClose: onClose, children: _jsxs(View, { style: [styles.backdrop, wide ? styles.centre : styles.bottom], children: [_jsx(Pressable, { accessibilityLabel: "Close", style: [StyleSheet.absoluteFill, { backgroundColor: colors.scrim55 }], onPress: onClose }), _jsxs(View, { accessibilityViewIsModal: true, style: [
+    return (_jsx(Modal, { visible: visible, transparent: true, animationType: wide ? 'fade' : 'slide', onRequestClose: onClose, children: _jsxs(View, { style: [styles.backdrop, wide ? styles.centre : styles.bottom], children: [_jsx(Pressable, { accessibilityLabel: "Close", style: [StyleSheet.absoluteFill, { backgroundColor: colors.scrim55 }], onPress: onClose }), _jsx(View, { accessibilityViewIsModal: true, style: [
                         styles.panel,
                         {
                             backgroundColor: colors.background,
@@ -28,7 +33,8 @@ export function Sheet({ visible, title, onClose, actions, children, }) {
                             borderTopRightRadius: radius,
                             paddingBottom: wide ? 0 : insets.bottom,
                         },
-                    ], children: [_jsxs(View, { style: [styles.titleRow, { borderBottomColor: colors.hairline }], children: [_jsx(Text, { accessibilityRole: "header", numberOfLines: 1, style: [styles.title, { color: colors.text }], children: title }), _jsx(CloseButton, { onPress: onClose })] }), _jsx(ScrollView, { style: styles.scroll, contentContainerStyle: styles.body, children: children }), actions && actions.length > 0 && _jsx(ButtonRow, { actions: actions, bordered: true })] })] }) }));
+                        edge,
+                    ], children: _jsxs(KitProvider, { colors: colors, dark: skin.popup ? true : kit.dark, skin: skin, children: [_jsxs(View, { style: [styles.titleRow, { borderBottomColor: colors.hairline }], children: [_jsx(Text, { accessibilityRole: "header", numberOfLines: 1, style: [styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null], children: title }), _jsx(CloseButton, { onPress: onClose })] }), _jsx(ScrollView, { style: styles.scroll, contentContainerStyle: styles.body, children: children }), actions && actions.length > 0 && _jsx(ButtonRow, { actions: actions, bordered: true })] }) })] }) }));
 }
 /** The 72 button row shared by sheets and dialogs: equal-width buttons, 12 apart. */
 export function ButtonRow({ actions, bordered }) {

@@ -5,7 +5,8 @@ import { Breakpoints } from 'tcgscan-theme';
 
 import { Button, type ButtonLook } from './button';
 import { Height, SheetSize, TypeScale } from './scale';
-import { useKit } from './skin';
+import { GLOW, popupColors } from './popup';
+import { KitProvider, useKit } from './skin';
 import { useWindowSize } from './window-size';
 
 export interface SheetAction {
@@ -35,7 +36,11 @@ export function Sheet({
   actions?: readonly SheetAction[];
   children: ReactNode;
 }) {
-  const { colors, skin } = useKit();
+  const kit = useKit();
+  const { skin } = kit;
+  // Inside a pop-up everything draws in the skin's popup palette (or the page's, without one).
+  const colors = popupColors(kit);
+  const edge = skin.popup?.edge ? { borderTopWidth: skin.popup.edgeWidth ?? 5, borderTopColor: skin.popup.edge } : null;
   const { width } = useWindowSize();
   const insets = useSafeAreaInsets();
   const wide = width >= Breakpoints.rail;
@@ -61,10 +66,12 @@ export function Sheet({
               borderTopRightRadius: radius,
               paddingBottom: wide ? 0 : insets.bottom,
             },
+            edge,
           ]}
         >
+          <KitProvider colors={colors} dark={skin.popup ? true : kit.dark} skin={skin}>
           <View style={[styles.titleRow, { borderBottomColor: colors.hairline }]}>
-            <Text accessibilityRole="header" numberOfLines={1} style={[styles.title, { color: colors.text }]}>
+            <Text accessibilityRole="header" numberOfLines={1} style={[styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null]}>
               {title}
             </Text>
             <CloseButton onPress={onClose} />
@@ -73,6 +80,7 @@ export function Sheet({
             {children}
           </ScrollView>
           {actions && actions.length > 0 && <ButtonRow actions={actions} bordered />}
+          </KitProvider>
         </View>
       </View>
     </Modal>

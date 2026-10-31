@@ -6,7 +6,7 @@
  */
 export * from './scale';
 export { useWindowSize, type WindowSize } from './window-size';
-export { KitProvider, useKit, tcgscanSkin, type BandSkin, type InkSkin, type InputSkin, type KitSkin, type KitValue, type LipSkin } from './skin';
+export { KitProvider, useKit, tcgscanSkin, type BandSkin, type InkSkin, type InputSkin, type KitSkin, type KitValue, type LipSkin, type PopupSkin } from './skin';
 export { Button, type ButtonLook, type ButtonProps } from './button';
 export { Chip, ChipRow } from './chip';
 export { Seg, type SegOption } from './seg';
@@ -17,3 +17,6 @@ export { Dialog } from './dialog';
 export { Toast } from './toast';
 export { Panel } from './panel';
 export { LipPressable, LoadingDots } from './lip';
+export { Check } from './check';
+export { Loading } from './loading';
+export { PopupSurface, popupColors } from './popup';

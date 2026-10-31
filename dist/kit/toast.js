@@ -1,14 +1,24 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Animated, Easing, Pressable, StyleSheet, Text } from 'react-native';
 import { ControlPad, Height, ToastSize, TypeScale } from './scale';
 import { KitChrome, useKit } from './skin';
 /**
  * A toast: 48 tall, one line, one action. Fixed dark glass so it reads over any content.
  * Presentational only; the host decides where it sits (16 above the bottom edge on phones).
+ * It arrives with a small pop (fade in, rising from 92% to full size) so the eye catches it.
  */
 export function Toast({ message, action, }) {
     const { skin } = useKit();
-    return (_jsxs(View, { accessibilityRole: "alert", accessibilityLiveRegion: "polite", style: [styles.toast, { borderRadius: skin.radius.toast }], children: [_jsx(Text, { numberOfLines: 1, style: styles.message, children: message }), action && (_jsx(Pressable, { accessibilityRole: "button", onPress: action.onPress, style: [styles.action, { borderRadius: skin.radius.button }], children: _jsx(Text, { style: styles.actionLabel, children: action.label }) }))] }));
+    const [t] = useState(() => new Animated.Value(0));
+    useEffect(() => {
+        Animated.timing(t, { toValue: 1, duration: 220, easing: Easing.out(Easing.back(1.8)), useNativeDriver: true }).start();
+    }, [t]);
+    return (_jsxs(Animated.View, { accessibilityRole: "alert", accessibilityLiveRegion: "polite", style: [
+            styles.toast,
+            { borderRadius: skin.radius.toast },
+            { opacity: t.interpolate({ inputRange: [0, 0.4, 1], outputRange: [0, 1, 1] }), transform: [{ scale: t.interpolate({ inputRange: [0, 1], outputRange: [0.92, 1] }) }] },
+        ], children: [_jsx(Text, { numberOfLines: 1, style: styles.message, children: message }), action && (_jsx(Pressable, { accessibilityRole: "button", onPress: action.onPress, style: [styles.action, { borderRadius: skin.radius.button }], children: _jsx(Text, { style: styles.actionLabel, children: action.label }) }))] }));
 }
 const styles = StyleSheet.create({
     toast: {

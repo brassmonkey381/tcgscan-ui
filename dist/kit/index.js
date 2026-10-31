@@ -17,3 +17,6 @@ export { Dialog } from './dialog';
 export { Toast } from './toast';
 export { Panel } from './panel';
 export { LipPressable, LoadingDots } from './lip';
+export { Check } from './check';
+export { Loading } from './loading';
+export { PopupSurface, popupColors } from './popup';

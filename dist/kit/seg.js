@@ -12,15 +12,18 @@ export function Seg({ options, value, onChange, size = 'md', accessibilityLabel,
     return (_jsx(View, { accessibilityRole: "radiogroup", accessibilityLabel: accessibilityLabel, style: [
             styles.track,
             { height: Height[size], borderRadius: skin.radius.chip, backgroundColor: colors.backgroundElement },
+            skin.lip ? { borderWidth: 1.5, borderColor: colors.controlBorder } : null,
         ], children: options.map((o) => {
             const on = o.value === value;
             return (_jsx(Pressable, { accessibilityRole: "radio", accessibilityState: { selected: on }, onPress: () => onChange(o.value), style: [
                     styles.option,
                     { height: inner, borderRadius: skin.radius.chip },
-                    on && [styles.on, { backgroundColor: colors.background }],
+                    on && [styles.on, { backgroundColor: skin.lip ? colors.accent : colors.background }],
+                    // On a lipped skin the chosen segment is a pressed-in key: the accent fill on its lip.
+                    on && skin.lip ? { borderBottomWidth: 3, borderBottomColor: skin.lip.primary } : null,
                 ], children: _jsx(Text, { numberOfLines: 1, style: [
                         styles.label,
-                        { color: on ? colors.text : colors.textSecondary, fontWeight: on ? '600' : '500' },
+                        { color: on ? (skin.lip ? colors.accentText : colors.text) : colors.textSecondary, fontWeight: on ? '600' : '500' },
                     ], children: o.label }) }, o.value));
         }) }));
 }

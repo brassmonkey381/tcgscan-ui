@@ -1,4 +1,5 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Animated, Easing, Pressable, StyleSheet, Text } from 'react-native';
 
 import { ControlPad, Height, ToastSize, TypeScale } from './scale';
 import { KitChrome, useKit } from './skin';
@@ -6,6 +7,7 @@ import { KitChrome, useKit } from './skin';
 /**
  * A toast: 48 tall, one line, one action. Fixed dark glass so it reads over any content.
  * Presentational only; the host decides where it sits (16 above the bottom edge on phones).
+ * It arrives with a small pop (fade in, rising from 92% to full size) so the eye catches it.
  */
 export function Toast({
   message,
@@ -15,11 +17,19 @@ export function Toast({
   action?: { label: string; onPress: () => void };
 }) {
   const { skin } = useKit();
+  const [t] = useState(() => new Animated.Value(0));
+  useEffect(() => {
+    Animated.timing(t, { toValue: 1, duration: 220, easing: Easing.out(Easing.back(1.8)), useNativeDriver: true }).start();
+  }, [t]);
   return (
-    <View
+    <Animated.View
       accessibilityRole="alert"
       accessibilityLiveRegion="polite"
-      style={[styles.toast, { borderRadius: skin.radius.toast }]}
+      style={[
+        styles.toast,
+        { borderRadius: skin.radius.toast },
+        { opacity: t.interpolate({ inputRange: [0, 0.4, 1], outputRange: [0, 1, 1] }), transform: [{ scale: t.interpolate({ inputRange: [0, 1], outputRange: [0.92, 1] }) }] },
+      ]}
     >
       <Text numberOfLines={1} style={styles.message}>
         {message}
@@ -33,7 +43,7 @@ export function Toast({
           <Text style={styles.actionLabel}>{action.label}</Text>
         </Pressable>
       )}
-    </View>
+    </Animated.View>
   );
 }
 

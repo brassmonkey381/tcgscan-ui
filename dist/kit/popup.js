@@ -1,0 +1,24 @@
+import { jsx as _jsx } from "react/jsx-runtime";
+import { View } from 'react-native';
+import { KitProvider, useKit } from './skin';
+/** A soft halo for a title that glows on a dark pop-up. */
+export const GLOW = { textShadowColor: 'rgba(63,216,255,0.8)', textShadowRadius: 10, textShadowOffset: { width: 0, height: 0 } };
+/** The palette a pop-up draws with: the skin's popup colours over the page's, or the page's. */
+export function popupColors({ colors, skin }) {
+    return skin.popup ? { ...colors, ...skin.popup.colors } : colors;
+}
+/**
+ * A pop-up's panel, for a host that builds its own modal: the skin's popup surface (fill, the edge
+ * band along the top) with every kit control inside drawing in the popup palette. Sheet and Dialog
+ * use the same colours, so a hand-built pop-up and a kit one look alike.
+ */
+export function PopupSurface({ children, style, edge = true, }) {
+    const kit = useKit();
+    const pc = popupColors(kit);
+    const band = edge && kit.skin.popup?.edge;
+    return (_jsx(View, { style: [
+            { backgroundColor: pc.background },
+            band ? { borderTopWidth: kit.skin.popup?.edgeWidth ?? 5, borderTopColor: kit.skin.popup.edge } : null,
+            style,
+        ], children: _jsx(KitProvider, { colors: pc, dark: kit.skin.popup ? true : kit.dark, skin: kit.skin, children: children }) }));
+}

@@ -34,6 +34,7 @@ export function Seg<T extends string>({
       style={[
         styles.track,
         { height: Height[size], borderRadius: skin.radius.chip, backgroundColor: colors.backgroundElement },
+        skin.lip ? { borderWidth: 1.5, borderColor: colors.controlBorder } : null,
       ]}
     >
       {options.map((o) => {
@@ -47,14 +48,16 @@ export function Seg<T extends string>({
             style={[
               styles.option,
               { height: inner, borderRadius: skin.radius.chip },
-              on && [styles.on, { backgroundColor: colors.background }],
+              on && [styles.on, { backgroundColor: skin.lip ? colors.accent : colors.background }],
+              // On a lipped skin the chosen segment is a pressed-in key: the accent fill on its lip.
+              on && skin.lip ? { borderBottomWidth: 3, borderBottomColor: skin.lip.primary } : null,
             ]}
           >
             <Text
               numberOfLines={1}
               style={[
                 styles.label,
-                { color: on ? colors.text : colors.textSecondary, fontWeight: on ? '600' : '500' },
+                { color: on ? (skin.lip ? colors.accentText : colors.text) : colors.textSecondary, fontWeight: on ? '600' : '500' },
               ]}
             >
               {o.label}
