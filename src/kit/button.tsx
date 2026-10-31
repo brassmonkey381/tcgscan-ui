@@ -123,7 +123,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexShrink: 0,
   },
-  inner: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+  // No flex: 1. A stretching label box in a row that gives the button no width collapses to
+  // nothing on native (the label vanished in a header on iOS, 2026-10-31); it sizes to its label.
+  inner: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
   label: { fontWeight: '600' },
   underline: { textDecorationLine: 'underline' },
 });
