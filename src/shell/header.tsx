@@ -60,11 +60,16 @@ export function Header(props: HeaderProps) {
 
 function Title({ children, size, centred }: { children: string; size: number; centred?: boolean }) {
   const { colors, skin } = useKit();
+  const ink = skin.ink;
+  // A skin's title size stands in for the scale's h1 (the hero's 40 keeps its own size).
+  const px = ink?.titleSize && size === TypeScale.h1 ? ink.titleSize : size;
   return (
     <Text
       accessibilityRole="header"
       style={[
-        { fontSize: size, lineHeight: Math.round(size * 1.15), fontWeight: '800', color: colors.text },
+        { fontSize: px, lineHeight: Math.round(px * 1.15), fontWeight: '800', color: ink?.title ?? colors.text },
+        // The title's lip: a hard shadow straight down, the buttons' hardware edge in type.
+        ink?.titleLip ? { textShadowColor: ink.titleLip, textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 0 } : null,
         centred && styles.titleCentred,
         skin.displayFace?.(800),
       ]}
@@ -76,9 +81,9 @@ function Title({ children, size, centred }: { children: string; size: number; ce
 }
 
 function Eyebrow({ children, accent }: { children: string; accent?: boolean }) {
-  const { colors } = useKit();
+  const { colors, skin } = useKit();
   return (
-    <Text style={[styles.eyebrow, { color: accent ? colors.link : colors.textSecondary }]}>{children}</Text>
+    <Text style={[styles.eyebrow, { color: accent ? colors.link : (skin.ink?.label ?? colors.textSecondary) }]}>{children}</Text>
   );
 }
 

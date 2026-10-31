@@ -1,25 +1,31 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { LipPressable, LoadingDots } from './lip';
 import { ControlPad, ControlText, Height } from './scale';
 import { useKit } from './skin';
-export function Button({ label, onPress, look = 'secondary', size = 'md', tone, disabled, fill, accessibilityLabel, style, }) {
+export function Button({ label, onPress, look = 'secondary', size = 'md', tone, disabled, loading, fill, accessibilityLabel, style, }) {
     const kit = useKit();
     const paint = lookColors(kit, look, tone);
-    return (_jsx(Pressable, { accessibilityRole: "button", accessibilityLabel: accessibilityLabel ?? label, accessibilityState: { disabled: !!disabled, selected: look === 'selected' }, disabled: disabled, onPress: onPress, style: ({ pressed }) => [
-            styles.base,
-            {
-                height: Height[size],
-                paddingHorizontal: look === 'quiet' ? ControlPad.sm : ControlPad[size],
-                borderRadius: kit.skin.radius.button,
-                backgroundColor: paint.fill,
-                borderColor: paint.border,
-                borderWidth: paint.border ? 1.5 : 0,
-                opacity: disabled ? 0.45 : pressed ? 0.8 : 1,
-            },
-            look === 'primary' && !tone && kit.skin.primaryShadow,
-            fill && styles.fill,
-            style,
-        ], children: _jsx(Text, { numberOfLines: 1, style: [styles.label, { fontSize: ControlText[size], color: paint.text }], children: label }) }));
+    const lip = kit.skin.lip;
+    const lipped = !!lip && look !== 'quiet';
+    const underline = look === 'quiet' && kit.skin.ink?.linkUnderline;
+    const body = (_jsx(View, { style: styles.inner, children: loading ? (_jsx(LoadingDots, { color: paint.text })) : (_jsx(Text, { numberOfLines: 1, style: [styles.label, { fontSize: ControlText[size], color: paint.text }, underline && styles.underline], children: label })) }));
+    const surface = [
+        styles.base,
+        {
+            paddingHorizontal: look === 'quiet' ? ControlPad.sm : ControlPad[size],
+            backgroundColor: paint.fill,
+            borderColor: paint.border,
+            borderWidth: paint.border ? 1.5 : 0,
+        },
+        // A lipped skin's lip IS the primary's edge; the old drop shadow is for flat skins only.
+        !lipped && look === 'primary' && !tone && kit.skin.primaryShadow,
+    ];
+    return (_jsx(LipPressable, { accessibility: {
+            accessibilityRole: 'button',
+            accessibilityLabel: accessibilityLabel ?? label,
+            accessibilityState: { disabled: !!disabled || !!loading, selected: look === 'selected', busy: !!loading },
+        }, height: Height[size], radius: kit.skin.radius.button, lipColor: lipped ? (look === 'primary' && !tone ? lip.primary : lip.secondary) : 'transparent', disabled: disabled, onPress: loading ? undefined : onPress, surface: surface, fill: fill, style: style, children: body }));
 }
 function lookColors({ colors }, look, tone) {
     if (tone === 'danger') {
@@ -44,6 +50,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexShrink: 0,
     },
-    fill: { flex: 1, flexShrink: 1, minWidth: 0 },
+    inner: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
     label: { fontWeight: '600' },
+    underline: { textDecorationLine: 'underline' },
 });

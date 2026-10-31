@@ -1,4 +1,6 @@
-import { Pressable, StyleSheet, Text, type StyleProp, type ViewStyle } from 'react-native';
+import { StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
+
+import { LipPressable, LoadingDots } from './lip';
 
 import { ControlPad, ControlText, Height, type ControlSize } from './scale';
 import { useKit, type KitValue } from './skin';
@@ -12,6 +14,10 @@ import { useKit, type KitValue } from './skin';
  *   quiet      text only, for Cancel and links inside a row.
  *
  * `tone: 'danger'` is Secondary in the danger tint, never red text alone.
+ *
+ * On a skin with a lip (BiBo) every look but quiet stands on it and sinks onto it when pressed;
+ * `loading` swaps the label for stepping pixels and holds the button, and `disabled` drops the lip
+ * and dims it.
  */
 export type ButtonLook = 'primary' | 'secondary' | 'selected' | 'quiet';
 
@@ -22,6 +28,8 @@ export interface ButtonProps {
   size?: ControlSize;
   tone?: 'danger';
   disabled?: boolean;
+  /** Working on it: the label becomes stepping pixels and presses are ignored. */
+  loading?: boolean;
   /** Stretch to share a row equally (sheet and dialog button rows). */
   fill?: boolean;
   accessibilityLabel?: string;
@@ -35,39 +43,59 @@ export function Button({
   size = 'md',
   tone,
   disabled,
+  loading,
   fill,
   accessibilityLabel,
   style,
 }: ButtonProps) {
   const kit = useKit();
   const paint = lookColors(kit, look, tone);
+  const lip = kit.skin.lip;
+  const lipped = !!lip && look !== 'quiet';
+  const underline = look === 'quiet' && kit.skin.ink?.linkUnderline;
+  const body = (
+    <View style={styles.inner}>
+      {loading ? (
+        <LoadingDots color={paint.text} />
+      ) : (
+        <Text
+          numberOfLines={1}
+          style={[styles.label, { fontSize: ControlText[size], color: paint.text }, underline && styles.underline]}
+        >
+          {label}
+        </Text>
+      )}
+    </View>
+  );
+  const surface = [
+    styles.base,
+    {
+      paddingHorizontal: look === 'quiet' ? ControlPad.sm : ControlPad[size],
+      backgroundColor: paint.fill,
+      borderColor: paint.border,
+      borderWidth: paint.border ? 1.5 : 0,
+    },
+    // A lipped skin's lip IS the primary's edge; the old drop shadow is for flat skins only.
+    !lipped && look === 'primary' && !tone && kit.skin.primaryShadow,
+  ];
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel ?? label}
-      accessibilityState={{ disabled: !!disabled, selected: look === 'selected' }}
+    <LipPressable
+      accessibility={{
+        accessibilityRole: 'button',
+        accessibilityLabel: accessibilityLabel ?? label,
+        accessibilityState: { disabled: !!disabled || !!loading, selected: look === 'selected', busy: !!loading },
+      }}
+      height={Height[size]}
+      radius={kit.skin.radius.button}
+      lipColor={lipped ? (look === 'primary' && !tone ? lip!.primary : lip!.secondary) : 'transparent'}
       disabled={disabled}
-      onPress={onPress}
-      style={({ pressed }) => [
-        styles.base,
-        {
-          height: Height[size],
-          paddingHorizontal: look === 'quiet' ? ControlPad.sm : ControlPad[size],
-          borderRadius: kit.skin.radius.button,
-          backgroundColor: paint.fill,
-          borderColor: paint.border,
-          borderWidth: paint.border ? 1.5 : 0,
-          opacity: disabled ? 0.45 : pressed ? 0.8 : 1,
-        },
-        look === 'primary' && !tone && kit.skin.primaryShadow,
-        fill && styles.fill,
-        style,
-      ]}
+      onPress={loading ? undefined : onPress}
+      surface={surface}
+      fill={fill}
+      style={style}
     >
-      <Text numberOfLines={1} style={[styles.label, { fontSize: ControlText[size], color: paint.text }]}>
-        {label}
-      </Text>
-    </Pressable>
+      {body}
+    </LipPressable>
   );
 }
 
@@ -95,6 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexShrink: 0,
   },
-  fill: { flex: 1, flexShrink: 1, minWidth: 0 },
+  inner: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
   label: { fontWeight: '600' },
+  underline: { textDecorationLine: 'underline' },
 });

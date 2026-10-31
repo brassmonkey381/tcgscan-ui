@@ -8,11 +8,11 @@ export const DOC_MEASURE = 680;
 
 /** A section of a doc page: a 17 heading and its paragraphs, 8 apart. */
 export function DocSection({ heading, children }: { heading?: string; children: ReactNode }) {
-  const { colors } = useKit();
+  const { colors, skin } = useKit();
   return (
     <View style={styles.section}>
       {heading ? (
-        <Text accessibilityRole="header" style={[styles.heading, { color: colors.text }]}>
+        <Text accessibilityRole="header" style={[styles.heading, { color: skin.ink?.heading ?? colors.text }]}>
           {heading}
         </Text>
       ) : null}

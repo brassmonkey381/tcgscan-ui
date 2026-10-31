@@ -40,6 +40,44 @@ export interface KitSkin {
      * (BiBo: navy ink and navy buttons on yellow). Omit for no band.
      */
     band?: BandSkin;
+    /** Text colours by role, where a skin wants them apart from the palette (BiBo: amber titles). */
+    ink?: InkSkin;
+    /**
+     * The hardware lip under every button and chip: a solid edge `depth` points tall that the
+     * control sinks onto when pressed. Omit for flat controls.
+     */
+    lip?: LipSkin;
+    /** A screen-style text input (BiBo: navy, cyan pixel text, a sideways-scrolling placeholder). */
+    input?: InputSkin;
+}
+export interface InkSkin {
+    /** Page titles, and the lip (a hard text shadow under the letters). */
+    title?: string;
+    titleLip?: string;
+    /** Page title size in points, replacing the scale's h1 where set. */
+    titleSize?: number;
+    /** Section headings. */
+    heading?: string;
+    /** Small caps labels (eyebrows). */
+    label?: string;
+    /** Underline every link-styled control (quiet buttons). */
+    linkUnderline?: boolean;
+}
+export interface LipSkin {
+    depth: number;
+    /** Under the primary look and a selected chip. */
+    primary: string;
+    /** Under every other look and an unselected chip. */
+    secondary: string;
+}
+export interface InputSkin {
+    fill: string;
+    text: string;
+    placeholder: string;
+    /** The face for typed text and the placeholder (the app's pixel face). */
+    face?: TextStyle;
+    /** Scroll a placeholder sideways, like a ticker on a screen. */
+    marquee?: boolean;
 }
 export interface BandSkin {
     fill: string;

@@ -1,5 +1,8 @@
 import type { ReactNode } from 'react';
-/** A filter or sort chip. Always the small height; selected is the accent fill. */
+/**
+ * A filter or sort chip. Always the small height; selected is the accent fill. On a lipped skin it
+ * stands on the lip like a button, because it is one (owner, 2026-10-30).
+ */
 export declare function Chip({ label, selected, onPress, }: {
     label: string;
     selected?: boolean;

@@ -1,16 +1,20 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { LipPressable } from './lip';
 import { ChipGap, ControlPad, Height, TypeScale } from './scale';
 import { useKit } from './skin';
-/** A filter or sort chip. Always the small height; selected is the accent fill. */
+/**
+ * A filter or sort chip. Always the small height; selected is the accent fill. On a lipped skin it
+ * stands on the lip like a button, because it is one (owner, 2026-10-30).
+ */
 export function Chip({ label, selected, onPress, }) {
     const { colors, skin } = useKit();
-    return (_jsx(Pressable, { accessibilityRole: "button", accessibilityState: { selected: !!selected }, onPress: onPress, style: ({ pressed }) => [
+    return (_jsx(LipPressable, { accessibility: { accessibilityRole: 'button', accessibilityState: { selected: !!selected } }, height: Height.sm, radius: skin.radius.chip, lipColor: selected ? (skin.lip?.primary ?? 'transparent') : (skin.lip?.secondary ?? 'transparent'), onPress: onPress, surface: [
             styles.chip,
             {
-                borderRadius: skin.radius.chip,
                 backgroundColor: selected ? colors.accent : colors.backgroundElement,
-                opacity: pressed ? 0.8 : 1,
+                borderWidth: !selected && skin.lip ? 1.5 : 0,
+                borderColor: colors.controlBorder,
             },
         ], children: _jsx(Text, { numberOfLines: 1, style: [
                 styles.label,
@@ -23,7 +27,6 @@ export function ChipRow({ children }) {
 }
 const styles = StyleSheet.create({
     chip: {
-        height: Height.sm,
         paddingHorizontal: ControlPad.sm,
         alignItems: 'center',
         justifyContent: 'center',
