@@ -21,7 +21,15 @@ export function Input({
   const radius = shape === 'search' ? skin.radius.chip : skin.radius.input;
   const pad = shape === 'search' ? 14 : 12;
   const input = skin.input ? (
-    <ScreenInput {...rest} screen={skin.input} radius={radius} pad={pad} style={style} label={label} />
+    <ScreenInput
+      {...rest}
+      // A screen field on a surface that is already that screen (a navy pop-up) steps up one shade.
+      screen={skin.input.fill === colors.background ? { ...skin.input, fill: colors.backgroundElement } : skin.input}
+      radius={radius}
+      pad={pad}
+      style={style}
+      label={label}
+    />
   ) : (
     <TextInput
       placeholderTextColor={colors.textSecondary}

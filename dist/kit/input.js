@@ -14,7 +14,9 @@ export function Input({ label, shape = 'field', style, ...rest }) {
     const { colors, skin } = useKit();
     const radius = shape === 'search' ? skin.radius.chip : skin.radius.input;
     const pad = shape === 'search' ? 14 : 12;
-    const input = skin.input ? (_jsx(ScreenInput, { ...rest, screen: skin.input, radius: radius, pad: pad, style: style, label: label })) : (_jsx(TextInput, { placeholderTextColor: colors.textSecondary, accessibilityLabel: rest.accessibilityLabel ?? label ?? rest.placeholder, ...rest, style: [
+    const input = skin.input ? (_jsx(ScreenInput, { ...rest, 
+        // A screen field on a surface that is already that screen (a navy pop-up) steps up one shade.
+        screen: skin.input.fill === colors.background ? { ...skin.input, fill: colors.backgroundElement } : skin.input, radius: radius, pad: pad, style: style, label: label })) : (_jsx(TextInput, { placeholderTextColor: colors.textSecondary, accessibilityLabel: rest.accessibilityLabel ?? label ?? rest.placeholder, ...rest, style: [
             styles.input,
             {
                 borderRadius: radius,
