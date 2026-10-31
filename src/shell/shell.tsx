@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Breakpoints } from 'tcgscan-theme';
 
-import { Frame, Height, MinTouch, TypeScale, useKit, useWindowSize, type FrameWidth } from '../kit';
+import { Frame, Height, KitProvider, MinTouch, TypeScale, useKit, useWindowSize, type FrameWidth } from '../kit';
 import { Header, HEADER_WIDTH, type HeaderProps } from './header';
 import { Drawer, Rail, type RailGroup } from './rail';
 
@@ -46,7 +46,7 @@ export function Shell({
   scroll?: boolean;
   children: ReactNode;
 }) {
-  const { colors } = useKit();
+  const { colors, dark, skin } = useKit();
   const { width: window } = useWindowSize();
   const wide = window >= Breakpoints.rail;
   const [drawer, setDrawer] = useState(false);
@@ -56,14 +56,9 @@ export function Shell({
   const maxWidth = Frame.width[width ?? (header ? HEADER_WIDTH[header.variant] : 'doc')];
   const gutter = wide ? Frame.gutter : Frame.gutterPhone;
 
-  const column = (
-    <View
-      style={[
-        styles.column,
-        !scroll && styles.fixed,
-        { maxWidth, paddingHorizontal: gutter, paddingTop: gutter + insets.top, paddingBottom: gutter },
-      ]}
-    >
+  const band = !wide && skin.band ? skin.band : undefined;
+  const top = (
+    <>
       {(back || action || (nav && !wide)) && (
         <View style={styles.topRow}>
           {nav && !wide ? (
@@ -85,6 +80,42 @@ export function Shell({
         </View>
       )}
       {header ? <Header {...header} compact={!wide} /> : null}
+    </>
+  );
+
+  const column = (
+    <View
+      style={[
+        styles.column,
+        !scroll && styles.fixed,
+        { maxWidth, paddingHorizontal: gutter, paddingTop: gutter + insets.top, paddingBottom: gutter },
+      ]}
+    >
+      {band ? (
+        // Full bleed: the band reaches back over the column's own padding and the status bar.
+        <View
+          style={[
+            styles.band,
+            {
+              backgroundColor: band.fill,
+              borderBottomColor: band.lip,
+              borderBottomWidth: band.lipWidth,
+              borderBottomLeftRadius: band.radius,
+              borderBottomRightRadius: band.radius,
+              marginHorizontal: -gutter,
+              marginTop: -(gutter + insets.top),
+              paddingHorizontal: gutter,
+              paddingTop: gutter + insets.top,
+            },
+          ]}
+        >
+          <KitProvider colors={{ ...colors, ...band.colors }} dark={dark} skin={skin}>
+            {top}
+          </KitProvider>
+        </View>
+      ) : (
+        top
+      )}
       <View style={[styles.page, !scroll && styles.fixed]}>{children}</View>
       {footer}
     </View>
@@ -92,6 +123,16 @@ export function Shell({
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
+      {skin.ground ? (
+        <View
+          style={StyleSheet.absoluteFill}
+          pointerEvents="none"
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+        >
+          {skin.ground}
+        </View>
+      ) : null}
       <View style={styles.frame}>
         {nav && wide ? <Rail brand={nav.brand} groups={nav.groups} /> : null}
         {scroll ? (
@@ -116,6 +157,7 @@ const styles = StyleSheet.create({
   scroll: { flex: 1 },
   scrollContent: { flexGrow: 1, alignItems: 'center' },
   column: { width: '100%', flexGrow: 1, gap: 24 },
+  band: { gap: 24, paddingBottom: 20 },
   page: { flexGrow: 1, gap: 16 },
   // A route with its own scroller fills the column instead of growing past it.
   fixed: { flex: 1, minHeight: 0 },

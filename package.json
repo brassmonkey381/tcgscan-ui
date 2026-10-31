@@ -1,6 +1,6 @@
 {
   "name": "tcgscan-ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "The page shell and control kit shared by the TCGScan apps: Shell (rail, drawer, back row, footer), the doc / hero / workbench headers, and the controls (Button, Chip, Seg, Input, Row, Sheet, Dialog, Toast, Panel) on one size scale. Skinned per app through KitProvider; colours come from tcgscan-theme.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,7 +28,7 @@
     "react": "19.2.3",
     "react-native": "0.86.0",
     "react-native-safe-area-context": "~5.7.0",
-    "tcgscan-theme": "github:brassmonkey381/tcgscan-theme#c52d89ead6df1235565c838d8ade28da3129147f",
+    "tcgscan-theme": "github:brassmonkey381/tcgscan-theme#11a2256dc453eeaa5a195163d6eafae76ac771a7",
     "typescript": "~6.0.3"
   }
 }

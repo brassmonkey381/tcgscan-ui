@@ -29,6 +29,26 @@ export interface KitSkin {
     displayProps?: object;
     /** The skin's one allowed shadow, under the primary button only. None in today's TCGScan skin. */
     primaryShadow?: ViewStyle;
+    /**
+     * A texture drawn behind every page, filling the shell (a dot grid, a pattern). Decorative: the
+     * shell hides it from readers and touches. Omit for a flat `background`.
+     */
+    ground?: ReactNode;
+    /**
+     * A coloured band behind the top row and header on a phone, full bleed, with a lip under it.
+     * `colors` overrides the palette inside the band so text and controls stay legible on its fill
+     * (BiBo: navy ink and navy buttons on yellow). Omit for no band.
+     */
+    band?: BandSkin;
+}
+export interface BandSkin {
+    fill: string;
+    /** The lip under the band (a darker step of the fill), `lipWidth` points tall. */
+    lip: string;
+    lipWidth: number;
+    /** Bottom corners. */
+    radius: number;
+    colors: Partial<Palette>;
 }
 /** Today's TCGScan skin: tcgscan-theme's radius tokens, one radius per role. */
 export declare const tcgscanSkin: KitSkin;

@@ -6,7 +6,7 @@
  */
 export * from './scale';
 export { useWindowSize, type WindowSize } from './window-size';
-export { KitProvider, useKit, tcgscanSkin, type KitSkin, type KitValue } from './skin';
+export { KitProvider, useKit, tcgscanSkin, type BandSkin, type KitSkin, type KitValue } from './skin';
 export { Button, type ButtonLook, type ButtonProps } from './button';
 export { Chip, ChipRow } from './chip';
 export { Seg, type SegOption } from './seg';
