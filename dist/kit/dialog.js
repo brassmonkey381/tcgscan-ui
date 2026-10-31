@@ -29,6 +29,6 @@ const styles = StyleSheet.create({
         gap: 16,
         borderWidth: StyleSheet.hairlineWidth,
     },
-    title: { fontSize: TypeScale.sheetTitle, lineHeight: 22, fontWeight: '700' },
+    title: { fontSize: TypeScale.sheetTitle, lineHeight: 28, fontWeight: '700' },
     body: { fontSize: TypeScale.control, lineHeight: 21 },
 });

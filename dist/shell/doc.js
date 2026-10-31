@@ -18,7 +18,7 @@ export function DocText({ children, tone = 'secondary' }) {
 }
 const styles = StyleSheet.create({
     section: { gap: 8, maxWidth: DOC_MEASURE },
-    heading: { fontSize: TypeScale.sheetTitle, lineHeight: 22, fontWeight: '700' },
-    text: { fontSize: TypeScale.body, lineHeight: 24 },
+    heading: { fontSize: TypeScale.sheetTitle, lineHeight: 28, fontWeight: '700' },
+    text: { fontSize: TypeScale.body, lineHeight: 25 },
     meta: { fontSize: TypeScale.meta, lineHeight: 18 },
 });

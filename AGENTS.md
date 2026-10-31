@@ -18,7 +18,7 @@ package and tcgscan-theme stays import-free token data. Brief: `../docs/PAGE-SHE
    literal in a component; the per-skin things (radius per role, display face, the one primary
    shadow) live on `KitSkin`.
 3. **One size scale** (`src/kit/scale.ts`): heights 36 / 44 / 52, rows 48 with a 96 label
-   column, sheets 56 + 72, toast 48, type 13 / 14 / 16 / 17 / 22 / 28 / 40, frame 216 rail,
+   column, sheets 56 + 72, toast 48, type 13 / 15 / 17 / 22 / 36 (one ladder), frame 216 rail,
    24 gutter (16 on a phone), widths 800 / 960 / 1440. Change a number here, not in an app.
 4. **Four button looks**: primary, secondary, selected, quiet. One primary per view.
 5. **A change is a change to every consumer.** Prefer additive props with back-compatible

@@ -18,17 +18,20 @@ export const Height = {
 };
 /** Horizontal padding and label size per control height. */
 export const ControlPad = { sm: 12, md: 16, lg: 20 };
-/** The type scale. Body is 16. */
+/**
+ * The type scale: one ladder, 13 / 15 / 17 / 22 / 36 (owner's round 3 pick, 2026-10-31, "Roomy"):
+ * caption, small, body, heading, title. Nothing draws text at any other size.
+ */
 export const TypeScale = {
     meta: 13,
-    control: 14,
-    body: 16,
-    sheetTitle: 17,
+    control: 15,
+    body: 17,
+    sheetTitle: 22,
     h3: 22,
-    h1: 28,
-    hero: 40,
+    h1: 36,
+    hero: 36,
 };
-/** Label size per control height: 13 on small, 14 on medium and large. */
+/** Label size per control height: 13 on small, 15 on medium and large. */
 export const ControlText = { sm: TypeScale.meta, md: TypeScale.control, lg: TypeScale.control };
 /** Segment groups: the inner pad, so each option sits `Height[size] - 2 * pad` tall. */
 export const SegPad = 2;

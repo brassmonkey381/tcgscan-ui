@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         letterSpacing: 1.2,
         textTransform: 'uppercase',
     },
-    lede: { fontSize: TypeScale.body, lineHeight: 24, maxWidth: 640 },
+    lede: { fontSize: TypeScale.body, lineHeight: 25, maxWidth: 640 },
     ledeCentred: { textAlign: 'center', maxWidth: 520 },
     // A hero h1 that wraps stays centred line by line, not just as a block.
     titleCentred: { textAlign: 'center' },
