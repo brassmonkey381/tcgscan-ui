@@ -20,7 +20,8 @@ export function Input({
   const { colors, skin } = useKit();
   const radius = shape === 'search' ? skin.radius.chip : skin.radius.input;
   const pad = shape === 'search' ? 14 : 12;
-  const input = skin.input ? (
+  // The screen look is for SEARCH only; a plain field (a name, a note) takes the skin's field look.
+  const input = skin.input && shape === 'search' ? (
     <ScreenInput
       {...rest}
       // A screen field on a surface that is already that screen (a navy pop-up) steps up one shade.
@@ -44,6 +45,9 @@ export function Input({
           backgroundColor: colors.background,
           color: colors.text,
         },
+        skin.field
+          ? { backgroundColor: skin.field.fill, borderColor: skin.field.border, borderWidth: skin.field.borderWidth, color: skin.field.text }
+          : null,
         style,
       ]}
     />

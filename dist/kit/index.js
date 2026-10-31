@@ -20,3 +20,5 @@ export { LipPressable, LoadingDots } from './lip';
 export { Check } from './check';
 export { Loading } from './loading';
 export { PopupSurface, popupColors } from './popup';
+export { Switch, SwitchSize } from './switch';
+export { SelectTrigger } from './select';

@@ -64,6 +64,27 @@ export interface KitSkin {
     loading?: {
         color: string;
     };
+    /** A plain text field (names, notes), apart from the search screen (BiBo: white, navy edge). */
+    field?: {
+        fill: string;
+        border: string;
+        borderWidth: number;
+        text: string;
+    };
+    /**
+     * The on/off switch (BiBo: ON / OFF written in the track, a navy track on and grey off, a yellow
+     * knob on a lip). `face` is the font for the written state.
+     */
+    switch?: {
+        onTrack: string;
+        offTrack: string;
+        knob: string;
+        knobEdge?: string;
+        knobLip?: string;
+        onText: string;
+        offText: string;
+        face?: TextStyle;
+    };
 }
 export interface PopupSkin {
     colors: Partial<Palette>;

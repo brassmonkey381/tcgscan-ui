@@ -14,7 +14,8 @@ export function Input({ label, shape = 'field', style, ...rest }) {
     const { colors, skin } = useKit();
     const radius = shape === 'search' ? skin.radius.chip : skin.radius.input;
     const pad = shape === 'search' ? 14 : 12;
-    const input = skin.input ? (_jsx(ScreenInput, { ...rest, 
+    // The screen look is for SEARCH only; a plain field (a name, a note) takes the skin's field look.
+    const input = skin.input && shape === 'search' ? (_jsx(ScreenInput, { ...rest, 
         // A screen field on a surface that is already that screen (a navy pop-up) steps up one shade.
         screen: skin.input.fill === colors.background ? { ...skin.input, fill: colors.backgroundElement } : skin.input, radius: radius, pad: pad, style: style, label: label })) : (_jsx(TextInput, { placeholderTextColor: colors.textSecondary, accessibilityLabel: rest.accessibilityLabel ?? label ?? rest.placeholder, ...rest, style: [
             styles.input,
@@ -25,6 +26,9 @@ export function Input({ label, shape = 'field', style, ...rest }) {
                 backgroundColor: colors.background,
                 color: colors.text,
             },
+            skin.field
+                ? { backgroundColor: skin.field.fill, borderColor: skin.field.border, borderWidth: skin.field.borderWidth, color: skin.field.text }
+                : null,
             style,
         ] }));
     if (!label)
