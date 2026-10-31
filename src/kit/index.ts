@@ -16,3 +16,4 @@ export { Sheet, ButtonRow, type SheetAction } from './sheet';
 export { Dialog } from './dialog';
 export { Toast } from './toast';
 export { Panel } from './panel';
+export { LipPressable, LoadingDots } from './lip';
