@@ -4,7 +4,7 @@ import { type ControlSize } from './scale';
  * The four looks, and only four. One primary per view.
  *
  *   primary    accent fill, accentText label. The one action the view is for.
- *   secondary  panel grey. Everything else that is a button.
+ *   secondary  panel grey (on a lipped skin, with a warm edge). Everything else that is a button.
  *   selected   link ring on the surface, link label. The chosen option of a set.
  *   quiet      text only, for Cancel and links inside a row.
  *

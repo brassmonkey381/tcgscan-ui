@@ -1,6 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useState } from 'react';
-import { Animated, Easing, Pressable, StyleSheet, Text } from 'react-native';
+import { Animated, Pressable, StyleSheet, Text } from 'react-native';
+import { animate, useReduceMotion } from './motion';
 import { useKit } from './skin';
 const W = 64;
 const H = 30;
@@ -14,15 +15,11 @@ const PAD = 4;
 export function Switch({ value, onValueChange, accessibilityLabel, disabled, }) {
     const { colors, skin } = useKit();
     const sw = skin.switch;
+    const reduce = useReduceMotion();
     const [t] = useState(() => new Animated.Value(value ? 1 : 0));
     useEffect(() => {
-        Animated.timing(t, {
-            toValue: value ? 1 : 0,
-            duration: 200,
-            easing: Easing.out(Easing.quad),
-            useNativeDriver: false,
-        }).start();
-    }, [value, t]);
+        animate(t, value ? 1 : 0, 'state', { reduce }).start();
+    }, [value, t, reduce]);
     const track = t.interpolate({
         inputRange: [0, 1],
         outputRange: [sw?.offTrack ?? colors.backgroundElement, sw?.onTrack ?? colors.accent],

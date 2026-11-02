@@ -18,8 +18,14 @@ export function Row({
   children,
   labelColumn,
   onPress,
+  caption,
+  wrap,
 }: {
   label: string;
+  /** A line under the label that explains the setting (the row grows to fit). */
+  caption?: string;
+  /** Let a long label wrap instead of cutting it to one line. */
+  wrap?: boolean;
   value?: string;
   leading?: ReactNode;
   /** The control. */
@@ -31,15 +37,15 @@ export function Row({
   const body = (
     <>
       {leading}
-      <Text
-        numberOfLines={1}
-        style={[
-          labelColumn ? styles.labelColumn : styles.label,
-          { color: labelColumn ? colors.textSecondary : colors.text },
-        ]}
-      >
-        {label}
-      </Text>
+      <View style={labelColumn ? styles.labelColumnBox : styles.labelBox}>
+        <Text
+          numberOfLines={wrap || caption ? undefined : 1}
+          style={[labelColumn ? styles.labelColumn : styles.labelText, { color: labelColumn ? colors.textSecondary : colors.text }]}
+        >
+          {label}
+        </Text>
+        {caption ? <Text style={[styles.caption, { color: colors.textSecondary }]}>{caption}</Text> : null}
+      </View>
       {value != null && (
         <Text numberOfLines={1} style={[styles.value, { color: colors.textSecondary }]}>
           {value}
@@ -53,13 +59,13 @@ export function Row({
       <Pressable
         accessibilityRole="button"
         onPress={onPress}
-        style={({ pressed }) => [styles.row, pressed && { backgroundColor: colors.backgroundElement }]}
+        style={({ pressed }) => [styles.row, (wrap || caption) && styles.tall, pressed && { backgroundColor: colors.backgroundElement }]}
       >
         {body}
       </Pressable>
     );
   }
-  return <View style={styles.row}>{body}</View>;
+  return <View style={[styles.row, (wrap || caption) && styles.tall]}>{body}</View>;
 }
 
 /** Rows on one panel with a hairline between each. */
@@ -91,8 +97,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: RowSize.gap,
   },
-  label: { flex: 1, fontSize: TypeScale.control },
-  labelColumn: { width: RowSize.labelWidth, flexShrink: 0, fontSize: TypeScale.meta },
+  // A row with a caption or a wrapping label grows from 48 instead of cutting its text.
+  tall: { height: undefined, minHeight: RowSize.height, paddingVertical: 10 },
+  labelBox: { flex: 1, minWidth: 0, gap: 2 },
+  labelColumnBox: { width: RowSize.labelWidth, flexShrink: 0, gap: 2 },
+  labelText: { fontSize: TypeScale.control },
+  labelColumn: { fontSize: TypeScale.meta },
+  caption: { fontSize: TypeScale.meta },
   value: { fontSize: TypeScale.meta },
   controlFill: { flex: 1, flexDirection: 'row', justifyContent: 'flex-end' },
   group: { borderWidth: 1, overflow: 'hidden' },

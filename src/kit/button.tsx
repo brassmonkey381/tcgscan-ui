@@ -1,6 +1,8 @@
-import { StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Animated, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { LipPressable, LoadingDots } from './lip';
+import { animate, useReduceMotion } from './motion';
 
 import { ControlPad, ControlText, Height, type ControlSize } from './scale';
 import { useKit, type KitValue } from './skin';
@@ -9,7 +11,7 @@ import { useKit, type KitValue } from './skin';
  * The four looks, and only four. One primary per view.
  *
  *   primary    accent fill, accentText label. The one action the view is for.
- *   secondary  panel grey. Everything else that is a button.
+ *   secondary  panel grey (on a lipped skin, with a warm edge). Everything else that is a button.
  *   selected   link ring on the surface, link label. The chosen option of a set.
  *   quiet      text only, for Cancel and links inside a row.
  *
@@ -53,8 +55,15 @@ export function Button({
   const lip = kit.skin.lip;
   const lipped = !!lip && look !== 'quiet';
   const underline = look === 'quiet' && kit.skin.ink?.linkUnderline;
+  // The label and the loading pixels cross-fade (state step of the motion ladder).
+  const reduce = useReduceMotion();
+  const [fade] = useState(() => new Animated.Value(1));
+  useEffect(() => {
+    fade.setValue(0);
+    animate(fade, 1, 'state', { reduce, fade: true, nativeDriver: true }).start();
+  }, [loading, fade, reduce]);
   const body = (
-    <View style={styles.inner}>
+    <Animated.View style={[styles.inner, { opacity: fade }]}>
       {loading ? (
         <LoadingDots color={paint.text} />
       ) : (
@@ -65,7 +74,7 @@ export function Button({
           {label}
         </Text>
       )}
-    </View>
+    </Animated.View>
   );
   const surface = [
     styles.base,
@@ -99,7 +108,7 @@ export function Button({
   );
 }
 
-function lookColors({ colors }: KitValue, look: ButtonLook, tone?: 'danger') {
+function lookColors({ colors, skin }: KitValue, look: ButtonLook, tone?: 'danger') {
   if (tone === 'danger') {
     return { fill: colors.dangerBg, text: colors.danger, border: undefined };
   }
@@ -112,7 +121,9 @@ function lookColors({ colors }: KitValue, look: ButtonLook, tone?: 'danger') {
     case 'quiet':
       return { fill: 'transparent', text: colors.link, border: undefined };
     default:
-      return { fill: colors.backgroundElement, text: colors.text, border: undefined };
+      // On a lipped skin the second button has a warm edge, so it still reads on cards of the same
+      // pale yellow (owner's pick: 'pale yellow, warm border, WITH a lip').
+      return { fill: colors.backgroundElement, text: colors.text, border: skin.lip ? colors.controlBorder : undefined };
   }
 }
 

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Animated, Easing, Pressable, StyleSheet, Text } from 'react-native';
+import { Animated, Pressable, StyleSheet, Text } from 'react-native';
+
+import { animate, useReduceMotion } from './motion';
 
 import { ControlPad, Height, ToastSize, TypeScale } from './scale';
 import { KitChrome, useKit } from './skin';
@@ -17,10 +19,12 @@ export function Toast({
   action?: { label: string; onPress: () => void };
 }) {
   const { skin } = useKit();
+  const reduce = useReduceMotion();
   const [t] = useState(() => new Animated.Value(0));
   useEffect(() => {
-    Animated.timing(t, { toValue: 1, duration: 220, easing: Easing.out(Easing.back(1.8)), useNativeDriver: true }).start();
-  }, [t]);
+    // Arrives on the motion ladder's arrive step, easing out (owner's pick: no overshoot).
+    animate(t, 1, 'arrive', { reduce, fade: true, nativeDriver: true }).start();
+  }, [t, reduce]);
   return (
     <Animated.View
       accessibilityRole="alert"
