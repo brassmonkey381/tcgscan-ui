@@ -104,14 +104,17 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 /** Three pixels stepping left to right: a button's loading state, in place of its label. */
 export function LoadingDots({ color, size = 6 }: { color: string; size?: number }) {
   const [lit, setLit] = useState(0);
+  // Steps, never tweens; under Reduce Motion all three are lit and steady.
+  const reduce = useReduceMotion();
   useEffect(() => {
+    if (reduce) return;
     const id = setInterval(() => setLit((n) => (n + 1) % 3), 220);
     return () => clearInterval(id);
-  }, []);
+  }, [reduce]);
   return (
     <View style={styles.dots} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
       {[0, 1, 2].map((i) => (
-        <View key={i} style={{ width: size, height: size, backgroundColor: color, opacity: i === lit ? 1 : 0.3 }} />
+        <View key={i} style={{ width: size, height: size, backgroundColor: color, opacity: reduce || i === lit ? 1 : 0.3 }} />
       ))}
     </View>
   );

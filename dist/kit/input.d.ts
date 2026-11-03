@@ -6,7 +6,9 @@ import { type TextInputProps } from 'react-native';
  * A skin with `input` (BiBo) draws it as a screen: its fill, its text colour and face, and with
  * `marquee` a placeholder that scrolls sideways like a ticker while the field is empty and idle.
  */
-export declare function Input({ label, shape, style, ...rest }: TextInputProps & {
+export declare function Input({ label, shape, style, error, ...rest }: TextInputProps & {
     label?: string;
     shape?: 'field' | 'search';
+    /** A failure line drawn directly under the field (owner's error pick). */
+    error?: string | null;
 }): import("react").JSX.Element;

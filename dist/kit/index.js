@@ -23,3 +23,4 @@ export { PopupSurface, popupColors } from './popup';
 export { Switch, SwitchSize } from './switch';
 export { SelectTrigger } from './select';
 export { Motion, motionEasing, animate, useReduceMotion } from './motion';
+export { Banner, ErrorText, Note, Wait } from './feedback';

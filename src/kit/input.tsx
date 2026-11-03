@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Animated, Easing, StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
 
+import { ErrorText } from './feedback';
 import { Height, TypeScale } from './scale';
 import { useKit, type InputSkin } from './skin';
 
@@ -15,8 +16,14 @@ export function Input({
   label,
   shape = 'field',
   style,
+  error,
   ...rest
-}: TextInputProps & { label?: string; shape?: 'field' | 'search' }) {
+}: TextInputProps & {
+  label?: string;
+  shape?: 'field' | 'search';
+  /** A failure line drawn directly under the field (owner's error pick). */
+  error?: string | null;
+}) {
   const { colors, skin } = useKit();
   const radius = shape === 'search' ? skin.radius.chip : skin.radius.input;
   const pad = shape === 'search' ? 14 : 12;
@@ -52,11 +59,13 @@ export function Input({
       ]}
     />
   );
-  if (!label) return input;
+  const err = error ? <ErrorText>{error}</ErrorText> : null;
+  if (!label) return err ? <View>{input}{err}</View> : input;
   return (
     <View style={styles.labelled}>
       <Text style={[styles.label, { color: colors.text }]}>{label}</Text>
       {input}
+      {err}
     </View>
   );
 }

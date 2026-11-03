@@ -56,7 +56,9 @@ export function Shell({
   const maxWidth = Frame.width[width ?? (header ? HEADER_WIDTH[header.variant] : 'doc')];
   const gutter = wide ? Frame.gutter : Frame.gutterPhone;
 
-  const band = !wide && skin.band ? skin.band : undefined;
+  // The band draws at every width (owner's pick, 2026-11-02): on a desk it sits in the content
+  // column, right of the rail, as wide as the column.
+  const band = skin.band;
   const top = (
     <>
       {(back || action || (nav && !wide)) && (
@@ -72,7 +74,13 @@ export function Shell({
             </Pressable>
           ) : null}
           {back ? (
-            <Pressable accessibilityRole="link" onPress={back.onPress} hitSlop={8} style={styles.back}>
+            <Pressable
+              accessibilityRole="link"
+              onPress={back.onPress}
+              hitSlop={8}
+              // Pressed feedback, as every link has (owner's pick).
+              style={({ pressed }) => [styles.back, pressed && styles.backPressed]}
+            >
               <Text style={[styles.backLabel, { color: colors.link }]}>‹ {back.label}</Text>
             </Pressable>
           ) : null}
@@ -165,6 +173,7 @@ const styles = StyleSheet.create({
   menuButton: { width: MinTouch, height: MinTouch, alignItems: 'center', justifyContent: 'center', marginLeft: -12 },
   menuGlyph: { fontSize: TypeScale.h3 },
   back: { justifyContent: 'center', minHeight: Height.sm },
+  backPressed: { opacity: 0.6 },
   action: { marginLeft: 'auto' },
   backLabel: { fontSize: TypeScale.meta, fontWeight: '600' },
 });

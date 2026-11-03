@@ -1,6 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useState } from 'react';
 import { Animated, Easing, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ErrorText } from './feedback';
 import { Height, TypeScale } from './scale';
 import { useKit } from './skin';
 /**
@@ -10,7 +11,7 @@ import { useKit } from './skin';
  * A skin with `input` (BiBo) draws it as a screen: its fill, its text colour and face, and with
  * `marquee` a placeholder that scrolls sideways like a ticker while the field is empty and idle.
  */
-export function Input({ label, shape = 'field', style, ...rest }) {
+export function Input({ label, shape = 'field', style, error, ...rest }) {
     const { colors, skin } = useKit();
     const radius = shape === 'search' ? skin.radius.chip : skin.radius.input;
     const pad = shape === 'search' ? 14 : 12;
@@ -31,9 +32,10 @@ export function Input({ label, shape = 'field', style, ...rest }) {
                 : null,
             style,
         ] }));
+    const err = error ? _jsx(ErrorText, { children: error }) : null;
     if (!label)
-        return input;
-    return (_jsxs(View, { style: styles.labelled, children: [_jsx(Text, { style: [styles.label, { color: colors.text }], children: label }), input] }));
+        return err ? _jsxs(View, { children: [input, err] }) : input;
+    return (_jsxs(View, { style: styles.labelled, children: [_jsx(Text, { style: [styles.label, { color: colors.text }], children: label }), input, err] }));
 }
 function ScreenInput({ screen, radius, pad, style, label, ...rest }) {
     const [focused, setFocused] = useState(false);
