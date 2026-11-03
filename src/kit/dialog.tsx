@@ -50,8 +50,7 @@ export function Dialog({
           onPress={onClose}
         />
         <View
-          accessibilityViewIsModal
-          accessibilityRole="alert"
+          aria-modal
           style={[
             styles.box,
             { backgroundColor: colors.background, borderColor: colors.hairline, borderRadius: skin.radius.dialog },
@@ -59,7 +58,7 @@ export function Dialog({
           ]}
         >
           <KitProvider colors={colors} dark={skin.popup ? true : kit.dark} skin={skin}>
-          <Text maxFontSizeMultiplier={FontScaleCap.reading} style={[styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null]}>{title}</Text>
+          <Text maxFontSizeMultiplier={FontScaleCap.reading} role="heading" style={[styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null]}>{title}</Text>
           {body ? <Text maxFontSizeMultiplier={FontScaleCap.reading} style={[styles.body, { color: colors.textSecondary }]}>{body}</Text> : null}
           {children}
           <ButtonRow actions={[cancel, { look: 'primary', ...confirm }]} />

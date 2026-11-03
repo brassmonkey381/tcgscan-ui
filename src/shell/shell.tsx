@@ -66,7 +66,7 @@ export function Shell({
         <View style={styles.topRow}>
           {nav && !wide ? (
             <Pressable
-              accessibilityRole="button"
+              role="button"
               accessibilityLabel="Open menu"
               onPress={() => setDrawer(true)}
               style={styles.menuButton}
@@ -76,7 +76,7 @@ export function Shell({
           ) : null}
           {back ? (
             <Pressable
-              accessibilityRole="link"
+              role="link"
               onPress={back.onPress}
               hitSlop={8}
               // Pressed feedback, as every link has (owner's pick).
@@ -136,8 +136,7 @@ export function Shell({
         <View
           style={StyleSheet.absoluteFill}
           pointerEvents="none"
-          accessibilityElementsHidden
-          importantForAccessibility="no-hide-descendants"
+          aria-hidden
         >
           {skin.ground}
         </View>

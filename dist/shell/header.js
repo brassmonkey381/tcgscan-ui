@@ -20,7 +20,7 @@ function Title({ children, size, centred }) {
     const ink = skin.ink;
     // A skin's title size stands in for the scale's h1 (the hero's 40 keeps its own size).
     const px = ink?.titleSize && size === TypeScale.h1 ? ink.titleSize : size;
-    return (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, accessibilityRole: "header", style: [
+    return (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, role: "heading", style: [
             { fontSize: px, lineHeight: Math.round(px * 1.15), fontWeight: '800', color: ink?.title ?? colors.text },
             // The title's lip: a hard shadow straight down, the buttons' hardware edge in type.
             ink?.titleLip ? { textShadowColor: ink.titleLip, textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 0 } : null,

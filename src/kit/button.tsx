@@ -90,9 +90,11 @@ export function Button({
   return (
     <LipPressable
       accessibility={{
-        accessibilityRole: 'button',
+        role: 'button',
         accessibilityLabel: accessibilityLabel ?? label,
-        accessibilityState: { disabled: !!disabled || !!loading, selected: look === 'selected', busy: !!loading },
+        'aria-disabled': !!disabled || !!loading,
+        'aria-selected': look === 'selected',
+        'aria-busy': !!loading,
       }}
       height={Height[size]}
       radius={kit.skin.radius.button}

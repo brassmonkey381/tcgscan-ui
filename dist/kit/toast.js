@@ -17,11 +17,11 @@ export function Toast({ message, action, }) {
         // Arrives on the motion ladder's arrive step, easing out (owner's pick: no overshoot).
         animate(t, 1, 'arrive', { reduce, fade: true, nativeDriver: true }).start();
     }, [t, reduce]);
-    return (_jsxs(Animated.View, { accessibilityRole: "alert", accessibilityLiveRegion: "polite", style: [
+    return (_jsxs(Animated.View, { role: "alert", "aria-live": "polite", style: [
             styles.toast,
             { borderRadius: skin.radius.toast },
             { opacity: t.interpolate({ inputRange: [0, 0.4, 1], outputRange: [0, 1, 1] }), transform: [{ scale: t.interpolate({ inputRange: [0, 1], outputRange: [0.92, 1] }) }] },
-        ], children: [_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, numberOfLines: 1, style: styles.message, children: message }), action && (_jsx(Pressable, { accessibilityRole: "button", onPress: action.onPress, style: [styles.action, { borderRadius: skin.radius.button }], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, style: styles.actionLabel, children: action.label }) }))] }));
+        ], children: [_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, numberOfLines: 1, style: styles.message, children: message }), action && (_jsx(Pressable, { role: "button", onPress: action.onPress, style: [styles.action, { borderRadius: skin.radius.button }], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, style: styles.actionLabel, children: action.label }) }))] }));
 }
 const styles = StyleSheet.create({
     toast: {

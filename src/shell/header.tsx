@@ -66,7 +66,7 @@ function Title({ children, size, centred }: { children: string; size: number; ce
   const px = ink?.titleSize && size === TypeScale.h1 ? ink.titleSize : size;
   return (
     <Text maxFontSizeMultiplier={FontScaleCap.reading}
-      accessibilityRole="header"
+      role="heading"
       style={[
         { fontSize: px, lineHeight: Math.round(px * 1.15), fontWeight: '800', color: ink?.title ?? colors.text },
         // The title's lip: a hard shadow straight down, the buttons' hardware edge in type.

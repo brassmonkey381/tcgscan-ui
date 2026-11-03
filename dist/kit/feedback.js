@@ -30,7 +30,7 @@ function useArrive() {
 export function ErrorText({ children, style }) {
     const { colors } = useKit();
     const arrive = useArrive();
-    return (_jsx(Animated.View, { style: [styles.errorBox, arrive, style], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, accessibilityRole: "alert", accessibilityLiveRegion: "polite", style: [styles.error, { color: colors.danger }], children: children }) }));
+    return (_jsx(Animated.View, { style: [styles.errorBox, arrive, style], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, role: "alert", "aria-live": "polite", style: [styles.error, { color: colors.danger }], children: children }) }));
 }
 /**
  * A note: a hint, fine print, a result line, a caveat, a status. Caption 13/18. `working` adds the
@@ -39,7 +39,7 @@ export function ErrorText({ children, style }) {
 export function Note({ children, tone = 'muted', align, working, style, }) {
     const { colors } = useKit();
     const color = tone === 'danger' ? colors.danger : tone === 'warning' ? colors.warning : colors.textSecondary;
-    const text = (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, accessibilityRole: tone === 'danger' ? 'alert' : undefined, style: [styles.note, { color, textAlign: align }], children: children }));
+    const text = (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, role: tone === 'danger' ? 'alert' : undefined, style: [styles.note, { color, textAlign: align }], children: children }));
     if (!working)
         return _jsx(View, { style: style, children: text });
     return (_jsxs(View, { style: [styles.workingRow, align === 'center' && styles.centre, style], children: [_jsx(Loading, { size: 5 }), _jsx(View, { style: styles.flexText, children: text })] }));

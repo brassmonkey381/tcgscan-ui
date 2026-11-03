@@ -11,7 +11,7 @@ import { FontScaleCap } from '../kit/scale';
  */
 export function Rail({ brand, groups, footer }) {
     const { colors } = useKit();
-    return (_jsxs(View, { accessibilityRole: "menu", style: [styles.rail, { backgroundColor: colors.background, borderRightColor: colors.hairline }], children: [brand ? _jsx(View, { style: styles.brand, children: brand }) : null, _jsx(ScrollView, { contentContainerStyle: styles.groups, children: _jsx(RailGroups, { groups: groups }) }), footer] }));
+    return (_jsxs(View, { role: "menu", style: [styles.rail, { backgroundColor: colors.background, borderRightColor: colors.hairline }], children: [brand ? _jsx(View, { style: styles.brand, children: brand }) : null, _jsx(ScrollView, { contentContainerStyle: styles.groups, children: _jsx(RailGroups, { groups: groups }) }), footer] }));
 }
 function RailGroups({ groups }) {
     const { colors } = useKit();
@@ -19,7 +19,7 @@ function RailGroups({ groups }) {
 }
 function RailRow({ item }) {
     const { colors, skin } = useKit();
-    return (_jsxs(Pressable, { accessibilityRole: "menuitem", accessibilityState: { selected: !!item.active }, onPress: item.onPress, style: ({ pressed, hovered }) => [
+    return (_jsxs(Pressable, { role: "menuitem", "aria-selected": !!item.active, onPress: item.onPress, style: ({ pressed, hovered }) => [
             styles.row,
             { borderRadius: skin.radius.input },
             (item.active || hovered || pressed) && { backgroundColor: colors.backgroundElement },
@@ -29,7 +29,7 @@ function RailRow({ item }) {
 export function Drawer({ visible, onClose, brand, groups, }) {
     const { colors } = useKit();
     const insets = useSafeAreaInsets();
-    return (_jsx(Modal, { visible: visible, transparent: true, animationType: "fade", onRequestClose: onClose, children: _jsxs(View, { style: styles.drawerRoot, children: [_jsxs(View, { accessibilityViewIsModal: true, style: [
+    return (_jsx(Modal, { visible: visible, transparent: true, animationType: "fade", onRequestClose: onClose, children: _jsxs(View, { style: styles.drawerRoot, children: [_jsxs(View, { "aria-modal": true, style: [
                         styles.drawer,
                         { backgroundColor: colors.background, paddingTop: insets.top, paddingBottom: insets.bottom },
                     ], children: [brand ? _jsx(View, { style: styles.brand, children: brand }) : null, _jsx(ScrollView, { contentContainerStyle: styles.groups, children: _jsx(RailGroups, { groups: groups.map((g) => ({

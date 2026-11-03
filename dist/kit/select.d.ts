@@ -3,10 +3,12 @@
  * reads as "choose from a list" rather than as a button or as text (owner's pick, 2026-10-31: a white
  * field with a navy chevron box). It opens nothing itself; the host opens its list on press.
  */
-export declare function SelectTrigger({ value, onPress, accessibilityLabel, size, disabled, }: {
+export declare function SelectTrigger({ value, onPress, accessibilityLabel, size, disabled, expanded, }: {
     value: string;
     onPress: () => void;
     accessibilityLabel?: string;
     size?: 'sm' | 'md';
     disabled?: boolean;
+    /** Whether the list it opens is showing, for a screen reader (aria-expanded). */
+    expanded?: boolean;
 }): import("react").JSX.Element;

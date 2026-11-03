@@ -11,7 +11,7 @@ import { useKit } from './skin';
 export function Loading({ label, size = 7 }: { label?: string; size?: number }) {
   const { colors, skin } = useKit();
   return (
-    <View style={styles.row} accessibilityRole="progressbar" accessibilityLabel={label ?? 'Loading'}>
+    <View style={styles.row} role="progressbar" accessibilityLabel={label ?? 'Loading'}>
       <LoadingDots color={skin.loading?.color ?? colors.link} size={size} />
       {label ? <Text maxFontSizeMultiplier={FontScaleCap.chrome} style={[styles.label, { color: colors.textSecondary }]}>{label}</Text> : null}
     </View>

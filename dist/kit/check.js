@@ -22,7 +22,7 @@ export function Check({ checked, onPress, label, accessibilityLabel, disabled, }
                 { color: tick },
                 skin.check?.glow ? { textShadowColor: tick, textShadowRadius: 6, textShadowOffset: { width: 0, height: 0 } } : null,
             ], children: "\u2713" })) : null }));
-    return (_jsxs(Pressable, { accessibilityRole: "checkbox", accessibilityState: { checked, disabled: !!disabled }, accessibilityLabel: accessibilityLabel ?? label, disabled: disabled || !onPress, onPress: onPress, hitSlop: label ? undefined : (MinTouch - 22) / 2, style: ({ pressed }) => [styles.row, { opacity: disabled ? 0.45 : pressed ? 0.8 : 1 }], children: [box, label ? _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, selectable: false, style: [styles.label, { color: colors.text }], children: label }) : null] }));
+    return (_jsxs(Pressable, { role: "checkbox", "aria-checked": checked, "aria-disabled": !!disabled, accessibilityLabel: accessibilityLabel ?? label, disabled: disabled || !onPress, onPress: onPress, hitSlop: label ? undefined : (MinTouch - 22) / 2, style: ({ pressed }) => [styles.row, { opacity: disabled ? 0.45 : pressed ? 0.8 : 1 }], children: [box, label ? _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, selectable: false, style: [styles.label, { color: colors.text }], children: label }) : null] }));
 }
 const styles = StyleSheet.create({
     row: { flexDirection: 'row', alignItems: 'center', gap: 10, minHeight: 22 },

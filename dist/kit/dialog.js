@@ -22,11 +22,11 @@ export function Dialog({ visible, title, body, cancel, confirm, onClose, childre
     // Inside a pop-up everything draws in the skin's popup palette (or the page's, without one).
     const colors = popupColors(kit);
     const edge = skin.popup?.edge ? { borderTopWidth: skin.popup.edgeWidth ?? 5, borderTopColor: skin.popup.edge } : null;
-    return (_jsx(Modal, { visible: visible, transparent: true, animationType: "fade", onRequestClose: onClose, children: _jsxs(View, { style: styles.backdrop, children: [_jsx(Pressable, { accessibilityLabel: "Close", style: [StyleSheet.absoluteFill, { backgroundColor: colors.scrim55 }], onPress: onClose }), _jsx(View, { accessibilityViewIsModal: true, accessibilityRole: "alert", style: [
+    return (_jsx(Modal, { visible: visible, transparent: true, animationType: "fade", onRequestClose: onClose, children: _jsxs(View, { style: styles.backdrop, children: [_jsx(Pressable, { accessibilityLabel: "Close", style: [StyleSheet.absoluteFill, { backgroundColor: colors.scrim55 }], onPress: onClose }), _jsx(View, { "aria-modal": true, style: [
                         styles.box,
                         { backgroundColor: colors.background, borderColor: colors.hairline, borderRadius: skin.radius.dialog },
                         edge,
-                    ], children: _jsxs(KitProvider, { colors: colors, dark: skin.popup ? true : kit.dark, skin: skin, children: [_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, style: [styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null], children: title }), body ? _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, style: [styles.body, { color: colors.textSecondary }], children: body }) : null, children, _jsx(ButtonRow, { actions: [cancel, { look: 'primary', ...confirm }] })] }) })] }) }));
+                    ], children: _jsxs(KitProvider, { colors: colors, dark: skin.popup ? true : kit.dark, skin: skin, children: [_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, role: "heading", style: [styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null], children: title }), body ? _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, style: [styles.body, { color: colors.textSecondary }], children: body }) : null, children, _jsx(ButtonRow, { actions: [cancel, { look: 'primary', ...confirm }] })] }) })] }) }));
 }
 const styles = StyleSheet.create({
     backdrop: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },

@@ -14,7 +14,7 @@ export function Row({ label, value, leading, children, labelColumn, onPress, cap
     const { colors } = useKit();
     const body = (_jsxs(_Fragment, { children: [leading, _jsxs(View, { style: labelColumn ? styles.labelColumnBox : styles.labelBox, children: [_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, numberOfLines: wrap || caption ? undefined : 1, style: [labelColumn ? styles.labelColumn : styles.labelText, { color: labelColumn ? colors.textSecondary : colors.text }], children: label }), caption ? _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, style: [styles.caption, { color: colors.textSecondary }], children: caption }) : null] }), value != null && (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, numberOfLines: 1, style: [styles.value, { color: colors.textSecondary }], children: value })), children != null && _jsx(View, { style: labelColumn ? styles.controlFill : undefined, children: children })] }));
     if (onPress) {
-        return (_jsx(Pressable, { accessibilityRole: "button", onPress: onPress, style: ({ pressed }) => [styles.row, (wrap || caption) && styles.tall, pressed && { backgroundColor: colors.backgroundElement }], children: body }));
+        return (_jsx(Pressable, { role: "button", onPress: onPress, style: ({ pressed }) => [styles.row, (wrap || caption) && styles.tall, pressed && { backgroundColor: colors.backgroundElement }], children: body }));
     }
     return _jsx(View, { style: [styles.row, (wrap || caption) && styles.tall], children: body });
 }

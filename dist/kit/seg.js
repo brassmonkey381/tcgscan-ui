@@ -39,7 +39,7 @@ export function Seg({ options, value, onChange, size = 'md', fill, accessibility
         const { x: bx, width } = e.nativeEvent.layout;
         setBoxes((b) => (b[v]?.x === bx && b[v]?.w === width ? b : { ...b, [v]: { x: bx, w: width } }));
     };
-    return (_jsxs(View, { accessibilityRole: "radiogroup", accessibilityLabel: accessibilityLabel, style: [
+    return (_jsxs(View, { role: "radiogroup", accessibilityLabel: accessibilityLabel, style: [
             styles.track,
             fill && styles.fillTrack,
             { height: Height[size], borderRadius: skin.radius.chip, backgroundColor: colors.backgroundElement },
@@ -60,7 +60,7 @@ export function Seg({ options, value, onChange, size = 'md', fill, accessibility
                     skin.lip ? { borderBottomWidth: lip, borderBottomColor: skin.lip.primary } : null,
                 ] })) : null, options.map((o) => {
                 const on = o.value === value;
-                return (_jsx(Pressable, { accessibilityRole: "radio", accessibilityState: { selected: on }, onPress: () => onChange(o.value), onLayout: measure(o.value), style: [styles.option, fill && styles.fillOption, { height: inner, borderRadius: skin.radius.chip }], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, selectable: false, numberOfLines: 1, style: [
+                return (_jsx(Pressable, { role: "radio", "aria-checked": on, onPress: () => onChange(o.value), onLayout: measure(o.value), style: [styles.option, fill && styles.fillOption, { height: inner, borderRadius: skin.radius.chip }], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, selectable: false, numberOfLines: 1, style: [
                             styles.label,
                             { color: on ? (skin.lip ? colors.accentText : colors.text) : colors.textSecondary, fontWeight: on ? '600' : '500' },
                         ], children: o.label }) }, o.value));

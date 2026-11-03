@@ -60,7 +60,7 @@ export function Seg<T extends string>({
   };
   return (
     <View
-      accessibilityRole="radiogroup"
+      role="radiogroup"
       accessibilityLabel={accessibilityLabel}
       style={[
         styles.track,
@@ -94,8 +94,8 @@ export function Seg<T extends string>({
         return (
           <Pressable
             key={o.value}
-            accessibilityRole="radio"
-            accessibilityState={{ selected: on }}
+            role="radio"
+            aria-checked={on}
             onPress={() => onChange(o.value)}
             onLayout={measure(o.value)}
             style={[styles.option, fill && styles.fillOption, { height: inner, borderRadius: skin.radius.chip }]}

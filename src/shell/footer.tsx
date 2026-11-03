@@ -15,7 +15,7 @@ export function Footer({ links, note }: { links: readonly FooterLink[]; note?: s
     <View style={[styles.footer, { borderTopColor: colors.hairline }]}>
       <View style={styles.links}>
         {links.map((l) => (
-          <Pressable key={l.label} accessibilityRole="link" onPress={l.onPress} hitSlop={8}>
+          <Pressable key={l.label} role="link" onPress={l.onPress} hitSlop={8}>
             <Text maxFontSizeMultiplier={FontScaleCap.chrome} selectable={false} style={[styles.link, { color: colors.textSecondary }]}>{l.label}</Text>
           </Pressable>
         ))}

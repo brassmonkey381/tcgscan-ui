@@ -31,9 +31,11 @@ export function Button({ label, onPress, look = 'secondary', size = 'md', tone, 
         !lipped && look === 'primary' && !tone && kit.skin.primaryShadow,
     ];
     return (_jsx(LipPressable, { accessibility: {
-            accessibilityRole: 'button',
+            role: 'button',
             accessibilityLabel: accessibilityLabel ?? label,
-            accessibilityState: { disabled: !!disabled || !!loading, selected: look === 'selected', busy: !!loading },
+            'aria-disabled': !!disabled || !!loading,
+            'aria-selected': look === 'selected',
+            'aria-busy': !!loading,
         }, height: Height[size], radius: kit.skin.radius.button, lipColor: lipped ? (look === 'primary' && !tone ? lip.primary : lip.secondary) : 'transparent', disabled: disabled, onPress: loading ? undefined : onPress, surface: surface, fill: fill, style: style, children: body }));
 }
 function lookColors({ colors, skin }, look, tone) {

@@ -27,8 +27,8 @@ export function Toast({
   }, [t, reduce]);
   return (
     <Animated.View
-      accessibilityRole="alert"
-      accessibilityLiveRegion="polite"
+      role="alert"
+      aria-live="polite"
       style={[
         styles.toast,
         { borderRadius: skin.radius.toast },
@@ -40,7 +40,7 @@ export function Toast({
       </Text>
       {action && (
         <Pressable
-          accessibilityRole="button"
+          role="button"
           onPress={action.onPress}
           style={[styles.action, { borderRadius: skin.radius.button }]}
         >

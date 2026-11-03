@@ -7,11 +7,11 @@ import { useKit } from './skin';
  * reads as "choose from a list" rather than as a button or as text (owner's pick, 2026-10-31: a white
  * field with a navy chevron box). It opens nothing itself; the host opens its list on press.
  */
-export function SelectTrigger({ value, onPress, accessibilityLabel, size = 'md', disabled, }) {
+export function SelectTrigger({ value, onPress, accessibilityLabel, size = 'md', disabled, expanded, }) {
     const { colors, skin } = useKit();
     const h = size === 'sm' ? Height.sm : Height.md;
     const field = skin.field;
-    return (_jsxs(Pressable, { accessibilityRole: "button", accessibilityLabel: accessibilityLabel ?? value, accessibilityHint: "Opens a list", disabled: disabled, onPress: onPress, style: ({ pressed }) => [
+    return (_jsxs(Pressable, { role: "button", "aria-expanded": expanded, "aria-disabled": !!disabled, accessibilityLabel: accessibilityLabel ?? value, accessibilityHint: "Opens a list", disabled: disabled, onPress: onPress, style: ({ pressed }) => [
             styles.box,
             {
                 height: h,

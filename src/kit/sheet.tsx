@@ -55,7 +55,7 @@ export function Sheet({
           onPress={onClose}
         />
         <View
-          accessibilityViewIsModal
+          aria-modal
           style={[
             styles.panel,
             {
@@ -71,7 +71,7 @@ export function Sheet({
         >
           <KitProvider colors={colors} dark={skin.popup ? true : kit.dark} skin={skin}>
           <View style={[styles.titleRow, { borderBottomColor: colors.hairline }]}>
-            <Text maxFontSizeMultiplier={FontScaleCap.control} accessibilityRole="header" numberOfLines={1} style={[styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null]}>
+            <Text maxFontSizeMultiplier={FontScaleCap.control} role="heading" numberOfLines={1} style={[styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null]}>
               {title}
             </Text>
             <CloseButton onPress={onClose} />
@@ -109,7 +109,7 @@ function CloseButton({ onPress }: { onPress: () => void }) {
   const { colors, skin } = useKit();
   return (
     <Pressable
-      accessibilityRole="button"
+      role="button"
       accessibilityLabel="Close"
       hitSlop={4}
       onPress={onPress}

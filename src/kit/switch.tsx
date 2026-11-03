@@ -42,8 +42,8 @@ export function Switch({
   const offOpacity = t.interpolate({ inputRange: [0, 1], outputRange: [1, 0] });
   return (
     <Pressable
-      accessibilityRole="switch"
-      accessibilityState={{ checked: value, disabled: !!disabled }}
+      role="switch"
+      aria-checked={value} aria-disabled={!!disabled}
       accessibilityLabel={accessibilityLabel}
       disabled={disabled}
       onPress={() => onValueChange(!value)}

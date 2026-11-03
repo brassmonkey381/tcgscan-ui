@@ -46,8 +46,8 @@ export function Chip({
     <LipPressable
       accessibility={
         role === 'switch'
-          ? { accessibilityRole: 'switch', accessibilityLabel: label, accessibilityState: { checked: !!selected } }
-          : { accessibilityRole: 'button', accessibilityState: { selected: !!selected } }
+          ? { role: 'switch', accessibilityLabel: label, 'aria-checked': !!selected }
+          : { role: 'button', 'aria-selected': !!selected }
       }
       height={Height.sm}
       radius={skin.radius.chip}

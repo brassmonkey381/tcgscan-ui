@@ -28,7 +28,7 @@ export function Rail({ brand, groups, footer }: { brand?: ReactNode; groups: rea
   const { colors } = useKit();
   return (
     <View
-      accessibilityRole="menu"
+      role="menu"
       style={[styles.rail, { backgroundColor: colors.background, borderRightColor: colors.hairline }]}
     >
       {brand ? <View style={styles.brand}>{brand}</View> : null}
@@ -65,8 +65,8 @@ function RailRow({ item }: { item: RailItem }) {
   const { colors, skin } = useKit();
   return (
     <Pressable
-      accessibilityRole="menuitem"
-      accessibilityState={{ selected: !!item.active }}
+      role="menuitem"
+      aria-selected={!!item.active}
       onPress={item.onPress}
       style={({ pressed, hovered }: { pressed: boolean; hovered?: boolean }) => [
         styles.row,
@@ -104,7 +104,7 @@ export function Drawer({
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
       <View style={styles.drawerRoot}>
         <View
-          accessibilityViewIsModal
+          aria-modal
           style={[
             styles.drawer,
             { backgroundColor: colors.background, paddingTop: insets.top, paddingBottom: insets.bottom },

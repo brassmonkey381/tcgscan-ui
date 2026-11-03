@@ -13,7 +13,7 @@ export function DocSection({ heading, children }: { heading?: string; children: 
   return (
     <View style={styles.section}>
       {heading ? (
-        <Text maxFontSizeMultiplier={FontScaleCap.reading} accessibilityRole="header" style={[styles.heading, { color: skin.ink?.heading ?? colors.text }]}>
+        <Text maxFontSizeMultiplier={FontScaleCap.reading} role="heading" style={[styles.heading, { color: skin.ink?.heading ?? colors.text }]}>
           {heading}
         </Text>
       ) : null}

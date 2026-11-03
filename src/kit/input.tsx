@@ -135,8 +135,7 @@ function Ticker({ text, color, face, pad }: { text: string; color: string; face?
       pointerEvents="none"
       style={StyleSheet.absoluteFill}
       onLayout={(e) => setBox(e.nativeEvent.layout.width)}
-      accessibilityElementsHidden
-      importantForAccessibility="no-hide-descendants"
+      aria-hidden
     >
       <Animated.Text maxFontSizeMultiplier={FontScaleCap.control}
         numberOfLines={1}

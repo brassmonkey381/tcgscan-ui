@@ -35,7 +35,7 @@ export function ErrorText({ children, style }: { children: ReactNode; style?: St
   const arrive = useArrive();
   return (
     <Animated.View style={[styles.errorBox, arrive, style]}>
-      <Text maxFontSizeMultiplier={FontScaleCap.reading} accessibilityRole="alert" accessibilityLiveRegion="polite" style={[styles.error, { color: colors.danger }]}>
+      <Text maxFontSizeMultiplier={FontScaleCap.reading} role="alert" aria-live="polite" style={[styles.error, { color: colors.danger }]}>
         {children}
       </Text>
     </Animated.View>
@@ -64,7 +64,7 @@ export function Note({
   const { colors } = useKit();
   const color = tone === 'danger' ? colors.danger : tone === 'warning' ? colors.warning : colors.textSecondary;
   const text = (
-    <Text maxFontSizeMultiplier={FontScaleCap.reading} accessibilityRole={tone === 'danger' ? 'alert' : undefined} style={[styles.note, { color, textAlign: align }]}>
+    <Text maxFontSizeMultiplier={FontScaleCap.reading} role={tone === 'danger' ? 'alert' : undefined} style={[styles.note, { color, textAlign: align }]}>
       {children}
     </Text>
   );

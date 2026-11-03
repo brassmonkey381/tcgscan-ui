@@ -9,7 +9,7 @@ import { useKit } from './skin';
  */
 export function Loading({ label, size = 7 }) {
     const { colors, skin } = useKit();
-    return (_jsxs(View, { style: styles.row, accessibilityRole: "progressbar", accessibilityLabel: label ?? 'Loading', children: [_jsx(LoadingDots, { color: skin.loading?.color ?? colors.link, size: size }), label ? _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, style: [styles.label, { color: colors.textSecondary }], children: label }) : null] }));
+    return (_jsxs(View, { style: styles.row, role: "progressbar", accessibilityLabel: label ?? 'Loading', children: [_jsx(LoadingDots, { color: skin.loading?.color ?? colors.link, size: size }), label ? _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, style: [styles.label, { color: colors.textSecondary }], children: label }) : null] }));
 }
 const styles = StyleSheet.create({
     row: { flexDirection: 'row', alignItems: 'center', gap: 8 },

@@ -57,7 +57,7 @@ export function LoadingDots({ color, size = 6 }) {
         const id = setInterval(() => setLit((n) => (n + 1) % 3), 220);
         return () => clearInterval(id);
     }, [reduce]);
-    return (_jsx(View, { style: styles.dots, accessibilityElementsHidden: true, importantForAccessibility: "no-hide-descendants", children: [0, 1, 2].map((i) => (_jsx(View, { style: { width: size, height: size, backgroundColor: color, opacity: reduce || i === lit ? 1 : 0.3 } }, i))) }));
+    return (_jsx(View, { style: styles.dots, "aria-hidden": true, children: [0, 1, 2].map((i) => (_jsx(View, { style: { width: size, height: size, backgroundColor: color, opacity: reduce || i === lit ? 1 : 0.3 } }, i))) }));
 }
 const styles = StyleSheet.create({
     fill: { flex: 1, flexShrink: 1, minWidth: 0 },

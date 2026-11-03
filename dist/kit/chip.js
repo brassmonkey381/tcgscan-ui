@@ -27,8 +27,8 @@ export function Chip({ label, selected, onPress, tone, icon, role = 'button', })
     const offLip = skin.lip?.secondary ?? 'transparent';
     const mix = (a, b) => t.interpolate({ inputRange: [0, 1], outputRange: [a, b] });
     return (_jsxs(LipPressable, { accessibility: role === 'switch'
-            ? { accessibilityRole: 'switch', accessibilityLabel: label, accessibilityState: { checked: !!selected } }
-            : { accessibilityRole: 'button', accessibilityState: { selected: !!selected } }, height: Height.sm, radius: skin.radius.chip, lipColor: mix(offLip, onLip), onPress: onPress, surface: [
+            ? { role: 'switch', accessibilityLabel: label, 'aria-checked': !!selected }
+            : { role: 'button', 'aria-selected': !!selected }, height: Height.sm, radius: skin.radius.chip, lipColor: mix(offLip, onLip), onPress: onPress, surface: [
             styles.chip,
             {
                 backgroundColor: mix(colors.backgroundElement, onFace),

@@ -112,7 +112,7 @@ export function LoadingDots({ color, size = 6 }: { color: string; size?: number 
     return () => clearInterval(id);
   }, [reduce]);
   return (
-    <View style={styles.dots} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+    <View style={styles.dots} aria-hidden>
       {[0, 1, 2].map((i) => (
         <View key={i} style={{ width: size, height: size, backgroundColor: color, opacity: reduce || i === lit ? 1 : 0.3 }} />
       ))}

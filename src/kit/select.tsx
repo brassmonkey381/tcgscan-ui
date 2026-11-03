@@ -14,19 +14,24 @@ export function SelectTrigger({
   accessibilityLabel,
   size = 'md',
   disabled,
+  expanded,
 }: {
   value: string;
   onPress: () => void;
   accessibilityLabel?: string;
   size?: 'sm' | 'md';
   disabled?: boolean;
+  /** Whether the list it opens is showing, for a screen reader (aria-expanded). */
+  expanded?: boolean;
 }) {
   const { colors, skin } = useKit();
   const h = size === 'sm' ? Height.sm : Height.md;
   const field = skin.field;
   return (
     <Pressable
-      accessibilityRole="button"
+      role="button"
+      aria-expanded={expanded}
+      aria-disabled={!!disabled}
       accessibilityLabel={accessibilityLabel ?? value}
       accessibilityHint="Opens a list"
       disabled={disabled}

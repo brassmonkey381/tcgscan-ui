@@ -57,7 +57,7 @@ export function Row({
   if (onPress) {
     return (
       <Pressable
-        accessibilityRole="button"
+        role="button"
         onPress={onPress}
         style={({ pressed }) => [styles.row, (wrap || caption) && styles.tall, pressed && { backgroundColor: colors.backgroundElement }]}
       >

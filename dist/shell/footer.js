@@ -5,7 +5,7 @@ import { FontScaleCap } from '../kit/scale';
 /** The footer slot at the bottom of the content column: the same links on every page. */
 export function Footer({ links, note }) {
     const { colors } = useKit();
-    return (_jsxs(View, { style: [styles.footer, { borderTopColor: colors.hairline }], children: [_jsx(View, { style: styles.links, children: links.map((l) => (_jsx(Pressable, { accessibilityRole: "link", onPress: l.onPress, hitSlop: 8, children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, selectable: false, style: [styles.link, { color: colors.textSecondary }], children: l.label }) }, l.label))) }), note ? _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, selectable: false, style: [styles.link, { color: colors.textSecondary }], children: note }) : null] }));
+    return (_jsxs(View, { style: [styles.footer, { borderTopColor: colors.hairline }], children: [_jsx(View, { style: styles.links, children: links.map((l) => (_jsx(Pressable, { role: "link", onPress: l.onPress, hitSlop: 8, children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, selectable: false, style: [styles.link, { color: colors.textSecondary }], children: l.label }) }, l.label))) }), note ? _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, selectable: false, style: [styles.link, { color: colors.textSecondary }], children: note }) : null] }));
 }
 const styles = StyleSheet.create({
     footer: {

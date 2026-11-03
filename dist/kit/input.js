@@ -75,7 +75,7 @@ function Ticker({ text, color, face, pad }) {
         loop.start();
         return () => loop.stop();
     }, [box, w, pad, x]);
-    return (_jsx(View, { pointerEvents: "none", style: StyleSheet.absoluteFill, onLayout: (e) => setBox(e.nativeEvent.layout.width), accessibilityElementsHidden: true, importantForAccessibility: "no-hide-descendants", children: _jsx(Animated.Text, { maxFontSizeMultiplier: FontScaleCap.control, numberOfLines: 1, onLayout: (e) => setW(e.nativeEvent.layout.width), style: [styles.ticker, { color, transform: [{ translateX: x }] }, face], children: text }) }));
+    return (_jsx(View, { pointerEvents: "none", style: StyleSheet.absoluteFill, onLayout: (e) => setBox(e.nativeEvent.layout.width), "aria-hidden": true, children: _jsx(Animated.Text, { maxFontSizeMultiplier: FontScaleCap.control, numberOfLines: 1, onLayout: (e) => setW(e.nativeEvent.layout.width), style: [styles.ticker, { color, transform: [{ translateX: x }] }, face], children: text }) }));
 }
 const styles = StyleSheet.create({
     input: {
