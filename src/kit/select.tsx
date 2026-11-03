@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { Height, TypeScale } from './scale';
+import { Height, TypeScale, FontScaleCap } from './scale';
 import { useKit } from './skin';
 
 /**
@@ -43,7 +43,7 @@ export function SelectTrigger({
         },
       ]}
     >
-      <Text
+      <Text maxFontSizeMultiplier={FontScaleCap.control} selectable={false}
         numberOfLines={1}
         style={[
           styles.value,
@@ -53,7 +53,7 @@ export function SelectTrigger({
         {value}
       </Text>
       <View style={[styles.chevronBox, { backgroundColor: field?.border ?? colors.text }]}>
-        <Text style={[styles.chevron, { color: colors.accent }]}>▾</Text>
+        <Text maxFontSizeMultiplier={FontScaleCap.control} selectable={false} style={[styles.chevron, { color: colors.accent }]}>▾</Text>
       </View>
     </Pressable>
   );

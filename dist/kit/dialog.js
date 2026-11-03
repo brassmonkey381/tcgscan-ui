@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { ButtonRow } from './sheet';
-import { SheetSize, TypeScale } from './scale';
+import { SheetSize, TypeScale, FontScaleCap } from './scale';
 import { GLOW, popupColors } from './popup';
 import { KitProvider, useKit } from './skin';
 /**
@@ -26,7 +26,7 @@ export function Dialog({ visible, title, body, cancel, confirm, onClose, childre
                         styles.box,
                         { backgroundColor: colors.background, borderColor: colors.hairline, borderRadius: skin.radius.dialog },
                         edge,
-                    ], children: _jsxs(KitProvider, { colors: colors, dark: skin.popup ? true : kit.dark, skin: skin, children: [_jsx(Text, { style: [styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null], children: title }), body ? _jsx(Text, { style: [styles.body, { color: colors.textSecondary }], children: body }) : null, children, _jsx(ButtonRow, { actions: [cancel, { look: 'primary', ...confirm }] })] }) })] }) }));
+                    ], children: _jsxs(KitProvider, { colors: colors, dark: skin.popup ? true : kit.dark, skin: skin, children: [_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, style: [styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null], children: title }), body ? _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, style: [styles.body, { color: colors.textSecondary }], children: body }) : null, children, _jsx(ButtonRow, { actions: [cancel, { look: 'primary', ...confirm }] })] }) })] }) }));
 }
 const styles = StyleSheet.create({
     backdrop: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },

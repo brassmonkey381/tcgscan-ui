@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import { Children, Fragment } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { RowSize, TypeScale } from './scale';
+import { RowSize, TypeScale, FontScaleCap } from './scale';
 import { useKit } from './skin';
 /**
  * A settings / inspector row: 48 tall, control at the right edge.
@@ -12,7 +12,7 @@ import { useKit } from './skin';
  */
 export function Row({ label, value, leading, children, labelColumn, onPress, caption, wrap, }) {
     const { colors } = useKit();
-    const body = (_jsxs(_Fragment, { children: [leading, _jsxs(View, { style: labelColumn ? styles.labelColumnBox : styles.labelBox, children: [_jsx(Text, { numberOfLines: wrap || caption ? undefined : 1, style: [labelColumn ? styles.labelColumn : styles.labelText, { color: labelColumn ? colors.textSecondary : colors.text }], children: label }), caption ? _jsx(Text, { style: [styles.caption, { color: colors.textSecondary }], children: caption }) : null] }), value != null && (_jsx(Text, { numberOfLines: 1, style: [styles.value, { color: colors.textSecondary }], children: value })), children != null && _jsx(View, { style: labelColumn ? styles.controlFill : undefined, children: children })] }));
+    const body = (_jsxs(_Fragment, { children: [leading, _jsxs(View, { style: labelColumn ? styles.labelColumnBox : styles.labelBox, children: [_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, numberOfLines: wrap || caption ? undefined : 1, style: [labelColumn ? styles.labelColumn : styles.labelText, { color: labelColumn ? colors.textSecondary : colors.text }], children: label }), caption ? _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, style: [styles.caption, { color: colors.textSecondary }], children: caption }) : null] }), value != null && (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, numberOfLines: 1, style: [styles.value, { color: colors.textSecondary }], children: value })), children != null && _jsx(View, { style: labelColumn ? styles.controlFill : undefined, children: children })] }));
     if (onPress) {
         return (_jsx(Pressable, { accessibilityRole: "button", onPress: onPress, style: ({ pressed }) => [styles.row, (wrap || caption) && styles.tall, pressed && { backgroundColor: colors.backgroundElement }], children: body }));
     }

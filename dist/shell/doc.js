@@ -1,17 +1,18 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { StyleSheet, Text, View } from 'react-native';
 import { TypeScale, useKit } from '../kit';
+import { FontScaleCap } from '../kit/scale';
 /** Reading measure inside the 960 doc column, so a guide reads like a page. */
 export const DOC_MEASURE = 680;
 /** A section of a doc page: a 17 heading and its paragraphs, 8 apart. */
 export function DocSection({ heading, children }) {
     const { colors, skin } = useKit();
-    return (_jsxs(View, { style: styles.section, children: [heading ? (_jsx(Text, { accessibilityRole: "header", style: [styles.heading, { color: skin.ink?.heading ?? colors.text }], children: heading })) : null, children] }));
+    return (_jsxs(View, { style: styles.section, children: [heading ? (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, accessibilityRole: "header", style: [styles.heading, { color: skin.ink?.heading ?? colors.text }], children: heading })) : null, children] }));
 }
 /** Body copy at 16 on 24, in the secondary ink, held to the reading measure. */
 export function DocText({ children, tone = 'secondary' }) {
     const { colors } = useKit();
-    return (_jsx(Text, { style: [
+    return (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, style: [
             tone === 'meta' ? styles.meta : styles.text,
             { color: tone === 'primary' ? colors.text : colors.textSecondary },
         ], children: children }));

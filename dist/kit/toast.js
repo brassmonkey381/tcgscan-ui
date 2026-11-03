@@ -2,7 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useState } from 'react';
 import { Animated, Pressable, StyleSheet, Text } from 'react-native';
 import { animate, useReduceMotion } from './motion';
-import { ControlPad, Height, ToastSize, TypeScale } from './scale';
+import { ControlPad, Height, ToastSize, TypeScale, FontScaleCap } from './scale';
 import { KitChrome, useKit } from './skin';
 /**
  * A toast: 48 tall, one line, one action. Fixed dark glass so it reads over any content.
@@ -21,7 +21,7 @@ export function Toast({ message, action, }) {
             styles.toast,
             { borderRadius: skin.radius.toast },
             { opacity: t.interpolate({ inputRange: [0, 0.4, 1], outputRange: [0, 1, 1] }), transform: [{ scale: t.interpolate({ inputRange: [0, 1], outputRange: [0.92, 1] }) }] },
-        ], children: [_jsx(Text, { numberOfLines: 1, style: styles.message, children: message }), action && (_jsx(Pressable, { accessibilityRole: "button", onPress: action.onPress, style: [styles.action, { borderRadius: skin.radius.button }], children: _jsx(Text, { style: styles.actionLabel, children: action.label }) }))] }));
+        ], children: [_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, numberOfLines: 1, style: styles.message, children: message }), action && (_jsx(Pressable, { accessibilityRole: "button", onPress: action.onPress, style: [styles.action, { borderRadius: skin.radius.button }], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, style: styles.actionLabel, children: action.label }) }))] }));
 }
 const styles = StyleSheet.create({
     toast: {

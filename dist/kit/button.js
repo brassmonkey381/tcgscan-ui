@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Animated, StyleSheet, Text } from 'react-native';
 import { LipPressable, LoadingDots } from './lip';
 import { animate, useReduceMotion } from './motion';
-import { ControlPad, ControlText, Height } from './scale';
+import { ControlPad, ControlText, Height, FontScaleCap } from './scale';
 import { useKit } from './skin';
 export function Button({ label, onPress, look = 'secondary', size = 'md', tone, disabled, loading, fill, accessibilityLabel, style, }) {
     const kit = useKit();
@@ -18,7 +18,7 @@ export function Button({ label, onPress, look = 'secondary', size = 'md', tone, 
         fade.setValue(0);
         animate(fade, 1, 'state', { reduce, fade: true, nativeDriver: true }).start();
     }, [loading, fade, reduce]);
-    const body = (_jsx(Animated.View, { style: [styles.inner, { opacity: fade }], children: loading ? (_jsx(LoadingDots, { color: paint.text })) : (_jsx(Text, { numberOfLines: 1, style: [styles.label, { fontSize: ControlText[size], color: paint.text }, underline && styles.underline], children: label })) }));
+    const body = (_jsx(Animated.View, { style: [styles.inner, { opacity: fade }], children: loading ? (_jsx(LoadingDots, { color: paint.text })) : (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, selectable: false, numberOfLines: 1, style: [styles.label, { fontSize: ControlText[size], color: paint.text }, underline && styles.underline], children: label })) }));
     const surface = [
         styles.base,
         {

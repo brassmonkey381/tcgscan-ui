@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { MinTouch, TypeScale } from './scale';
+import { MinTouch, TypeScale, FontScaleCap } from './scale';
 import { useKit } from './skin';
 /**
  * A checkbox: a 22 square in a 44 target. Checked is the skin's check fill with its tick (BiBo: a
@@ -17,12 +17,12 @@ export function Check({ checked, onPress, label, accessibilityLabel, disabled, }
             checked
                 ? { backgroundColor: fill }
                 : { borderWidth: 2, borderColor: skin.check ? fill : colors.controlBorder, backgroundColor: skin.check ? fill : 'transparent' },
-        ], children: checked ? (_jsx(Text, { style: [
+        ], children: checked ? (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, selectable: false, style: [
                 styles.tick,
                 { color: tick },
                 skin.check?.glow ? { textShadowColor: tick, textShadowRadius: 6, textShadowOffset: { width: 0, height: 0 } } : null,
             ], children: "\u2713" })) : null }));
-    return (_jsxs(Pressable, { accessibilityRole: "checkbox", accessibilityState: { checked, disabled: !!disabled }, accessibilityLabel: accessibilityLabel ?? label, disabled: disabled || !onPress, onPress: onPress, hitSlop: label ? undefined : (MinTouch - 22) / 2, style: ({ pressed }) => [styles.row, { opacity: disabled ? 0.45 : pressed ? 0.8 : 1 }], children: [box, label ? _jsx(Text, { style: [styles.label, { color: colors.text }], children: label }) : null] }));
+    return (_jsxs(Pressable, { accessibilityRole: "checkbox", accessibilityState: { checked, disabled: !!disabled }, accessibilityLabel: accessibilityLabel ?? label, disabled: disabled || !onPress, onPress: onPress, hitSlop: label ? undefined : (MinTouch - 22) / 2, style: ({ pressed }) => [styles.row, { opacity: disabled ? 0.45 : pressed ? 0.8 : 1 }], children: [box, label ? _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, selectable: false, style: [styles.label, { color: colors.text }], children: label }) : null] }));
 }
 const styles = StyleSheet.create({
     row: { flexDirection: 'row', alignItems: 'center', gap: 10, minHeight: 22 },

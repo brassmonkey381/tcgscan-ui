@@ -4,7 +4,7 @@ import { Animated, StyleSheet, View } from 'react-native';
 import { LipPressable } from './lip';
 import { animate, useReduceMotion } from './motion';
 
-import { ChipGap, ControlPad, Height, TypeScale } from './scale';
+import { ChipGap, ControlPad, Height, TypeScale, FontScaleCap } from './scale';
 import { useKit } from './skin';
 
 /**
@@ -63,7 +63,7 @@ export function Chip({
       ]}
     >
       {icon}
-      <Animated.Text
+      <Animated.Text maxFontSizeMultiplier={FontScaleCap.control} selectable={false}
         numberOfLines={1}
         style={[styles.label, { color: mix(colors.text, onText), fontWeight: selected ? '600' : '500' }]}
       >

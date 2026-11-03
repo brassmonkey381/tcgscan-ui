@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { Height, TypeScale } from './scale';
+import { Height, TypeScale, FontScaleCap } from './scale';
 import { useKit } from './skin';
 /**
  * A dropdown's closed face: the chosen value in a field and a chevron box on its right edge, so it
@@ -21,10 +21,10 @@ export function SelectTrigger({ value, onPress, accessibilityLabel, size = 'md',
                 borderWidth: field?.borderWidth ?? 1,
                 opacity: disabled ? 0.45 : pressed ? 0.85 : 1,
             },
-        ], children: [_jsx(Text, { numberOfLines: 1, style: [
+        ], children: [_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, selectable: false, numberOfLines: 1, style: [
                     styles.value,
                     { color: field?.text ?? colors.text, fontSize: size === 'sm' ? TypeScale.meta : TypeScale.control },
-                ], children: value }), _jsx(View, { style: [styles.chevronBox, { backgroundColor: field?.border ?? colors.text }], children: _jsx(Text, { style: [styles.chevron, { color: colors.accent }], children: "\u25BE" }) })] }));
+                ], children: value }), _jsx(View, { style: [styles.chevronBox, { backgroundColor: field?.border ?? colors.text }], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, selectable: false, style: [styles.chevron, { color: colors.accent }], children: "\u25BE" }) })] }));
 }
 const styles = StyleSheet.create({
     box: { flexDirection: 'row', alignItems: 'stretch', overflow: 'hidden', alignSelf: 'flex-start', maxWidth: '100%' },

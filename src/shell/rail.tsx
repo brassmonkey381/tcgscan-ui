@@ -3,6 +3,7 @@ import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-nati
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Frame, TypeScale, useKit } from '../kit';
+import { FontScaleCap } from '../kit/scale';
 
 export interface RailItem {
   key: string;
@@ -48,7 +49,7 @@ function RailGroups({ groups }: { groups: readonly RailGroup[] }) {
           {i > 0 && <View style={[styles.hairline, { backgroundColor: colors.hairline }]} />}
           <View style={styles.group}>
             {g.label ? (
-              <Text style={[styles.groupLabel, { color: colors.textSecondary }]}>{g.label}</Text>
+              <Text maxFontSizeMultiplier={FontScaleCap.chrome} selectable={false} style={[styles.groupLabel, { color: colors.textSecondary }]}>{g.label}</Text>
             ) : null}
             {g.items.map((item) => (
               <RailRow key={item.key} item={item} />
@@ -75,7 +76,7 @@ function RailRow({ item }: { item: RailItem }) {
     >
       <View style={[styles.bar, { backgroundColor: item.active ? colors.accent : 'transparent' }]} />
       {item.icon}
-      <Text
+      <Text maxFontSizeMultiplier={FontScaleCap.chrome} selectable={false}
         numberOfLines={1}
         style={[styles.rowLabel, { color: colors.text, fontWeight: item.active ? '700' : '500' }]}
       >

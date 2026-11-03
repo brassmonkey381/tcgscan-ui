@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { TypeScale, useKit } from '../kit';
+import { FontScaleCap } from '../kit/scale';
 
 /** Reading measure inside the 960 doc column, so a guide reads like a page. */
 export const DOC_MEASURE = 680;
@@ -12,7 +13,7 @@ export function DocSection({ heading, children }: { heading?: string; children: 
   return (
     <View style={styles.section}>
       {heading ? (
-        <Text accessibilityRole="header" style={[styles.heading, { color: skin.ink?.heading ?? colors.text }]}>
+        <Text maxFontSizeMultiplier={FontScaleCap.reading} accessibilityRole="header" style={[styles.heading, { color: skin.ink?.heading ?? colors.text }]}>
           {heading}
         </Text>
       ) : null}
@@ -25,7 +26,7 @@ export function DocSection({ heading, children }: { heading?: string; children: 
 export function DocText({ children, tone = 'secondary' }: { children: ReactNode; tone?: 'primary' | 'secondary' | 'meta' }) {
   const { colors } = useKit();
   return (
-    <Text
+    <Text maxFontSizeMultiplier={FontScaleCap.reading}
       style={[
         tone === 'meta' ? styles.meta : styles.text,
         { color: tone === 'primary' ? colors.text : colors.textSecondary },

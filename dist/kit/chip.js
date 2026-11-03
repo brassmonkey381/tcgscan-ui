@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
 import { LipPressable } from './lip';
 import { animate, useReduceMotion } from './motion';
-import { ChipGap, ControlPad, Height, TypeScale } from './scale';
+import { ChipGap, ControlPad, Height, TypeScale, FontScaleCap } from './scale';
 import { useKit } from './skin';
 /**
  * A filter or sort chip. Always the small height; selected is the accent fill. On a lipped skin it
@@ -35,7 +35,7 @@ export function Chip({ label, selected, onPress, tone, icon, role = 'button', })
                 borderWidth: skin.lip ? 1.5 : 0,
                 borderColor: mix(colors.controlBorder, onFace),
             },
-        ], children: [icon, _jsx(Animated.Text, { numberOfLines: 1, style: [styles.label, { color: mix(colors.text, onText), fontWeight: selected ? '600' : '500' }], children: label })] }));
+        ], children: [icon, _jsx(Animated.Text, { maxFontSizeMultiplier: FontScaleCap.control, selectable: false, numberOfLines: 1, style: [styles.label, { color: mix(colors.text, onText), fontWeight: selected ? '600' : '500' }], children: label })] }));
 }
 /** A row of chips: wraps at 8, never scrolls sideways. */
 export function ChipRow({ children }) {

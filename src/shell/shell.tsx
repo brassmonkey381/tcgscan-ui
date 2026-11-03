@@ -6,6 +6,7 @@ import { Breakpoints } from 'tcgscan-theme';
 import { Frame, Height, KitProvider, MinTouch, TypeScale, useKit, useWindowSize, type FrameWidth } from '../kit';
 import { Header, HEADER_WIDTH, type HeaderProps } from './header';
 import { Drawer, Rail, type RailGroup } from './rail';
+import { FontScaleCap } from '../kit/scale';
 
 export interface ShellNav {
   brand?: ReactNode;
@@ -70,7 +71,7 @@ export function Shell({
               onPress={() => setDrawer(true)}
               style={styles.menuButton}
             >
-              <Text style={[styles.menuGlyph, { color: colors.text }]}>☰</Text>
+              <Text maxFontSizeMultiplier={FontScaleCap.chrome} style={[styles.menuGlyph, { color: colors.text }]}>☰</Text>
             </Pressable>
           ) : null}
           {back ? (
@@ -81,7 +82,7 @@ export function Shell({
               // Pressed feedback, as every link has (owner's pick).
               style={({ pressed }) => [styles.back, pressed && styles.backPressed]}
             >
-              <Text style={[styles.backLabel, { color: colors.link }]}>‹ {back.label}</Text>
+              <Text maxFontSizeMultiplier={FontScaleCap.chrome} style={[styles.backLabel, { color: colors.link }]}>‹ {back.label}</Text>
             </Pressable>
           ) : null}
           {action ? <View style={styles.action}>{action}</View> : null}

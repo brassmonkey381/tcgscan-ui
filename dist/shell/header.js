@@ -1,6 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, ChipGap, Frame, TypeScale, useKit } from '../kit';
+import { FontScaleCap } from '../kit/scale';
 /** The column width each header implies. The page never picks its own. */
 export const HEADER_WIDTH = {
     doc: 'doc',
@@ -19,7 +20,7 @@ function Title({ children, size, centred }) {
     const ink = skin.ink;
     // A skin's title size stands in for the scale's h1 (the hero's 40 keeps its own size).
     const px = ink?.titleSize && size === TypeScale.h1 ? ink.titleSize : size;
-    return (_jsx(Text, { accessibilityRole: "header", style: [
+    return (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, accessibilityRole: "header", style: [
             { fontSize: px, lineHeight: Math.round(px * 1.15), fontWeight: '800', color: ink?.title ?? colors.text },
             // The title's lip: a hard shadow straight down, the buttons' hardware edge in type.
             ink?.titleLip ? { textShadowColor: ink.titleLip, textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 0 } : null,
@@ -29,11 +30,11 @@ function Title({ children, size, centred }) {
 }
 function Eyebrow({ children, accent }) {
     const { colors, skin } = useKit();
-    return (_jsx(Text, { style: [styles.eyebrow, { color: accent ? colors.link : (skin.ink?.label ?? colors.textSecondary) }], children: children }));
+    return (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, style: [styles.eyebrow, { color: accent ? colors.link : (skin.ink?.label ?? colors.textSecondary) }], children: children }));
 }
 function Lede({ children, centred }) {
     const { colors } = useKit();
-    return (_jsx(Text, { style: [styles.lede, { color: colors.textSecondary }, centred && styles.ledeCentred], children: children }));
+    return (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, style: [styles.lede, { color: colors.textSecondary }, centred && styles.ledeCentred], children: children }));
 }
 function DocHeader({ title, eyebrow, lede }) {
     const { colors } = useKit();

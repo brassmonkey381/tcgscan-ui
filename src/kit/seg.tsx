@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Animated, Pressable, StyleSheet, Text, View, type LayoutChangeEvent } from 'react-native';
 
 import { animate, useReduceMotion } from './motion';
-import { ControlPad, Height, SegPad, TypeScale, type ControlSize } from './scale';
+import { ControlPad, Height, SegPad, TypeScale, type ControlSize, FontScaleCap } from './scale';
 import { useKit } from './skin';
 
 export interface SegOption<T extends string> {
@@ -100,7 +100,7 @@ export function Seg<T extends string>({
             onLayout={measure(o.value)}
             style={[styles.option, fill && styles.fillOption, { height: inner, borderRadius: skin.radius.chip }]}
           >
-            <Text
+            <Text maxFontSizeMultiplier={FontScaleCap.control} selectable={false}
               numberOfLines={1}
               style={[
                 styles.label,

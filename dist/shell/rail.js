@@ -3,6 +3,7 @@ import { Fragment } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Frame, TypeScale, useKit } from '../kit';
+import { FontScaleCap } from '../kit/scale';
 /**
  * The left rail: 216 wide, groups under a small-caps label with a hairline above every group but
  * the first, 32 px rows, a 3 px accent bar on the active row. The app supplies the groups and the
@@ -14,7 +15,7 @@ export function Rail({ brand, groups, footer }) {
 }
 function RailGroups({ groups }) {
     const { colors } = useKit();
-    return (_jsx(_Fragment, { children: groups.map((g, i) => (_jsxs(Fragment, { children: [i > 0 && _jsx(View, { style: [styles.hairline, { backgroundColor: colors.hairline }] }), _jsxs(View, { style: styles.group, children: [g.label ? (_jsx(Text, { style: [styles.groupLabel, { color: colors.textSecondary }], children: g.label })) : null, g.items.map((item) => (_jsx(RailRow, { item: item }, item.key)))] })] }, g.label ?? i))) }));
+    return (_jsx(_Fragment, { children: groups.map((g, i) => (_jsxs(Fragment, { children: [i > 0 && _jsx(View, { style: [styles.hairline, { backgroundColor: colors.hairline }] }), _jsxs(View, { style: styles.group, children: [g.label ? (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, selectable: false, style: [styles.groupLabel, { color: colors.textSecondary }], children: g.label })) : null, g.items.map((item) => (_jsx(RailRow, { item: item }, item.key)))] })] }, g.label ?? i))) }));
 }
 function RailRow({ item }) {
     const { colors, skin } = useKit();
@@ -22,7 +23,7 @@ function RailRow({ item }) {
             styles.row,
             { borderRadius: skin.radius.input },
             (item.active || hovered || pressed) && { backgroundColor: colors.backgroundElement },
-        ], children: [_jsx(View, { style: [styles.bar, { backgroundColor: item.active ? colors.accent : 'transparent' }] }), item.icon, _jsx(Text, { numberOfLines: 1, style: [styles.rowLabel, { color: colors.text, fontWeight: item.active ? '700' : '500' }], children: item.label })] }));
+        ], children: [_jsx(View, { style: [styles.bar, { backgroundColor: item.active ? colors.accent : 'transparent' }] }), item.icon, _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, selectable: false, numberOfLines: 1, style: [styles.rowLabel, { color: colors.text, fontWeight: item.active ? '700' : '500' }], children: item.label })] }));
 }
 /** The phone form of the rail: the same groups in a drawer from the left edge. */
 export function Drawer({ visible, onClose, brand, groups, }) {

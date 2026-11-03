@@ -4,6 +4,7 @@ import { Animated, Pressable, StyleSheet, Text } from 'react-native';
 import { animate, useReduceMotion } from './motion';
 
 import { useKit } from './skin';
+import { FontScaleCap } from './scale';
 
 const W = 64;
 const H = 30;
@@ -51,10 +52,10 @@ export function Switch({
     >
       <Animated.View style={[styles.track, { backgroundColor: track }]}>
         <Animated.View style={[styles.word, styles.wordOn, { opacity: t }]}>
-          <Text style={[styles.wordText, { color: sw?.onText ?? colors.accentText }, sw?.face]}>ON</Text>
+          <Text maxFontSizeMultiplier={FontScaleCap.control} selectable={false} style={[styles.wordText, { color: sw?.onText ?? colors.accentText }, sw?.face]}>ON</Text>
         </Animated.View>
         <Animated.View style={[styles.word, styles.wordOff, { opacity: offOpacity }]}>
-          <Text style={[styles.wordText, { color: sw?.offText ?? colors.textSecondary }, sw?.face]}>OFF</Text>
+          <Text maxFontSizeMultiplier={FontScaleCap.control} selectable={false} style={[styles.wordText, { color: sw?.offText ?? colors.textSecondary }, sw?.face]}>OFF</Text>
         </Animated.View>
         <Animated.View
           style={[

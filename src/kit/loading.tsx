@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 
 import { LoadingDots } from './lip';
-import { TypeScale } from './scale';
+import { TypeScale, FontScaleCap } from './scale';
 import { useKit } from './skin';
 
 /**
@@ -13,7 +13,7 @@ export function Loading({ label, size = 7 }: { label?: string; size?: number }) 
   return (
     <View style={styles.row} accessibilityRole="progressbar" accessibilityLabel={label ?? 'Loading'}>
       <LoadingDots color={skin.loading?.color ?? colors.link} size={size} />
-      {label ? <Text style={[styles.label, { color: colors.textSecondary }]}>{label}</Text> : null}
+      {label ? <Text maxFontSizeMultiplier={FontScaleCap.chrome} style={[styles.label, { color: colors.textSecondary }]}>{label}</Text> : null}
     </View>
   );
 }

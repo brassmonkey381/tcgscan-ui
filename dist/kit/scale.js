@@ -80,3 +80,10 @@ export const Frame = {
 };
 /** Minimum touch target, any platform. */
 export const MinTouch = 44;
+/**
+ * HOW FAR TEXT FOLLOWS THE PHONE'S TEXT-SIZE SETTING (owner's text-scaling pick, 2026-11-02), as a
+ * maxFontSizeMultiplier per role: reading text grows to 1.5x, control labels to 1.3x, compact
+ * chrome (badges, pixel tags, tab and band lines) to 1.2x. Every kit Text sets one; tcgscan-browse
+ * takes the same table through BrowseTheme.
+ */
+export const FontScaleCap = { reading: 1.5, control: 1.3, chrome: 1.2 };

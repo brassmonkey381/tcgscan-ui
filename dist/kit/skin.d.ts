@@ -25,7 +25,7 @@ export interface KitSkin {
      * when the face is not loaded, leaving the OS face in place.
      */
     displayFace?: (weight: 600 | 700 | 800) => TextStyle | undefined;
-    /** Props spread on a heading `<Text>` to request the display face (web `data-face`). */
+    /** Props spread on a heading `<Text maxFontSizeMultiplier={FontScaleCap.chrome}>` to request the display face (web `data-face`). */
     displayProps?: object;
     /** The skin's one allowed shadow, under the primary button only. None in today's TCGScan skin. */
     primaryShadow?: ViewStyle;

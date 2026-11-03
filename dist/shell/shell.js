@@ -6,6 +6,7 @@ import { Breakpoints } from 'tcgscan-theme';
 import { Frame, Height, KitProvider, MinTouch, TypeScale, useKit, useWindowSize } from '../kit';
 import { Header, HEADER_WIDTH } from './header';
 import { Drawer, Rail } from './rail';
+import { FontScaleCap } from '../kit/scale';
 /**
  * The page frame, one per route:
  *
@@ -29,9 +30,9 @@ export function Shell({ header, nav, width, back, action, footer, tabBar, scroll
     // The band draws at every width (owner's pick, 2026-11-02): on a desk it sits in the content
     // column, right of the rail, as wide as the column.
     const band = skin.band;
-    const top = (_jsxs(_Fragment, { children: [(back || action || (nav && !wide)) && (_jsxs(View, { style: styles.topRow, children: [nav && !wide ? (_jsx(Pressable, { accessibilityRole: "button", accessibilityLabel: "Open menu", onPress: () => setDrawer(true), style: styles.menuButton, children: _jsx(Text, { style: [styles.menuGlyph, { color: colors.text }], children: "\u2630" }) })) : null, back ? (_jsx(Pressable, { accessibilityRole: "link", onPress: back.onPress, hitSlop: 8, 
+    const top = (_jsxs(_Fragment, { children: [(back || action || (nav && !wide)) && (_jsxs(View, { style: styles.topRow, children: [nav && !wide ? (_jsx(Pressable, { accessibilityRole: "button", accessibilityLabel: "Open menu", onPress: () => setDrawer(true), style: styles.menuButton, children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, style: [styles.menuGlyph, { color: colors.text }], children: "\u2630" }) })) : null, back ? (_jsx(Pressable, { accessibilityRole: "link", onPress: back.onPress, hitSlop: 8, 
                         // Pressed feedback, as every link has (owner's pick).
-                        style: ({ pressed }) => [styles.back, pressed && styles.backPressed], children: _jsxs(Text, { style: [styles.backLabel, { color: colors.link }], children: ["\u2039 ", back.label] }) })) : null, action ? _jsx(View, { style: styles.action, children: action }) : null] })), header ? _jsx(Header, { ...header, compact: !wide }) : null] }));
+                        style: ({ pressed }) => [styles.back, pressed && styles.backPressed], children: _jsxs(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, style: [styles.backLabel, { color: colors.link }], children: ["\u2039 ", back.label] }) })) : null, action ? _jsx(View, { style: styles.action, children: action }) : null] })), header ? _jsx(Header, { ...header, compact: !wide }) : null] }));
     const column = (_jsxs(View, { style: [
             styles.column,
             !scroll && styles.fixed,

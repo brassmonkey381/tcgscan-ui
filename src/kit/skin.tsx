@@ -1,6 +1,7 @@
 import { createContext, useContext, type ReactNode } from 'react';
 import type { TextStyle, ViewStyle } from 'react-native';
 import { Chrome, Colors, Radius, type Palette } from 'tcgscan-theme';
+import { FontScaleCap } from './scale';
 
 /**
  * What each app owns in the shared shell: colours, faces, a radius per role and the one allowed
@@ -26,7 +27,7 @@ export interface KitSkin {
    * when the face is not loaded, leaving the OS face in place.
    */
   displayFace?: (weight: 600 | 700 | 800) => TextStyle | undefined;
-  /** Props spread on a heading `<Text>` to request the display face (web `data-face`). */
+  /** Props spread on a heading `<Text maxFontSizeMultiplier={FontScaleCap.chrome}>` to request the display face (web `data-face`). */
   displayProps?: object;
   /** The skin's one allowed shadow, under the primary button only. None in today's TCGScan skin. */
   primaryShadow?: ViewStyle;

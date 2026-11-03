@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { TypeScale, useKit } from '../kit';
+import { FontScaleCap } from '../kit/scale';
 
 export interface FooterLink {
   label: string;
@@ -15,11 +16,11 @@ export function Footer({ links, note }: { links: readonly FooterLink[]; note?: s
       <View style={styles.links}>
         {links.map((l) => (
           <Pressable key={l.label} accessibilityRole="link" onPress={l.onPress} hitSlop={8}>
-            <Text style={[styles.link, { color: colors.textSecondary }]}>{l.label}</Text>
+            <Text maxFontSizeMultiplier={FontScaleCap.chrome} selectable={false} style={[styles.link, { color: colors.textSecondary }]}>{l.label}</Text>
           </Pressable>
         ))}
       </View>
-      {note ? <Text style={[styles.link, { color: colors.textSecondary }]}>{note}</Text> : null}
+      {note ? <Text maxFontSizeMultiplier={FontScaleCap.chrome} selectable={false} style={[styles.link, { color: colors.textSecondary }]}>{note}</Text> : null}
     </View>
   );
 }

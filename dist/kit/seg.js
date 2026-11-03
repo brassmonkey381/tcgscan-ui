@@ -2,7 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useState } from 'react';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import { animate, useReduceMotion } from './motion';
-import { ControlPad, Height, SegPad, TypeScale } from './scale';
+import { ControlPad, Height, SegPad, TypeScale, FontScaleCap } from './scale';
 import { useKit } from './skin';
 /**
  * A segment group: a panel-grey track, padded 2, with the chosen option lifted onto the surface.
@@ -60,7 +60,7 @@ export function Seg({ options, value, onChange, size = 'md', fill, accessibility
                     skin.lip ? { borderBottomWidth: lip, borderBottomColor: skin.lip.primary } : null,
                 ] })) : null, options.map((o) => {
                 const on = o.value === value;
-                return (_jsx(Pressable, { accessibilityRole: "radio", accessibilityState: { selected: on }, onPress: () => onChange(o.value), onLayout: measure(o.value), style: [styles.option, fill && styles.fillOption, { height: inner, borderRadius: skin.radius.chip }], children: _jsx(Text, { numberOfLines: 1, style: [
+                return (_jsx(Pressable, { accessibilityRole: "radio", accessibilityState: { selected: on }, onPress: () => onChange(o.value), onLayout: measure(o.value), style: [styles.option, fill && styles.fillOption, { height: inner, borderRadius: skin.radius.chip }], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, selectable: false, numberOfLines: 1, style: [
                             styles.label,
                             { color: on ? (skin.lip ? colors.accentText : colors.text) : colors.textSecondary, fontWeight: on ? '600' : '500' },
                         ], children: o.label }) }, o.value));

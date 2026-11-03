@@ -3,7 +3,7 @@ import { Animated, Pressable, StyleSheet, Text } from 'react-native';
 
 import { animate, useReduceMotion } from './motion';
 
-import { ControlPad, Height, ToastSize, TypeScale } from './scale';
+import { ControlPad, Height, ToastSize, TypeScale, FontScaleCap } from './scale';
 import { KitChrome, useKit } from './skin';
 
 /**
@@ -35,7 +35,7 @@ export function Toast({
         { opacity: t.interpolate({ inputRange: [0, 0.4, 1], outputRange: [0, 1, 1] }), transform: [{ scale: t.interpolate({ inputRange: [0, 1], outputRange: [0.92, 1] }) }] },
       ]}
     >
-      <Text numberOfLines={1} style={styles.message}>
+      <Text maxFontSizeMultiplier={FontScaleCap.control} numberOfLines={1} style={styles.message}>
         {message}
       </Text>
       {action && (
@@ -44,7 +44,7 @@ export function Toast({
           onPress={action.onPress}
           style={[styles.action, { borderRadius: skin.radius.button }]}
         >
-          <Text style={styles.actionLabel}>{action.label}</Text>
+          <Text maxFontSizeMultiplier={FontScaleCap.control} style={styles.actionLabel}>{action.label}</Text>
         </Pressable>
       )}
     </Animated.View>

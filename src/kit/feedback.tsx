@@ -4,7 +4,7 @@ import { Animated, StyleSheet, Text, View, useWindowDimensions, type StyleProp, 
 import { Button } from './button';
 import { Loading } from './loading';
 import { animate, useReduceMotion } from './motion';
-import { TypeScale } from './scale';
+import { TypeScale, FontScaleCap } from './scale';
 import { useKit } from './skin';
 
 /**
@@ -35,7 +35,7 @@ export function ErrorText({ children, style }: { children: ReactNode; style?: St
   const arrive = useArrive();
   return (
     <Animated.View style={[styles.errorBox, arrive, style]}>
-      <Text accessibilityRole="alert" accessibilityLiveRegion="polite" style={[styles.error, { color: colors.danger }]}>
+      <Text maxFontSizeMultiplier={FontScaleCap.reading} accessibilityRole="alert" accessibilityLiveRegion="polite" style={[styles.error, { color: colors.danger }]}>
         {children}
       </Text>
     </Animated.View>
@@ -64,7 +64,7 @@ export function Note({
   const { colors } = useKit();
   const color = tone === 'danger' ? colors.danger : tone === 'warning' ? colors.warning : colors.textSecondary;
   const text = (
-    <Text accessibilityRole={tone === 'danger' ? 'alert' : undefined} style={[styles.note, { color, textAlign: align }]}>
+    <Text maxFontSizeMultiplier={FontScaleCap.reading} accessibilityRole={tone === 'danger' ? 'alert' : undefined} style={[styles.note, { color, textAlign: align }]}>
       {children}
     </Text>
   );
@@ -108,8 +108,8 @@ export function Banner({
       ]}
     >
       <View style={styles.flexText}>
-        {title ? <Text style={[styles.bannerTitle, { color: (colors as { heading?: string }).heading ?? colors.text }]}>{title}</Text> : null}
-        {typeof message === 'string' ? <Text style={[styles.bannerText, { color: colors.text }]}>{message}</Text> : message}
+        {title ? <Text maxFontSizeMultiplier={FontScaleCap.reading} style={[styles.bannerTitle, { color: (colors as { heading?: string }).heading ?? colors.text }]}>{title}</Text> : null}
+        {typeof message === 'string' ? <Text maxFontSizeMultiplier={FontScaleCap.reading} style={[styles.bannerText, { color: colors.text }]}>{message}</Text> : message}
       </View>
       {action ? <Button look="primary" size="sm" label={action.label} loading={action.loading} onPress={action.onPress} /> : null}
     </Animated.View>

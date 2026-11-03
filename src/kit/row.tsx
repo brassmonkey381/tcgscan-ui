@@ -1,7 +1,7 @@
 import { Children, Fragment, type ReactNode } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { RowSize, TypeScale } from './scale';
+import { RowSize, TypeScale, FontScaleCap } from './scale';
 import { useKit } from './skin';
 
 /**
@@ -38,16 +38,16 @@ export function Row({
     <>
       {leading}
       <View style={labelColumn ? styles.labelColumnBox : styles.labelBox}>
-        <Text
+        <Text maxFontSizeMultiplier={FontScaleCap.control}
           numberOfLines={wrap || caption ? undefined : 1}
           style={[labelColumn ? styles.labelColumn : styles.labelText, { color: labelColumn ? colors.textSecondary : colors.text }]}
         >
           {label}
         </Text>
-        {caption ? <Text style={[styles.caption, { color: colors.textSecondary }]}>{caption}</Text> : null}
+        {caption ? <Text maxFontSizeMultiplier={FontScaleCap.control} style={[styles.caption, { color: colors.textSecondary }]}>{caption}</Text> : null}
       </View>
       {value != null && (
-        <Text numberOfLines={1} style={[styles.value, { color: colors.textSecondary }]}>
+        <Text maxFontSizeMultiplier={FontScaleCap.control} numberOfLines={1} style={[styles.value, { color: colors.textSecondary }]}>
           {value}
         </Text>
       )}

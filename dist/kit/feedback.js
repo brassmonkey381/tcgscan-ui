@@ -4,7 +4,7 @@ import { Animated, StyleSheet, Text, View, useWindowDimensions } from 'react-nat
 import { Button } from './button';
 import { Loading } from './loading';
 import { animate, useReduceMotion } from './motion';
-import { TypeScale } from './scale';
+import { TypeScale, FontScaleCap } from './scale';
 import { useKit } from './skin';
 /**
  * The owner's feedback picks (Style Picker v2, 2026-11-02): one error line, one note, one banner
@@ -30,7 +30,7 @@ function useArrive() {
 export function ErrorText({ children, style }) {
     const { colors } = useKit();
     const arrive = useArrive();
-    return (_jsx(Animated.View, { style: [styles.errorBox, arrive, style], children: _jsx(Text, { accessibilityRole: "alert", accessibilityLiveRegion: "polite", style: [styles.error, { color: colors.danger }], children: children }) }));
+    return (_jsx(Animated.View, { style: [styles.errorBox, arrive, style], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, accessibilityRole: "alert", accessibilityLiveRegion: "polite", style: [styles.error, { color: colors.danger }], children: children }) }));
 }
 /**
  * A note: a hint, fine print, a result line, a caveat, a status. Caption 13/18. `working` adds the
@@ -39,7 +39,7 @@ export function ErrorText({ children, style }) {
 export function Note({ children, tone = 'muted', align, working, style, }) {
     const { colors } = useKit();
     const color = tone === 'danger' ? colors.danger : tone === 'warning' ? colors.warning : colors.textSecondary;
-    const text = (_jsx(Text, { accessibilityRole: tone === 'danger' ? 'alert' : undefined, style: [styles.note, { color, textAlign: align }], children: children }));
+    const text = (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, accessibilityRole: tone === 'danger' ? 'alert' : undefined, style: [styles.note, { color, textAlign: align }], children: children }));
     if (!working)
         return _jsx(View, { style: style, children: text });
     return (_jsxs(View, { style: [styles.workingRow, align === 'center' && styles.centre, style], children: [_jsx(Loading, { size: 5 }), _jsx(View, { style: styles.flexText, children: text })] }));
@@ -60,7 +60,7 @@ export function Banner({ message, title, action, style, }) {
             stack && styles.bannerStack,
             arrive,
             style,
-        ], children: [_jsxs(View, { style: styles.flexText, children: [title ? _jsx(Text, { style: [styles.bannerTitle, { color: colors.heading ?? colors.text }], children: title }) : null, typeof message === 'string' ? _jsx(Text, { style: [styles.bannerText, { color: colors.text }], children: message }) : message] }), action ? _jsx(Button, { look: "primary", size: "sm", label: action.label, loading: action.loading, onPress: action.onPress }) : null] }));
+        ], children: [_jsxs(View, { style: styles.flexText, children: [title ? _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, style: [styles.bannerTitle, { color: colors.heading ?? colors.text }], children: title }) : null, typeof message === 'string' ? _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, style: [styles.bannerText, { color: colors.text }], children: message }) : message] }), action ? _jsx(Button, { look: "primary", size: "sm", label: action.label, loading: action.loading, onPress: action.onPress }) : null] }));
 }
 /**
  * The wait rule: for the first 400 ms nothing new is drawn (most local reads finish inside it, so

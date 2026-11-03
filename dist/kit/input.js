@@ -2,7 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useState } from 'react';
 import { Animated, Easing, StyleSheet, Text, TextInput, View } from 'react-native';
 import { ErrorText } from './feedback';
-import { Height, TypeScale } from './scale';
+import { Height, TypeScale, FontScaleCap } from './scale';
 import { useKit } from './skin';
 /**
  * A text input, always 44 tall so it sits on one baseline with the medium button beside it.
@@ -35,7 +35,7 @@ export function Input({ label, shape = 'field', style, error, ...rest }) {
     const err = error ? _jsx(ErrorText, { children: error }) : null;
     if (!label)
         return err ? _jsxs(View, { children: [input, err] }) : input;
-    return (_jsxs(View, { style: styles.labelled, children: [_jsx(Text, { style: [styles.label, { color: colors.text }], children: label }), input, err] }));
+    return (_jsxs(View, { style: styles.labelled, children: [_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, style: [styles.label, { color: colors.text }], children: label }), input, err] }));
 }
 function ScreenInput({ screen, radius, pad, style, label, ...rest }) {
     const [focused, setFocused] = useState(false);
@@ -75,7 +75,7 @@ function Ticker({ text, color, face, pad }) {
         loop.start();
         return () => loop.stop();
     }, [box, w, pad, x]);
-    return (_jsx(View, { pointerEvents: "none", style: StyleSheet.absoluteFill, onLayout: (e) => setBox(e.nativeEvent.layout.width), accessibilityElementsHidden: true, importantForAccessibility: "no-hide-descendants", children: _jsx(Animated.Text, { numberOfLines: 1, onLayout: (e) => setW(e.nativeEvent.layout.width), style: [styles.ticker, { color, transform: [{ translateX: x }] }, face], children: text }) }));
+    return (_jsx(View, { pointerEvents: "none", style: StyleSheet.absoluteFill, onLayout: (e) => setBox(e.nativeEvent.layout.width), accessibilityElementsHidden: true, importantForAccessibility: "no-hide-descendants", children: _jsx(Animated.Text, { maxFontSizeMultiplier: FontScaleCap.control, numberOfLines: 1, onLayout: (e) => setW(e.nativeEvent.layout.width), style: [styles.ticker, { color, transform: [{ translateX: x }] }, face], children: text }) }));
 }
 const styles = StyleSheet.create({
     input: {

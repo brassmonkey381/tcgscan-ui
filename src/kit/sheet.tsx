@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Breakpoints } from 'tcgscan-theme';
 
 import { Button, type ButtonLook } from './button';
-import { Height, SheetSize, TypeScale } from './scale';
+import { Height, SheetSize, TypeScale, FontScaleCap } from './scale';
 import { GLOW, popupColors } from './popup';
 import { KitProvider, useKit } from './skin';
 import { useWindowSize } from './window-size';
@@ -71,7 +71,7 @@ export function Sheet({
         >
           <KitProvider colors={colors} dark={skin.popup ? true : kit.dark} skin={skin}>
           <View style={[styles.titleRow, { borderBottomColor: colors.hairline }]}>
-            <Text accessibilityRole="header" numberOfLines={1} style={[styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null]}>
+            <Text maxFontSizeMultiplier={FontScaleCap.control} accessibilityRole="header" numberOfLines={1} style={[styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null]}>
               {title}
             </Text>
             <CloseButton onPress={onClose} />
@@ -115,7 +115,7 @@ function CloseButton({ onPress }: { onPress: () => void }) {
       onPress={onPress}
       style={[styles.close, { borderRadius: skin.radius.button, backgroundColor: colors.backgroundElement }]}
     >
-      <Text style={[styles.closeGlyph, { color: colors.textSecondary }]}>×</Text>
+      <Text maxFontSizeMultiplier={FontScaleCap.control} style={[styles.closeGlyph, { color: colors.textSecondary }]}>×</Text>
     </Pressable>
   );
 }

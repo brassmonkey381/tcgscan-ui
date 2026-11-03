@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Animated, Pressable, StyleSheet, Text } from 'react-native';
 import { animate, useReduceMotion } from './motion';
 import { useKit } from './skin';
+import { FontScaleCap } from './scale';
 const W = 64;
 const H = 30;
 const KNOB = 22;
@@ -26,7 +27,7 @@ export function Switch({ value, onValueChange, accessibilityLabel, disabled, }) 
     });
     const x = t.interpolate({ inputRange: [0, 1], outputRange: [PAD, W - KNOB - PAD] });
     const offOpacity = t.interpolate({ inputRange: [0, 1], outputRange: [1, 0] });
-    return (_jsx(Pressable, { accessibilityRole: "switch", accessibilityState: { checked: value, disabled: !!disabled }, accessibilityLabel: accessibilityLabel, disabled: disabled, onPress: () => onValueChange(!value), hitSlop: 7, style: { opacity: disabled ? 0.45 : 1 }, children: _jsxs(Animated.View, { style: [styles.track, { backgroundColor: track }], children: [_jsx(Animated.View, { style: [styles.word, styles.wordOn, { opacity: t }], children: _jsx(Text, { style: [styles.wordText, { color: sw?.onText ?? colors.accentText }, sw?.face], children: "ON" }) }), _jsx(Animated.View, { style: [styles.word, styles.wordOff, { opacity: offOpacity }], children: _jsx(Text, { style: [styles.wordText, { color: sw?.offText ?? colors.textSecondary }, sw?.face], children: "OFF" }) }), _jsx(Animated.View, { style: [
+    return (_jsx(Pressable, { accessibilityRole: "switch", accessibilityState: { checked: value, disabled: !!disabled }, accessibilityLabel: accessibilityLabel, disabled: disabled, onPress: () => onValueChange(!value), hitSlop: 7, style: { opacity: disabled ? 0.45 : 1 }, children: _jsxs(Animated.View, { style: [styles.track, { backgroundColor: track }], children: [_jsx(Animated.View, { style: [styles.word, styles.wordOn, { opacity: t }], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, selectable: false, style: [styles.wordText, { color: sw?.onText ?? colors.accentText }, sw?.face], children: "ON" }) }), _jsx(Animated.View, { style: [styles.word, styles.wordOff, { opacity: offOpacity }], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, selectable: false, style: [styles.wordText, { color: sw?.offText ?? colors.textSecondary }, sw?.face], children: "OFF" }) }), _jsx(Animated.View, { style: [
                         styles.knob,
                         {
                             backgroundColor: sw?.knob ?? colors.background,

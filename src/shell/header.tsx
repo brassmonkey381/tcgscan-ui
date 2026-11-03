@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Button, ChipGap, Frame, TypeScale, useKit, type FrameWidth } from '../kit';
+import { FontScaleCap } from '../kit/scale';
 
 /**
  * The three header shapes. A route picks one; nothing else about the header varies.
@@ -64,7 +65,7 @@ function Title({ children, size, centred }: { children: string; size: number; ce
   // A skin's title size stands in for the scale's h1 (the hero's 40 keeps its own size).
   const px = ink?.titleSize && size === TypeScale.h1 ? ink.titleSize : size;
   return (
-    <Text
+    <Text maxFontSizeMultiplier={FontScaleCap.reading}
       accessibilityRole="header"
       style={[
         { fontSize: px, lineHeight: Math.round(px * 1.15), fontWeight: '800', color: ink?.title ?? colors.text },
@@ -83,14 +84,14 @@ function Title({ children, size, centred }: { children: string; size: number; ce
 function Eyebrow({ children, accent }: { children: string; accent?: boolean }) {
   const { colors, skin } = useKit();
   return (
-    <Text style={[styles.eyebrow, { color: accent ? colors.link : (skin.ink?.label ?? colors.textSecondary) }]}>{children}</Text>
+    <Text maxFontSizeMultiplier={FontScaleCap.reading} style={[styles.eyebrow, { color: accent ? colors.link : (skin.ink?.label ?? colors.textSecondary) }]}>{children}</Text>
   );
 }
 
 function Lede({ children, centred }: { children: string; centred?: boolean }) {
   const { colors } = useKit();
   return (
-    <Text style={[styles.lede, { color: colors.textSecondary }, centred && styles.ledeCentred]}>
+    <Text maxFontSizeMultiplier={FontScaleCap.reading} style={[styles.lede, { color: colors.textSecondary }, centred && styles.ledeCentred]}>
       {children}
     </Text>
   );

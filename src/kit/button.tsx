@@ -4,7 +4,7 @@ import { Animated, StyleSheet, Text, View, type StyleProp, type ViewStyle } from
 import { LipPressable, LoadingDots } from './lip';
 import { animate, useReduceMotion } from './motion';
 
-import { ControlPad, ControlText, Height, type ControlSize } from './scale';
+import { ControlPad, ControlText, Height, type ControlSize, FontScaleCap } from './scale';
 import { useKit, type KitValue } from './skin';
 
 /**
@@ -67,7 +67,7 @@ export function Button({
       {loading ? (
         <LoadingDots color={paint.text} />
       ) : (
-        <Text
+        <Text maxFontSizeMultiplier={FontScaleCap.control} selectable={false}
           numberOfLines={1}
           style={[styles.label, { fontSize: ControlText[size], color: paint.text }, underline && styles.underline]}
         >

@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { MinTouch, TypeScale } from './scale';
+import { MinTouch, TypeScale, FontScaleCap } from './scale';
 import { useKit } from './skin';
 
 /**
@@ -35,7 +35,7 @@ export function Check({
       ]}
     >
       {checked ? (
-        <Text
+        <Text maxFontSizeMultiplier={FontScaleCap.control} selectable={false}
           style={[
             styles.tick,
             { color: tick },
@@ -58,7 +58,7 @@ export function Check({
       style={({ pressed }) => [styles.row, { opacity: disabled ? 0.45 : pressed ? 0.8 : 1 }]}
     >
       {box}
-      {label ? <Text style={[styles.label, { color: colors.text }]}>{label}</Text> : null}
+      {label ? <Text maxFontSizeMultiplier={FontScaleCap.control} selectable={false} style={[styles.label, { color: colors.text }]}>{label}</Text> : null}
     </Pressable>
   );
 }

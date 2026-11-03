@@ -3,7 +3,7 @@ import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-nati
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Breakpoints } from 'tcgscan-theme';
 import { Button } from './button';
-import { Height, SheetSize, TypeScale } from './scale';
+import { Height, SheetSize, TypeScale, FontScaleCap } from './scale';
 import { GLOW, popupColors } from './popup';
 import { KitProvider, useKit } from './skin';
 import { useWindowSize } from './window-size';
@@ -34,7 +34,7 @@ export function Sheet({ visible, title, onClose, actions, children, }) {
                             paddingBottom: wide ? 0 : insets.bottom,
                         },
                         edge,
-                    ], children: _jsxs(KitProvider, { colors: colors, dark: skin.popup ? true : kit.dark, skin: skin, children: [_jsxs(View, { style: [styles.titleRow, { borderBottomColor: colors.hairline }], children: [_jsx(Text, { accessibilityRole: "header", numberOfLines: 1, style: [styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null], children: title }), _jsx(CloseButton, { onPress: onClose })] }), _jsx(ScrollView, { style: styles.scroll, contentContainerStyle: styles.body, children: children }), actions && actions.length > 0 && _jsx(ButtonRow, { actions: actions, bordered: true })] }) })] }) }));
+                    ], children: _jsxs(KitProvider, { colors: colors, dark: skin.popup ? true : kit.dark, skin: skin, children: [_jsxs(View, { style: [styles.titleRow, { borderBottomColor: colors.hairline }], children: [_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, accessibilityRole: "header", numberOfLines: 1, style: [styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null], children: title }), _jsx(CloseButton, { onPress: onClose })] }), _jsx(ScrollView, { style: styles.scroll, contentContainerStyle: styles.body, children: children }), actions && actions.length > 0 && _jsx(ButtonRow, { actions: actions, bordered: true })] }) })] }) }));
 }
 /** The 72 button row shared by sheets and dialogs: equal-width buttons, 12 apart. */
 export function ButtonRow({ actions, bordered }) {
@@ -47,7 +47,7 @@ export function ButtonRow({ actions, bordered }) {
 }
 function CloseButton({ onPress }) {
     const { colors, skin } = useKit();
-    return (_jsx(Pressable, { accessibilityRole: "button", accessibilityLabel: "Close", hitSlop: 4, onPress: onPress, style: [styles.close, { borderRadius: skin.radius.button, backgroundColor: colors.backgroundElement }], children: _jsx(Text, { style: [styles.closeGlyph, { color: colors.textSecondary }], children: "\u00D7" }) }));
+    return (_jsx(Pressable, { accessibilityRole: "button", accessibilityLabel: "Close", hitSlop: 4, onPress: onPress, style: [styles.close, { borderRadius: skin.radius.button, backgroundColor: colors.backgroundElement }], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, style: [styles.closeGlyph, { color: colors.textSecondary }], children: "\u00D7" }) }));
 }
 const styles = StyleSheet.create({
     backdrop: { flex: 1 },
