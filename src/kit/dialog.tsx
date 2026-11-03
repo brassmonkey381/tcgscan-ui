@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { ButtonRow, type SheetAction } from './sheet';
@@ -8,7 +9,16 @@ import { KitProvider, useKit } from './skin';
 /**
  * A dialog asks one thing. Two buttons split the width, the safe choice on the left. Danger is the
  * Secondary look in the danger tint (`tone: 'danger'`), never a red outline.
+ *
+ * `children` sit between the body and the buttons: a typed field (a collection name, DELETE), a
+ * preview line or a third answer, so every question in an app can be this one dialog.
  */
+
+/**
+ * How long a closing pop-up takes to leave. A layer opened from a closing layer starts after this,
+ * so two pop-ups never cross (and iOS never shows two Modals at once).
+ */
+export const POPUP_DISMISS_MS = 350;
 export function Dialog({
   visible,
   title,
@@ -16,6 +26,7 @@ export function Dialog({
   cancel,
   confirm,
   onClose,
+  children,
 }: {
   visible: boolean;
   title: string;
@@ -23,6 +34,7 @@ export function Dialog({
   cancel: SheetAction;
   confirm: SheetAction;
   onClose: () => void;
+  children?: ReactNode;
 }) {
   const kit = useKit();
   const { skin } = kit;
@@ -49,6 +61,7 @@ export function Dialog({
           <KitProvider colors={colors} dark={skin.popup ? true : kit.dark} skin={skin}>
           <Text style={[styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null]}>{title}</Text>
           {body ? <Text style={[styles.body, { color: colors.textSecondary }]}>{body}</Text> : null}
+          {children}
           <ButtonRow actions={[cancel, { look: 'primary', ...confirm }]} />
           </KitProvider>
         </View>

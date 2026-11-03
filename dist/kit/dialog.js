@@ -7,8 +7,16 @@ import { KitProvider, useKit } from './skin';
 /**
  * A dialog asks one thing. Two buttons split the width, the safe choice on the left. Danger is the
  * Secondary look in the danger tint (`tone: 'danger'`), never a red outline.
+ *
+ * `children` sit between the body and the buttons: a typed field (a collection name, DELETE), a
+ * preview line or a third answer, so every question in an app can be this one dialog.
  */
-export function Dialog({ visible, title, body, cancel, confirm, onClose, }) {
+/**
+ * How long a closing pop-up takes to leave. A layer opened from a closing layer starts after this,
+ * so two pop-ups never cross (and iOS never shows two Modals at once).
+ */
+export const POPUP_DISMISS_MS = 350;
+export function Dialog({ visible, title, body, cancel, confirm, onClose, children, }) {
     const kit = useKit();
     const { skin } = kit;
     // Inside a pop-up everything draws in the skin's popup palette (or the page's, without one).
@@ -18,7 +26,7 @@ export function Dialog({ visible, title, body, cancel, confirm, onClose, }) {
                         styles.box,
                         { backgroundColor: colors.background, borderColor: colors.hairline, borderRadius: skin.radius.dialog },
                         edge,
-                    ], children: _jsxs(KitProvider, { colors: colors, dark: skin.popup ? true : kit.dark, skin: skin, children: [_jsx(Text, { style: [styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null], children: title }), body ? _jsx(Text, { style: [styles.body, { color: colors.textSecondary }], children: body }) : null, _jsx(ButtonRow, { actions: [cancel, { look: 'primary', ...confirm }] })] }) })] }) }));
+                    ], children: _jsxs(KitProvider, { colors: colors, dark: skin.popup ? true : kit.dark, skin: skin, children: [_jsx(Text, { style: [styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null], children: title }), body ? _jsx(Text, { style: [styles.body, { color: colors.textSecondary }], children: body }) : null, children, _jsx(ButtonRow, { actions: [cancel, { look: 'primary', ...confirm }] })] }) })] }) }));
 }
 const styles = StyleSheet.create({
     backdrop: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },

@@ -13,7 +13,7 @@ export { Seg, type SegOption } from './seg';
 export { Input } from './input';
 export { Row, RowGroup } from './row';
 export { Sheet, ButtonRow, type SheetAction } from './sheet';
-export { Dialog } from './dialog';
+export { Dialog, POPUP_DISMISS_MS } from './dialog';
 export { Toast } from './toast';
 export { Panel } from './panel';
 export { LipPressable, LoadingDots } from './lip';
