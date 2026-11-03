@@ -4,7 +4,7 @@
  * the kit into a shared package.
  */
 export { Shell, type ShellNav } from './shell';
-export { Header, HEADER_WIDTH, type HeaderProps, type HeaderVariant, type HeaderAction } from './header';
+export { Header, HeaderBelow, HEADER_LINE, HEADER_WIDTH, type HeaderProps, type HeaderVariant, type HeaderAction } from './header';
 export { Rail, Drawer, type RailGroup, type RailItem } from './rail';
 export { Footer, type FooterLink } from './footer';
 export { DocSection, DocText, DOC_MEASURE } from './doc';

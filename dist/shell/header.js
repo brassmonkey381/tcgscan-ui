@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { StyleSheet, Text, View } from 'react-native';
-import { Button, ChipGap, Frame, TypeScale, useKit } from '../kit';
+import { Button, Frame, TypeScale, useKit } from '../kit';
 import { FontScaleCap } from '../kit/scale';
 /** The column width each header implies. The page never picks its own. */
 export const HEADER_WIDTH = {
@@ -8,68 +8,35 @@ export const HEADER_WIDTH = {
     hero: 'doc',
     workbench: 'wide',
 };
-export function Header(props) {
-    if (props.variant === 'hero')
-        return _jsx(HeroHeader, { ...props });
-    if (props.variant === 'workbench')
-        return _jsx(WorkbenchHeader, { ...props });
-    return _jsx(DocHeader, { ...props });
-}
-function Title({ children, size, centred }) {
+/** The one header line height: a 44 control, or a 30pt title, with room to breathe. */
+export const HEADER_LINE = 48;
+export function Header({ variant, title, primary, secondary, tools, actions, mark, compact, lead, trail }) {
     const { colors, skin } = useKit();
     const ink = skin.ink;
-    // A skin's title size stands in for the scale's h1 (the hero's 40 keeps its own size).
-    const px = ink?.titleSize && size === TypeScale.h1 ? ink.titleSize : size;
-    return (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, role: "heading", style: [
-            { fontSize: px, lineHeight: Math.round(px * 1.15), fontWeight: '800', color: ink?.title ?? colors.text },
-            // The title's lip: a hard shadow straight down, the buttons' hardware edge in type.
-            ink?.titleLip ? { textShadowColor: ink.titleLip, textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 0 } : null,
-            centred && styles.titleCentred,
-            skin.displayFace?.(800),
-        ], ...skin.displayProps, children: children }));
+    const px = compact ? TITLE.compact : TITLE.wide;
+    const size = compact ? 'sm' : 'md';
+    return (_jsxs(View, { style: styles.line, children: [lead, _jsx(View, { style: styles.title, children: variant === 'hero' && mark ? (mark) : (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, role: "heading", numberOfLines: 1, style: [
+                        { fontSize: px, lineHeight: Math.round(px * 1.15), fontWeight: '800', color: ink?.title ?? colors.text },
+                        // The title's lip: a hard shadow straight down, the buttons' hardware edge in type.
+                        ink?.titleLip ? { textShadowColor: ink.titleLip, textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 0 } : null,
+                        skin.displayFace?.(800),
+                    ], ...skin.displayProps, children: title })) }), tools || primary || secondary || actions || trail ? (_jsxs(View, { style: styles.right, children: [tools ? _jsx(View, { style: styles.tools, children: tools }) : null, secondary ? _jsx(Button, { look: "secondary", size: size, ...secondary }) : null, primary ? _jsx(Button, { look: "primary", size: size, ...primary }) : null, actions, trail] })) : null] }));
 }
-function Eyebrow({ children, accent }) {
-    const { colors, skin } = useKit();
-    return (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, style: [styles.eyebrow, { color: accent ? colors.link : (skin.ink?.label ?? colors.textSecondary) }], children: children }));
-}
-function Lede({ children, centred }) {
+/** The title on one line: smaller on a phone, so the controls beside it keep their room. */
+const TITLE = { compact: 24, wide: 30 };
+/** What the Shell draws under the band for a header: art, lede, filters. Null when there is none. */
+export function HeaderBelow({ art, lede, filters }) {
     const { colors } = useKit();
-    return (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, style: [styles.lede, { color: colors.textSecondary }, centred && styles.ledeCentred], children: children }));
-}
-function DocHeader({ title, eyebrow, lede }) {
-    const { colors } = useKit();
-    return (_jsxs(View, { style: [styles.doc, { borderBottomColor: colors.hairline }], children: [eyebrow ? _jsx(Eyebrow, { children: eyebrow }) : null, _jsx(Title, { size: TypeScale.h1, children: title }), lede ? _jsx(Lede, { children: lede }) : null] }));
-}
-function HeroHeader({ title, eyebrow, lede, primary, secondary, mark, art, compact }) {
-    return (_jsxs(View, { style: styles.hero, children: [art ? _jsx(View, { style: styles.heroTitle, children: art }) : null, eyebrow ? _jsx(Eyebrow, { accent: true, children: eyebrow }) : null, _jsx(View, { style: styles.heroTitle, children: mark ?? (_jsx(Title, { size: compact ? TypeScale.h1 : TypeScale.hero, centred: true, children: title })) }), lede ? _jsx(Lede, { centred: true, children: lede }) : null, (primary || secondary) && (_jsxs(View, { style: styles.heroActions, children: [primary && _jsx(Button, { look: "primary", size: "lg", ...primary }), secondary && _jsx(Button, { look: "secondary", size: "lg", ...secondary })] }))] }));
-}
-function WorkbenchHeader({ title, lede, primary, secondary, tools, actions, filters, compact }) {
-    const titleBlock = (_jsxs(View, { style: styles.workbenchTitle, children: [_jsx(Title, { size: TypeScale.h1, children: title }), lede ? _jsx(Lede, { children: lede }) : null] }));
-    const inline = actions && compact;
-    return (_jsxs(View, { style: styles.workbench, children: [_jsxs(View, { style: [styles.workbenchLine, compact && styles.workbenchLineCompact], children: [inline ? (_jsxs(View, { style: styles.workbenchTitle, children: [_jsxs(View, { style: styles.workbenchTitleLine, children: [_jsx(View, { style: styles.workbenchTitle, children: _jsx(Title, { size: TypeScale.h1, children: title }) }), actions] }), lede ? _jsx(Lede, { children: lede }) : null] })) : (titleBlock), (tools || primary || secondary || (actions && !compact)) && (_jsxs(View, { style: [styles.workbenchTools, compact && styles.workbenchToolsCompact], children: [tools ? _jsx(View, { style: compact ? styles.toolFill : styles.toolFixed, children: tools }) : null, secondary && _jsx(Button, { look: "secondary", ...secondary }), primary && _jsx(Button, { look: "primary", ...primary }), compact ? null : actions] }))] }), filters] }));
+    if (!art && !lede && !filters)
+        return null;
+    return (_jsxs(View, { style: styles.below, children: [art ? _jsx(View, { style: styles.art, children: art }) : null, lede ? (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.reading, style: [styles.lede, { color: colors.textSecondary }], children: lede })) : null, filters] }));
 }
 const styles = StyleSheet.create({
-    eyebrow: {
-        fontSize: Frame.railGroupLabel,
-        fontWeight: '700',
-        letterSpacing: 1.2,
-        textTransform: 'uppercase',
-    },
-    lede: { fontSize: TypeScale.body, lineHeight: 25, maxWidth: 640 },
-    ledeCentred: { textAlign: 'center', maxWidth: 520 },
-    // A hero h1 that wraps stays centred line by line, not just as a block.
-    titleCentred: { textAlign: 'center' },
-    doc: { gap: 8, paddingBottom: 24, borderBottomWidth: StyleSheet.hairlineWidth },
-    hero: { alignItems: 'center', gap: 12, paddingVertical: 16 },
-    heroTitle: { alignItems: 'center' },
-    heroActions: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 12, marginTop: 8 },
-    workbench: { gap: 16 },
-    workbenchLine: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 16 },
-    workbenchLineCompact: { flexDirection: 'column', alignItems: 'stretch' },
-    workbenchTitle: { flexShrink: 1, gap: 4 },
-    workbenchTitleLine: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 16 },
-    workbenchTools: { flexDirection: 'row', alignItems: 'center', gap: ChipGap },
-    workbenchToolsCompact: { alignSelf: 'stretch' },
-    toolFixed: { width: 320 },
-    toolFill: { flex: 1 },
+    line: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: HEADER_LINE },
+    title: { flexShrink: 1, flexGrow: 1, minWidth: 0, justifyContent: 'center' },
+    right: { flexDirection: 'row', alignItems: 'center', gap: 8, flexShrink: 1, minWidth: 0 },
+    tools: { flexShrink: 1, minWidth: 0 },
+    below: { gap: 8 },
+    art: { alignItems: 'center' },
+    lede: { fontSize: TypeScale.body, lineHeight: 24, maxWidth: Frame.width.prose },
 });

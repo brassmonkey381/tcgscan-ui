@@ -1,10 +1,10 @@
-import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Breakpoints } from 'tcgscan-theme';
 import { Frame, Height, KitProvider, MinTouch, TypeScale, useKit, useWindowSize } from '../kit';
-import { Header, HEADER_WIDTH } from './header';
+import { Header, HeaderBelow, HEADER_WIDTH } from './header';
 import { Drawer, Rail } from './rail';
 import { FontScaleCap } from '../kit/scale';
 /**
@@ -30,9 +30,14 @@ export function Shell({ header, nav, width, back, action, footer, tabBar, scroll
     // The band draws at every width (owner's pick, 2026-11-02): on a desk it sits in the content
     // column, right of the rail, as wide as the column.
     const band = skin.band;
-    const top = (_jsxs(_Fragment, { children: [(back || action || (nav && !wide)) && (_jsxs(View, { style: styles.topRow, children: [nav && !wide ? (_jsx(Pressable, { role: "button", accessibilityLabel: "Open menu", onPress: () => setDrawer(true), style: styles.menuButton, children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, style: [styles.menuGlyph, { color: colors.text }], children: "\u2630" }) })) : null, back ? (_jsx(Pressable, { role: "link", onPress: back.onPress, hitSlop: 8, 
-                        // Pressed feedback, as every link has (owner's pick).
-                        style: ({ pressed }) => [styles.back, pressed && styles.backPressed], children: _jsxs(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, style: [styles.backLabel, { color: colors.link }], children: ["\u2039 ", back.label] }) })) : null, action ? _jsx(View, { style: styles.action, children: action }) : null] })), header ? _jsx(Header, { ...header, compact: !wide }) : null] }));
+    // ONE LINE (owner, 2026-11-03): the menu or the way back, the title, the page's controls and the
+    // shell's own action all share the header row, so every band is the same height. A phone shows
+    // the back glyph alone; a desk has room for its label.
+    const lead = nav && !wide ? (_jsx(Pressable, { role: "button", accessibilityLabel: "Open menu", onPress: () => setDrawer(true), style: styles.menuButton, children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, style: [styles.menuGlyph, { color: colors.text }], children: "\u2630" }) })) : back ? (_jsx(Pressable, { role: "link", accessibilityLabel: back.label, onPress: back.onPress, hitSlop: 8, 
+        // Pressed feedback, as every link has (owner's pick).
+        style: ({ pressed }) => [styles.back, pressed && styles.backPressed], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, style: [styles.backLabel, { color: colors.link }], children: wide ? `‹ ${back.label}` : '‹' }) })) : null;
+    const top = header ? (_jsx(Header, { ...header, compact: !wide, lead: lead, trail: action ?? undefined })) : lead || action ? (_jsxs(View, { style: styles.topRow, children: [lead, action ? _jsx(View, { style: styles.action, children: action }) : null] })) : null;
+    const below = header ? _jsx(HeaderBelow, { art: header.art, lede: header.lede, filters: header.filters }) : null;
     const column = (_jsxs(View, { style: [
             styles.column,
             !scroll && styles.fixed,
@@ -48,9 +53,10 @@ export function Shell({ header, nav, width, back, action, footer, tabBar, scroll
                         marginHorizontal: -gutter,
                         marginTop: -(gutter + insets.top),
                         paddingHorizontal: gutter,
-                        paddingTop: gutter + insets.top,
+                        // Snug: a short step above the one header line (owner, 2026-11-03).
+                        paddingTop: (wide ? 14 : 6) + insets.top,
                     },
-                ], children: _jsx(KitProvider, { colors: { ...colors, ...band.colors }, dark: dark, skin: skin, children: top }) })) : (top), _jsx(View, { style: [styles.page, !scroll && styles.fixed], children: children }), footer] }));
+                ], children: _jsx(KitProvider, { colors: { ...colors, ...band.colors }, dark: dark, skin: skin, children: top }) })) : (top), below, _jsx(View, { style: [styles.page, !scroll && styles.fixed], children: children }), footer] }));
     return (_jsxs(View, { style: [styles.root, { backgroundColor: colors.background }], children: [skin.ground ? (_jsx(View, { style: StyleSheet.absoluteFill, pointerEvents: "none", "aria-hidden": true, children: skin.ground })) : null, _jsxs(View, { style: styles.frame, children: [nav && wide ? _jsx(Rail, { brand: nav.brand, groups: nav.groups }) : null, scroll ? (_jsx(ScrollView, { style: styles.scroll, contentContainerStyle: styles.scrollContent, children: column })) : (_jsx(View, { style: [styles.scroll, styles.scrollContent], children: column }))] }), !wide ? tabBar : null, nav && !wide ? (_jsx(Drawer, { visible: drawer, onClose: () => setDrawer(false), brand: nav.brand, groups: nav.groups })) : null] }));
 }
 const styles = StyleSheet.create({
@@ -58,16 +64,16 @@ const styles = StyleSheet.create({
     frame: { flex: 1, flexDirection: 'row' },
     scroll: { flex: 1 },
     scrollContent: { flexGrow: 1, alignItems: 'center' },
-    column: { width: '100%', flexGrow: 1, gap: 24 },
-    band: { gap: 24, paddingBottom: 20 },
+    column: { width: '100%', flexGrow: 1, gap: 16 },
+    band: { paddingBottom: 10 },
     page: { flexGrow: 1, gap: 16 },
     // A route with its own scroller fills the column instead of growing past it.
     fixed: { flex: 1, minHeight: 0 },
-    topRow: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: Height.sm, marginBottom: -8 },
-    menuButton: { width: MinTouch, height: MinTouch, alignItems: 'center', justifyContent: 'center', marginLeft: -12 },
+    topRow: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: Height.sm },
+    menuButton: { width: MinTouch, height: MinTouch, alignItems: 'center', justifyContent: 'center', marginLeft: -12, marginRight: -8 },
     menuGlyph: { fontSize: TypeScale.h3 },
-    back: { justifyContent: 'center', minHeight: Height.sm },
+    back: { justifyContent: 'center', minHeight: Height.sm, minWidth: 24 },
     backPressed: { opacity: 0.6 },
     action: { marginLeft: 'auto' },
-    backLabel: { fontSize: TypeScale.meta, fontWeight: '600' },
+    backLabel: { fontSize: TypeScale.control, fontWeight: '700' },
 });

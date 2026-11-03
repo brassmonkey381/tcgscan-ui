@@ -4,7 +4,7 @@
  * the kit into a shared package.
  */
 export { Shell } from './shell';
-export { Header, HEADER_WIDTH } from './header';
+export { Header, HeaderBelow, HEADER_LINE, HEADER_WIDTH } from './header';
 export { Rail, Drawer } from './rail';
 export { Footer } from './footer';
 export { DocSection, DocText, DOC_MEASURE } from './doc';
