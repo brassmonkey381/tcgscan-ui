@@ -36,6 +36,12 @@ export interface HeaderProps {
     secondary?: HeaderAction;
     /** Controls at the right of the title line (a search, a switch, a picker). They shrink first. */
     tools?: ReactNode;
+    /**
+     * Phone layout only: the tools take the room between the title and the buttons, up to
+     * TOOLS_FILL_MAX, instead of the room collecting after the title (owner's pick B, 2026-11-04).
+     * Pair it with a control that can stretch, such as `<Seg fill />`.
+     */
+    fillTools?: boolean;
     /** Small controls that size themselves (a view toggle, a ••• menu), last on the line. */
     actions?: ReactNode;
     /** Drawn by the Shell under the band (a chip row). */
@@ -50,6 +56,8 @@ export interface HeaderProps {
     lead?: ReactNode;
     trail?: ReactNode;
 }
-export declare function Header({ variant, title, primary, secondary, tools, actions, mark, compact, lead, trail }: HeaderProps): import("react").JSX.Element;
+export declare function Header({ variant, title, primary, secondary, tools, fillTools, actions, mark, compact, lead, trail }: HeaderProps): import("react").JSX.Element;
+/** How wide filled tools grow: on a tablet the switch stops here and sits by the buttons. */
+export declare const TOOLS_FILL_MAX = 300;
 /** What the Shell draws under the band for a header: art, lede, filters. Null when there is none. */
 export declare function HeaderBelow({ art, lede, filters }: Pick<HeaderProps, 'art' | 'lede' | 'filters'>): import("react").JSX.Element | null;

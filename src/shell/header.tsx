@@ -48,6 +48,12 @@ export interface HeaderProps {
   secondary?: HeaderAction;
   /** Controls at the right of the title line (a search, a switch, a picker). They shrink first. */
   tools?: ReactNode;
+  /**
+   * Phone layout only: the tools take the room between the title and the buttons, up to
+   * TOOLS_FILL_MAX, instead of the room collecting after the title (owner's pick B, 2026-11-04).
+   * Pair it with a control that can stretch, such as `<Seg fill />`.
+   */
+  fillTools?: boolean;
   /** Small controls that size themselves (a view toggle, a ••• menu), last on the line. */
   actions?: ReactNode;
   /** Drawn by the Shell under the band (a chip row). */
@@ -63,15 +69,16 @@ export interface HeaderProps {
   trail?: ReactNode;
 }
 
-export function Header({ variant, title, primary, secondary, tools, actions, mark, compact, lead, trail }: HeaderProps) {
+export function Header({ variant, title, primary, secondary, tools, fillTools, actions, mark, compact, lead, trail }: HeaderProps) {
   const { colors, skin } = useKit();
   const ink = skin.ink;
   const px = compact ? TITLE.compact : TITLE.wide;
   const size = compact ? 'sm' : 'md';
+  const fill = Boolean(fillTools && compact && tools);
   return (
     <View style={styles.line}>
       {lead}
-      <View style={styles.title}>
+      <View style={[styles.title, fill && styles.titleSnug]}>
         {variant === 'hero' && mark ? (
           mark
         ) : (
@@ -92,8 +99,8 @@ export function Header({ variant, title, primary, secondary, tools, actions, mar
         )}
       </View>
       {tools || primary || secondary || actions || trail ? (
-        <View style={styles.right}>
-          {tools ? <View style={styles.tools}>{tools}</View> : null}
+        <View style={[styles.right, fill && styles.rightFill]}>
+          {tools ? <View style={[styles.tools, fill && styles.toolsFill]}>{tools}</View> : null}
           {secondary ? <Button look="secondary" size={size} {...secondary} /> : null}
           {primary ? <Button look="primary" size={size} {...primary} /> : null}
           {actions}
@@ -106,6 +113,9 @@ export function Header({ variant, title, primary, secondary, tools, actions, mar
 
 /** The title on one line: smaller on a phone, so the controls beside it keep their room. */
 const TITLE = { compact: 24, wide: 30 } as const;
+
+/** How wide filled tools grow: on a tablet the switch stops here and sits by the buttons. */
+export const TOOLS_FILL_MAX = 300;
 
 /** What the Shell draws under the band for a header: art, lede, filters. Null when there is none. */
 export function HeaderBelow({ art, lede, filters }: Pick<HeaderProps, 'art' | 'lede' | 'filters'>) {
@@ -129,6 +139,11 @@ const styles = StyleSheet.create({
   title: { flexShrink: 1, flexGrow: 1, minWidth: 0, justifyContent: 'center' },
   right: { flexDirection: 'row', alignItems: 'center', gap: 8, flexShrink: 1, minWidth: 0 },
   tools: { flexShrink: 1, minWidth: 0 },
+  // fillTools: the title keeps its own width (never cut first, never more than half the line),
+  // and the right side takes the rest, its tools stretching up to the cap.
+  titleSnug: { flexGrow: 0, flexShrink: 0, maxWidth: '50%' },
+  rightFill: { flexGrow: 1, flexBasis: 0, justifyContent: 'flex-end' },
+  toolsFill: { flexGrow: 1, flexBasis: 0, maxWidth: TOOLS_FILL_MAX },
   below: { gap: 8 },
   art: { alignItems: 'center' },
   lede: { fontSize: TypeScale.body, lineHeight: 24, maxWidth: Frame.width.prose },
