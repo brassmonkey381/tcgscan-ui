@@ -55,6 +55,8 @@ function ScreenInput({ screen, radius, pad, style, label, ...rest }) {
                     rest.onChangeText?.(t);
                 }, style: [styles.screenText, { paddingHorizontal: pad, color: screen.text }, screen.face] }), ticker ? _jsx(Ticker, { text: rest.placeholder, color: screen.placeholder, face: screen.face, pad: pad }) : null] }));
 }
+/** Wider than any placeholder, so the ticker's text is never cut to the field. */
+const TICKER_TRACK = 2000;
 /** The placeholder sliding right to left across the field, then again, at a reading pace. */
 function Ticker({ text, color, face, pad }) {
     const [box, setBox] = useState(0);
@@ -75,7 +77,7 @@ function Ticker({ text, color, face, pad }) {
         loop.start();
         return () => loop.stop();
     }, [box, w, pad, x]);
-    return (_jsx(View, { pointerEvents: "none", style: StyleSheet.absoluteFill, onLayout: (e) => setBox(e.nativeEvent.layout.width), "aria-hidden": true, children: _jsx(Animated.Text, { maxFontSizeMultiplier: FontScaleCap.control, numberOfLines: 1, onLayout: (e) => setW(e.nativeEvent.layout.width), style: [styles.ticker, { color, transform: [{ translateX: x }] }, face], children: text }) }));
+    return (_jsx(View, { pointerEvents: "none", style: StyleSheet.absoluteFill, onLayout: (e) => setBox(e.nativeEvent.layout.width), "aria-hidden": true, children: _jsx(Animated.View, { style: [styles.track, { transform: [{ translateX: x }] }], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, onLayout: (e) => setW(e.nativeEvent.layout.width), style: [styles.ticker, { color }, face], children: text }) }) }));
 }
 const styles = StyleSheet.create({
     input: {
@@ -86,7 +88,8 @@ const styles = StyleSheet.create({
     },
     screen: { borderWidth: 0, overflow: 'hidden', justifyContent: 'center' },
     screenText: { height: Height.md, fontSize: TypeScale.meta, minWidth: 0 },
-    ticker: { position: 'absolute', top: 0, bottom: 0, left: 0, fontSize: TypeScale.meta, lineHeight: Height.md, flexShrink: 0 },
+    track: { position: 'absolute', top: 0, bottom: 0, left: 0, width: TICKER_TRACK, flexDirection: 'row', alignItems: 'center' },
+    ticker: { fontSize: TypeScale.meta, lineHeight: Height.md, flexShrink: 0 },
     labelled: { gap: 6 },
     label: { fontSize: TypeScale.meta, fontWeight: '600' },
 });

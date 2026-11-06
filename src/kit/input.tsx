@@ -109,6 +109,9 @@ function ScreenInput({
   );
 }
 
+/** Wider than any placeholder, so the ticker's text is never cut to the field. */
+const TICKER_TRACK = 2000;
+
 /** The placeholder sliding right to left across the field, then again, at a reading pace. */
 function Ticker({ text, color, face, pad }: { text: string; color: string; face?: object; pad: number }) {
   const [box, setBox] = useState(0);
@@ -137,13 +140,17 @@ function Ticker({ text, color, face, pad }: { text: string; color: string; face?
       onLayout={(e) => setBox(e.nativeEvent.layout.width)}
       aria-hidden
     >
-      <Animated.Text maxFontSizeMultiplier={FontScaleCap.control}
-        numberOfLines={1}
-        onLayout={(e) => setW(e.nativeEvent.layout.width)}
-        style={[styles.ticker, { color, transform: [{ translateX: x }] }, face]}
-      >
-        {text}
-      </Animated.Text>
+      {/* A track far wider than any placeholder, so the text keeps its whole width. Laid straight
+          in the field it was cut to the field's width with an ellipsis before it moved, and a
+          narrow phone scrolled "Search this coll…" (2026-11-05, 360 wide). */}
+      <Animated.View style={[styles.track, { transform: [{ translateX: x }] }]}>
+        <Text maxFontSizeMultiplier={FontScaleCap.control}
+          onLayout={(e) => setW(e.nativeEvent.layout.width)}
+          style={[styles.ticker, { color }, face]}
+        >
+          {text}
+        </Text>
+      </Animated.View>
     </View>
   );
 }
@@ -157,7 +164,8 @@ const styles = StyleSheet.create({
   },
   screen: { borderWidth: 0, overflow: 'hidden', justifyContent: 'center' },
   screenText: { height: Height.md, fontSize: TypeScale.meta, minWidth: 0 },
-  ticker: { position: 'absolute', top: 0, bottom: 0, left: 0, fontSize: TypeScale.meta, lineHeight: Height.md, flexShrink: 0 },
+  track: { position: 'absolute', top: 0, bottom: 0, left: 0, width: TICKER_TRACK, flexDirection: 'row', alignItems: 'center' },
+  ticker: { fontSize: TypeScale.meta, lineHeight: Height.md, flexShrink: 0 },
   labelled: { gap: 6 },
   label: { fontSize: TypeScale.meta, fontWeight: '600' },
 });
