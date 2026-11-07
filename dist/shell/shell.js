@@ -35,7 +35,7 @@ export function Shell({ header, nav, width, back, action, footer, tabBar, scroll
     // the back glyph alone; a desk has room for its label.
     const lead = nav && !wide ? (_jsx(Pressable, { role: "button", accessibilityLabel: "Open menu", onPress: () => setDrawer(true), style: styles.menuButton, children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, style: [styles.menuGlyph, { color: colors.text }], children: "\u2630" }) })) : back ? (_jsx(Pressable, { role: "link", accessibilityLabel: back.label, onPress: back.onPress, hitSlop: 8, 
         // Pressed feedback, as every link has (owner's pick).
-        style: ({ pressed }) => [styles.back, pressed && styles.backPressed], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, style: [styles.backLabel, { color: colors.link }], children: wide ? `‹ ${back.label}` : '‹' }) })) : null;
+        style: ({ pressed }) => [styles.back, !wide && styles.backPhone, pressed && styles.backPressed], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.chrome, style: [styles.backLabel, !wide && styles.backGlyph, { color: colors.link }], children: wide ? `‹ ${back.label}` : '‹' }) })) : null;
     const top = header ? (_jsx(Header, { ...header, compact: !wide, lead: lead, trail: action ?? undefined })) : lead || action ? (_jsxs(View, { style: styles.topRow, children: [lead, action ? _jsx(View, { style: styles.action, children: action }) : null] })) : null;
     const below = header ? _jsx(HeaderBelow, { art: header.art, lede: header.lede, filters: header.filters }) : null;
     const column = (_jsxs(View, { style: [
@@ -74,6 +74,9 @@ const styles = StyleSheet.create({
     menuGlyph: { fontSize: TypeScale.h3 },
     back: { justifyContent: 'center', minHeight: Height.sm, minWidth: 24 },
     backPressed: { opacity: 0.6 },
+    /** A phone shows the glyph alone: a full touch target, and a glyph that reads as one. */
+    backPhone: { minWidth: MinTouch, minHeight: MinTouch, alignItems: 'center', marginLeft: -12, marginRight: -8 },
+    backGlyph: { fontSize: TypeScale.h3 },
     action: { marginLeft: 'auto' },
     backLabel: { fontSize: TypeScale.control, fontWeight: '700' },
 });

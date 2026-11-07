@@ -75,9 +75,9 @@ export function Shell({
         onPress={back.onPress}
         hitSlop={8}
         // Pressed feedback, as every link has (owner's pick).
-        style={({ pressed }) => [styles.back, pressed && styles.backPressed]}
+        style={({ pressed }) => [styles.back, !wide && styles.backPhone, pressed && styles.backPressed]}
       >
-        <Text maxFontSizeMultiplier={FontScaleCap.chrome} style={[styles.backLabel, { color: colors.link }]}>
+        <Text maxFontSizeMultiplier={FontScaleCap.chrome} style={[styles.backLabel, !wide && styles.backGlyph, { color: colors.link }]}>
           {wide ? `‹ ${back.label}` : '‹'}
         </Text>
       </Pressable>
@@ -176,6 +176,9 @@ const styles = StyleSheet.create({
   menuGlyph: { fontSize: TypeScale.h3 },
   back: { justifyContent: 'center', minHeight: Height.sm, minWidth: 24 },
   backPressed: { opacity: 0.6 },
+  /** A phone shows the glyph alone: a full touch target, and a glyph that reads as one. */
+  backPhone: { minWidth: MinTouch, minHeight: MinTouch, alignItems: 'center', marginLeft: -12, marginRight: -8 },
+  backGlyph: { fontSize: TypeScale.h3 },
   action: { marginLeft: 'auto' },
   backLabel: { fontSize: TypeScale.control, fontWeight: '700' },
 });
