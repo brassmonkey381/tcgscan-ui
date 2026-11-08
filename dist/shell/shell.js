@@ -18,7 +18,7 @@ import { FontScaleCap } from '../kit/scale';
  * how it ships first, under today's tab bar. `tabBar` is a slot so the tab bar can move into the
  * shell later without changing any route.
  */
-export function Shell({ header, nav, width, back, action, footer, tabBar, scroll = true, children, }) {
+export function Shell({ header, nav, width, back, action, footer, tabBar, scroll = true, ground, children, }) {
     const { colors, dark, skin } = useKit();
     const { width: window } = useWindowSize();
     const wide = window >= Breakpoints.rail;
@@ -57,7 +57,7 @@ export function Shell({ header, nav, width, back, action, footer, tabBar, scroll
                         paddingTop: (wide ? 14 : 6) + insets.top,
                     },
                 ], children: _jsx(KitProvider, { colors: { ...colors, ...band.colors }, dark: dark, skin: skin, children: top }) })) : (top), below, _jsx(View, { style: [styles.page, !scroll && styles.fixed], children: children }), footer] }));
-    return (_jsxs(View, { style: [styles.root, { backgroundColor: colors.background }], children: [skin.ground ? (_jsx(View, { style: StyleSheet.absoluteFill, pointerEvents: "none", "aria-hidden": true, children: skin.ground })) : null, _jsxs(View, { style: styles.frame, children: [nav && wide ? _jsx(Rail, { brand: nav.brand, groups: nav.groups }) : null, scroll ? (_jsx(ScrollView, { style: styles.scroll, contentContainerStyle: styles.scrollContent, children: column })) : (_jsx(View, { style: [styles.scroll, styles.scrollContent], children: column }))] }), !wide ? tabBar : null, nav && !wide ? (_jsx(Drawer, { visible: drawer, onClose: () => setDrawer(false), brand: nav.brand, groups: nav.groups })) : null] }));
+    return (_jsxs(View, { style: [styles.root, { backgroundColor: colors.background }], children: [(ground ?? skin.ground) ? (_jsx(View, { style: StyleSheet.absoluteFill, pointerEvents: "none", "aria-hidden": true, children: ground ?? skin.ground })) : null, _jsxs(View, { style: styles.frame, children: [nav && wide ? _jsx(Rail, { brand: nav.brand, groups: nav.groups }) : null, scroll ? (_jsx(ScrollView, { style: styles.scroll, contentContainerStyle: styles.scrollContent, children: column })) : (_jsx(View, { style: [styles.scroll, styles.scrollContent], children: column }))] }), !wide ? tabBar : null, nav && !wide ? (_jsx(Drawer, { visible: drawer, onClose: () => setDrawer(false), brand: nav.brand, groups: nav.groups })) : null] }));
 }
 const styles = StyleSheet.create({
     root: { flex: 1 },

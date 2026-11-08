@@ -17,7 +17,7 @@ export interface ShellNav {
  * how it ships first, under today's tab bar. `tabBar` is a slot so the tab bar can move into the
  * shell later without changing any route.
  */
-export declare function Shell({ header, nav, width, back, action, footer, tabBar, scroll, children, }: {
+export declare function Shell({ header, nav, width, back, action, footer, tabBar, scroll, ground, children, }: {
     header?: Omit<HeaderProps, 'compact'>;
     nav?: ShellNav;
     width?: FrameWidth;
@@ -29,6 +29,11 @@ export declare function Shell({ header, nav, width, back, action, footer, tabBar
     action?: ReactNode;
     footer?: ReactNode;
     tabBar?: ReactNode;
+    /**
+     * This page's own layer behind the column (a faint picture), in place of the skin's `ground`.
+     * Decorative like the skin's: hidden from readers and touches. Omit for the skin's.
+     */
+    ground?: ReactNode;
     /** Off for a route that owns its own scroller (a virtualized grid). */
     scroll?: boolean;
     children: ReactNode;

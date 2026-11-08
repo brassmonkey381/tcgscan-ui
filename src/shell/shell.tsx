@@ -33,6 +33,7 @@ export function Shell({
   footer,
   tabBar,
   scroll = true,
+  ground,
   children,
 }: {
   header?: Omit<HeaderProps, 'compact'>;
@@ -43,6 +44,11 @@ export function Shell({
   action?: ReactNode;
   footer?: ReactNode;
   tabBar?: ReactNode;
+  /**
+   * This page's own layer behind the column (a faint picture), in place of the skin's `ground`.
+   * Decorative like the skin's: hidden from readers and touches. Omit for the skin's.
+   */
+  ground?: ReactNode;
   /** Off for a route that owns its own scroller (a virtualized grid). */
   scroll?: boolean;
   children: ReactNode;
@@ -134,13 +140,13 @@ export function Shell({
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
-      {skin.ground ? (
+      {(ground ?? skin.ground) ? (
         <View
           style={StyleSheet.absoluteFill}
           pointerEvents="none"
           aria-hidden
         >
-          {skin.ground}
+          {ground ?? skin.ground}
         </View>
       ) : null}
       <View style={styles.frame}>
