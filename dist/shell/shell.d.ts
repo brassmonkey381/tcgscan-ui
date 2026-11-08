@@ -17,7 +17,7 @@ export interface ShellNav {
  * how it ships first, under today's tab bar. `tabBar` is a slot so the tab bar can move into the
  * shell later without changing any route.
  */
-export declare function Shell({ header, nav, width, back, action, footer, tabBar, scroll, ground, children, }: {
+export declare function Shell({ header, nav, width, back, action, footer, tabBar, scroll, ground, keyboardShouldPersistTaps, children, }: {
     header?: Omit<HeaderProps, 'compact'>;
     nav?: ShellNav;
     width?: FrameWidth;
@@ -34,6 +34,8 @@ export declare function Shell({ header, nav, width, back, action, footer, tabBar
      * Decorative like the skin's: hidden from readers and touches. Omit for the skin's.
      */
     ground?: ReactNode;
+    /** Passed to the page's scroll view: 'handled' keeps a tap on a result working while a search field has the keyboard up. */
+    keyboardShouldPersistTaps?: 'always' | 'never' | 'handled';
     /** Off for a route that owns its own scroller (a virtualized grid). */
     scroll?: boolean;
     children: ReactNode;
