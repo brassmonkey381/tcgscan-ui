@@ -5,6 +5,12 @@ import { ErrorText } from './feedback';
 import { Height, TypeScale, FontScaleCap } from './scale';
 import { useKit, type InputSkin } from './skin';
 
+/** Animated.delay for a LOOP: the stock delay is a timing with isInteraction true, which on web
+ *  holds InteractionManager for the whole pause and freezes every FlatList (MIC-031). */
+function loopPause(ms: number) {
+  return Animated.timing(new Animated.Value(0), { toValue: 1, duration: ms, isInteraction: false, useNativeDriver: false });
+}
+
 /**
  * A text input, always 44 tall so it sits on one baseline with the medium button beside it.
  * `shape: 'search'` is the pill used in workbench headers; `field` takes the input radius.
@@ -124,10 +130,10 @@ function Ticker({ text, color, face, pad }: { text: string; color: string; face?
     x.setValue(pad);
     const loop = Animated.loop(
       Animated.sequence([
-        Animated.delay(900),
-        Animated.timing(x, { toValue: -w, duration: ((w + pad) / speed) * 1000, easing: Easing.linear, useNativeDriver: true }),
-        Animated.timing(x, { toValue: box, duration: 0, useNativeDriver: true }),
-        Animated.timing(x, { toValue: pad, duration: ((box - pad) / speed) * 1000, easing: Easing.linear, useNativeDriver: true }),
+        loopPause(900),
+        Animated.timing(x, { isInteraction: false, toValue: -w, duration: ((w + pad) / speed) * 1000, easing: Easing.linear, useNativeDriver: true }),
+        Animated.timing(x, { isInteraction: false, toValue: box, duration: 0, useNativeDriver: true }),
+        Animated.timing(x, { isInteraction: false, toValue: pad, duration: ((box - pad) / speed) * 1000, easing: Easing.linear, useNativeDriver: true }),
       ]),
     );
     loop.start();
