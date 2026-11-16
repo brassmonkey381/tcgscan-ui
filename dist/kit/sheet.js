@@ -13,18 +13,19 @@ import { useWindowSize } from './window-size';
  *
  * Bottom-anchored on a phone; a centred panel once the window has room for the rail.
  */
-export function Sheet({ visible, title, onClose, actions, children, }) {
+export function Sheet({ visible, title, onClose, actions, children, width, grabHandle, }) {
     const kit = useKit();
     const { skin } = kit;
     // Inside a pop-up everything draws in the skin's popup palette (or the page's, without one).
     const colors = popupColors(kit);
     const edge = skin.popup?.edge ? { borderTopWidth: skin.popup.edgeWidth ?? 5, borderTopColor: skin.popup.edge } : null;
-    const { width } = useWindowSize();
+    const { width: windowWidth } = useWindowSize();
     const insets = useSafeAreaInsets();
-    const wide = width >= Breakpoints.rail;
+    const wide = windowWidth >= Breakpoints.rail;
     const radius = skin.radius.sheet;
     return (_jsx(Modal, { visible: visible, transparent: true, animationType: wide ? 'fade' : 'slide', onRequestClose: onClose, children: _jsxs(View, { style: [styles.backdrop, wide ? styles.centre : styles.bottom], children: [_jsx(Pressable, { accessibilityLabel: "Close", style: [StyleSheet.absoluteFill, { backgroundColor: colors.scrim55 }], onPress: onClose }), _jsx(View, { "aria-modal": true, style: [
                         styles.panel,
+                        width ? { maxWidth: width } : null,
                         {
                             backgroundColor: colors.background,
                             borderColor: colors.hairline,
@@ -34,7 +35,7 @@ export function Sheet({ visible, title, onClose, actions, children, }) {
                             paddingBottom: wide ? 0 : insets.bottom,
                         },
                         edge,
-                    ], children: _jsxs(KitProvider, { colors: colors, dark: skin.popup ? true : kit.dark, skin: skin, children: [_jsxs(View, { style: [styles.titleRow, { borderBottomColor: colors.hairline }], children: [_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, role: "heading", numberOfLines: 1, style: [styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null], children: title }), _jsx(CloseButton, { onPress: onClose })] }), _jsx(ScrollView, { style: styles.scroll, contentContainerStyle: styles.body, children: children }), actions && actions.length > 0 && _jsx(ButtonRow, { actions: actions, bordered: true })] }) })] }) }));
+                    ], children: _jsxs(KitProvider, { colors: colors, dark: skin.popup ? true : kit.dark, skin: skin, children: [grabHandle && !wide ? _jsx(View, { style: styles.handleRow, children: _jsx(View, { style: [styles.handle, { backgroundColor: colors.hairline }] }) }) : null, _jsxs(View, { style: [styles.titleRow, { borderBottomColor: colors.hairline }], children: [_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, role: "heading", numberOfLines: 1, style: [styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null], children: title ?? '' }), _jsx(CloseButton, { onPress: onClose })] }), _jsx(ScrollView, { style: styles.scroll, contentContainerStyle: styles.body, children: children }), actions && actions.length > 0 && _jsx(ButtonRow, { actions: actions, bordered: true })] }) })] }) }));
 }
 /** The 72 button row shared by sheets and dialogs: equal-width buttons, 12 apart. */
 export function ButtonRow({ actions, bordered }) {
@@ -45,7 +46,8 @@ export function ButtonRow({ actions, bordered }) {
             bordered ? styles.buttonRowPad : null,
         ], children: actions.map((a) => (_jsx(Button, { fill: true, size: "md", look: a.look ?? 'secondary', ...a }, a.label))) }));
 }
-function CloseButton({ onPress }) {
+/** The X every pop-up closes with (sheets, dialogs): 36 square, the panel grey, no 'Close' text. */
+export function CloseButton({ onPress }) {
     const { colors, skin } = useKit();
     return (_jsx(Pressable, { role: "button", accessibilityLabel: "Close", hitSlop: 4, onPress: onPress, style: [styles.close, { borderRadius: skin.radius.button, backgroundColor: colors.backgroundElement }], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, style: [styles.closeGlyph, { color: colors.textSecondary }], children: "\u00D7" }) }));
 }
@@ -73,6 +75,8 @@ const styles = StyleSheet.create({
     close: { width: Height.sm, height: Height.sm, alignItems: 'center', justifyContent: 'center' },
     closeGlyph: { fontSize: TypeScale.body, lineHeight: TypeScale.body + 2 },
     scroll: { flexGrow: 0 },
+    handleRow: { alignItems: 'center', paddingTop: 8 },
+    handle: { width: 40, height: 5, borderRadius: 3 },
     body: { padding: SheetSize.bodyPad, gap: 16 },
     buttonRow: { flexDirection: 'row', alignItems: 'center', gap: SheetSize.buttonGap },
     buttonRowPad: { height: SheetSize.buttonRow, paddingHorizontal: SheetSize.sidePad },

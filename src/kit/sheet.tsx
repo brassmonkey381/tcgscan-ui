@@ -29,21 +29,28 @@ export function Sheet({
   onClose,
   actions,
   children,
+  width,
+  grabHandle,
 }: {
   visible: boolean;
-  title: string;
+  /** The title row's text; without one the row keeps only the X (v0.14). */
+  title?: string;
   onClose: () => void;
   actions?: readonly SheetAction[];
   children: ReactNode;
+  /** The centred panel's width once the window is wide (default SheetSize.maxWidth; 720 for a wide sheet). */
+  width?: number;
+  /** A grab handle above the title row on a phone (v0.14). Off by default so existing sheets look the same. */
+  grabHandle?: boolean;
 }) {
   const kit = useKit();
   const { skin } = kit;
   // Inside a pop-up everything draws in the skin's popup palette (or the page's, without one).
   const colors = popupColors(kit);
   const edge = skin.popup?.edge ? { borderTopWidth: skin.popup.edgeWidth ?? 5, borderTopColor: skin.popup.edge } : null;
-  const { width } = useWindowSize();
+  const { width: windowWidth } = useWindowSize();
   const insets = useSafeAreaInsets();
-  const wide = width >= Breakpoints.rail;
+  const wide = windowWidth >= Breakpoints.rail;
   const radius = skin.radius.sheet;
 
   return (
@@ -58,6 +65,7 @@ export function Sheet({
           aria-modal
           style={[
             styles.panel,
+            width ? { maxWidth: width } : null,
             {
               backgroundColor: colors.background,
               borderColor: colors.hairline,
@@ -70,9 +78,10 @@ export function Sheet({
           ]}
         >
           <KitProvider colors={colors} dark={skin.popup ? true : kit.dark} skin={skin}>
+          {grabHandle && !wide ? <View style={styles.handleRow}><View style={[styles.handle, { backgroundColor: colors.hairline }]} /></View> : null}
           <View style={[styles.titleRow, { borderBottomColor: colors.hairline }]}>
             <Text maxFontSizeMultiplier={FontScaleCap.control} role="heading" numberOfLines={1} style={[styles.title, { color: skin.popup?.title ?? colors.text }, skin.popup?.titleGlow ? GLOW : null]}>
-              {title}
+              {title ?? ''}
             </Text>
             <CloseButton onPress={onClose} />
           </View>
@@ -105,7 +114,8 @@ export function ButtonRow({ actions, bordered }: { actions: readonly SheetAction
   );
 }
 
-function CloseButton({ onPress }: { onPress: () => void }) {
+/** The X every pop-up closes with (sheets, dialogs): 36 square, the panel grey, no 'Close' text. */
+export function CloseButton({ onPress }: { onPress: () => void }) {
   const { colors, skin } = useKit();
   return (
     <Pressable
@@ -144,6 +154,8 @@ const styles = StyleSheet.create({
   close: { width: Height.sm, height: Height.sm, alignItems: 'center', justifyContent: 'center' },
   closeGlyph: { fontSize: TypeScale.body, lineHeight: TypeScale.body + 2 },
   scroll: { flexGrow: 0 },
+  handleRow: { alignItems: 'center', paddingTop: 8 },
+  handle: { width: 40, height: 5, borderRadius: 3 },
   body: { padding: SheetSize.bodyPad, gap: 16 },
   buttonRow: { flexDirection: 'row', alignItems: 'center', gap: SheetSize.buttonGap },
   buttonRowPad: { height: SheetSize.buttonRow, paddingHorizontal: SheetSize.sidePad },
