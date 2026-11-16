@@ -22,7 +22,7 @@ export interface ToastAction {
  * optional picture (`thumb`), an X when `onClose` is set, and a bar that runs down over
  * `duration` ms so the reader sees how long it stays.
  */
-export declare function Toast({ message, action, actions, tone, lead, thumb, onClose, duration, progress, }: {
+export declare function Toast({ message, action, actions, tone, lead, thumb, onClose, duration, progress, lines, }: {
     message: string;
     action?: ToastAction;
     /** Up to two actions (View + Undo); the last is the main one. Used instead of `action` when set. */
@@ -38,4 +38,6 @@ export declare function Toast({ message, action, actions, tone, lead, thumb, onC
     duration?: number;
     /** A work bar along the bottom edge, 0..1 ("Adding 12 of 40"); shown instead of the timer bar. */
     progress?: number;
+    /** Lines the message may wrap to (default 1, the 48 bar). Above 1 the toast grows to fit. */
+    lines?: number;
 }): import("react").JSX.Element;

@@ -56,6 +56,7 @@ export function Toast({
   onClose,
   duration,
   progress,
+  lines = 1,
 }: {
   message: string;
   action?: ToastAction;
@@ -72,6 +73,8 @@ export function Toast({
   duration?: number;
   /** A work bar along the bottom edge, 0..1 ("Adding 12 of 40"); shown instead of the timer bar. */
   progress?: number;
+  /** Lines the message may wrap to (default 1, the 48 bar). Above 1 the toast grows to fit. */
+  lines?: number;
 }) {
   const { skin, colors } = useKit();
   const reduce = useReduceMotion();
@@ -99,6 +102,7 @@ export function Toast({
         { borderRadius: skin.radius.toast },
         tone === 'limit' && { borderLeftWidth: 4, borderLeftColor: KitChrome.accent },
         mark && styles.toned,
+        lines > 1 && styles.tall,
         { opacity: t.interpolate({ inputRange: [0, 0.4, 1], outputRange: [0, 1, 1] }), transform: [...rise, { scale: t.interpolate({ inputRange: [0, 1], outputRange: [0.92, 1] }) }] },
       ]}
     >
@@ -108,7 +112,7 @@ export function Toast({
         </View>
       )}
       {thumb ? <View style={styles.thumb}>{thumb}</View> : null}
-      <Text maxFontSizeMultiplier={FontScaleCap.control} numberOfLines={1} style={styles.message}>
+      <Text maxFontSizeMultiplier={FontScaleCap.control} numberOfLines={lines} style={styles.message}>
         {message}
       </Text>
       {(actions ?? (action ? [action] : [])).slice(0, 2).map((a, i, all) => {
@@ -166,6 +170,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   toned: { paddingLeft: 12 },
+  tall: { height: 'auto', minHeight: ToastSize.height, paddingVertical: 6 },
   mark: { width: 24, height: 24, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   markGlyph: { fontSize: TypeScale.meta, lineHeight: 16, fontWeight: '800' },
   thumb: { flexShrink: 0 },

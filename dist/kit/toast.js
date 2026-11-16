@@ -30,7 +30,7 @@ function markFor(tone, page) {
  * optional picture (`thumb`), an X when `onClose` is set, and a bar that runs down over
  * `duration` ms so the reader sees how long it stays.
  */
-export function Toast({ message, action, actions, tone, lead, thumb, onClose, duration, progress, }) {
+export function Toast({ message, action, actions, tone, lead, thumb, onClose, duration, progress, lines = 1, }) {
     const { skin, colors } = useKit();
     const reduce = useReduceMotion();
     const [t] = useState(() => new Animated.Value(0));
@@ -54,8 +54,9 @@ export function Toast({ message, action, actions, tone, lead, thumb, onClose, du
             { borderRadius: skin.radius.toast },
             tone === 'limit' && { borderLeftWidth: 4, borderLeftColor: KitChrome.accent },
             mark && styles.toned,
+            lines > 1 && styles.tall,
             { opacity: t.interpolate({ inputRange: [0, 0.4, 1], outputRange: [0, 1, 1] }), transform: [...rise, { scale: t.interpolate({ inputRange: [0, 1], outputRange: [0.92, 1] }) }] },
-        ], children: [lead ? _jsx(View, { style: styles.thumb, children: lead }) : mark && (_jsx(View, { style: [styles.mark, { backgroundColor: mark.fill }], "aria-hidden": true, children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, style: [styles.markGlyph, { color: mark.ink }], children: mark.glyph }) })), thumb ? _jsx(View, { style: styles.thumb, children: thumb }) : null, _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, numberOfLines: 1, style: styles.message, children: message }), (actions ?? (action ? [action] : [])).slice(0, 2).map((a, i, all) => {
+        ], children: [lead ? _jsx(View, { style: styles.thumb, children: lead }) : mark && (_jsx(View, { style: [styles.mark, { backgroundColor: mark.fill }], "aria-hidden": true, children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, style: [styles.markGlyph, { color: mark.ink }], children: mark.glyph }) })), thumb ? _jsx(View, { style: styles.thumb, children: thumb }) : null, _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, numberOfLines: lines, style: styles.message, children: message }), (actions ?? (action ? [action] : [])).slice(0, 2).map((a, i, all) => {
                 const accent = tone === 'limit' && i === all.length - 1;
                 return (_jsx(Pressable, { role: "button", onPress: a.onPress, style: [styles.action, accent && { backgroundColor: KitChrome.accent }, { borderRadius: skin.radius.button }], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, style: [styles.actionLabel, accent && { color: KitChrome.accentText }], children: a.label }) }, a.label));
             }), onClose && (_jsx(Pressable, { role: "button", accessibilityLabel: "Dismiss", hitSlop: 6, onPress: onClose, style: styles.close, children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, style: styles.closeGlyph, children: "\u00D7" }) })), progress != null ? (_jsx(View, { "aria-hidden": true, style: [styles.timer, { backgroundColor: mark ? mark.fill : KitChrome.link, width: `${Math.round(Math.max(0, Math.min(1, progress)) * 100)}%` }] })) : duration ? (_jsx(Animated.View, { "aria-hidden": true, style: [
@@ -82,6 +83,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     toned: { paddingLeft: 12 },
+    tall: { height: 'auto', minHeight: ToastSize.height, paddingVertical: 6 },
     mark: { width: 24, height: 24, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
     markGlyph: { fontSize: TypeScale.meta, lineHeight: 16, fontWeight: '800' },
     thumb: { flexShrink: 0 },

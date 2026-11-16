@@ -21,6 +21,8 @@ export interface ToastSpec {
     progress?: number;
     /** Show an X (default true for toned toasts). */
     closable?: boolean;
+    /** Lines the message may wrap to (default 1). */
+    lines?: number;
 }
 export interface ToastApi {
     /** Shows a toast, replacing any on screen. Returns its id, for `hide(id)`. */

@@ -45,7 +45,7 @@ export function ToastProvider({ children, bottomOffset = 0 }) {
     }, [current, life, hide]);
     const api = useMemo(() => ({ show, hide }), [show, hide]);
     const wrap = (a) => a && { label: a.label, onPress: () => { hide(current?.id); a.onPress(); } };
-    return (_jsxs(ToastContext.Provider, { value: api, children: [children, current ? (_jsx(View, { pointerEvents: "box-none", style: [styles.host, { bottom: ToastSize.inset + insets.bottom + bottomOffset }], children: _jsx(View, { style: styles.slot, children: _jsx(Toast, { message: current.message, tone: current.tone, action: wrap(current.action), actions: current.actions?.map((a) => wrap(a)), lead: current.lead, thumb: current.thumb, progress: current.progress, duration: life && current.timerBar !== false ? life : undefined, onClose: (current.closable ?? !!current.tone) ? () => hide(current.id) : undefined }, current.id) }) })) : null] }));
+    return (_jsxs(ToastContext.Provider, { value: api, children: [children, current ? (_jsx(View, { pointerEvents: "box-none", style: [styles.host, { bottom: ToastSize.inset + insets.bottom + bottomOffset }], children: _jsx(View, { style: styles.slot, children: _jsx(Toast, { message: current.message, tone: current.tone, action: wrap(current.action), actions: current.actions?.map((a) => wrap(a)), lead: current.lead, thumb: current.thumb, progress: current.progress, lines: current.lines, duration: life && current.timerBar !== false ? life : undefined, onClose: (current.closable ?? !!current.tone) ? () => hide(current.id) : undefined }, current.id) }) })) : null] }));
 }
 const styles = StyleSheet.create({
     host: { position: 'absolute', left: ToastSize.inset, right: ToastSize.inset, alignItems: 'center', zIndex: 1000 },

@@ -26,6 +26,8 @@ export interface ToastSpec {
   progress?: number;
   /** Show an X (default true for toned toasts). */
   closable?: boolean;
+  /** Lines the message may wrap to (default 1). */
+  lines?: number;
 }
 
 export interface ToastApi {
@@ -94,6 +96,7 @@ export function ToastProvider({ children, bottomOffset = 0 }: { children: ReactN
               lead={current.lead}
               thumb={current.thumb}
               progress={current.progress}
+              lines={current.lines}
               duration={life && current.timerBar !== false ? life : undefined}
               onClose={(current.closable ?? !!current.tone) ? () => hide(current.id) : undefined}
             />
