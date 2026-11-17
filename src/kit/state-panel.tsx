@@ -89,12 +89,13 @@ export function StatePanel({
  */
 export function PocketsArt({ badge, size = 128 }: { badge?: 'lock' | string | ReactNode; size?: number }) {
   const { colors, skin } = useKit();
-  const pocket = (size - 24 - 12) / 3;
+  // Inner width less the two 6 gaps and each pocket's 1.5 border, so three always fit on a row.
+  const pocket = Math.floor((size - 24 - 2 - 12) / 3) - 1;
   return (
     <View aria-hidden style={{ width: size + 16, height: size * 1.3 + 16 }}>
       <View style={[styles.page, { width: size, height: size * 1.3, backgroundColor: colors.background, borderColor: colors.hairline, borderRadius: skin.radius.panel }]}>
         {Array.from({ length: 9 }, (_, i) => (
-          <View key={i} style={[styles.pocket, { width: pocket, height: (size * 1.3 - 24 - 12) / 3, borderColor: colors.hairline, backgroundColor: colors.backgroundElement }]} />
+          <View key={i} style={[styles.pocket, { width: pocket, height: Math.floor((size * 1.3 - 24 - 2 - 12) / 3) - 1, borderColor: colors.hairline, backgroundColor: colors.backgroundElement }]} />
         ))}
       </View>
       {badge ? (
