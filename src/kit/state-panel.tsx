@@ -87,7 +87,7 @@ export function StatePanel({
  * The empty binder page: a 3x3 of dashed pockets on a card, with an optional round badge
  * (a lock for private, ? for not found) at its lower right.
  */
-export function PocketsArt({ badge, size = 128 }: { badge?: string; size?: number }) {
+export function PocketsArt({ badge, size = 128 }: { badge?: 'lock' | string | ReactNode; size?: number }) {
   const { colors, skin } = useKit();
   const pocket = (size - 24 - 12) / 3;
   return (
@@ -99,7 +99,16 @@ export function PocketsArt({ badge, size = 128 }: { badge?: string; size?: numbe
       </View>
       {badge ? (
         <View style={[styles.badge, { backgroundColor: colors.accent, borderColor: colors.background }]}>
-          <Text maxFontSizeMultiplier={FontScaleCap.control} style={[styles.badgeGlyph, { color: colors.accentText }]}>{badge}</Text>
+          {badge === 'lock' ? (
+            <View style={styles.lock}>
+              <View style={[styles.shackle, { borderColor: colors.accentText }]} />
+              <View style={[styles.lockBody, { backgroundColor: colors.accentText }]} />
+            </View>
+          ) : typeof badge === 'string' ? (
+            <Text maxFontSizeMultiplier={FontScaleCap.control} style={[styles.badgeGlyph, { color: colors.accentText }]}>{badge}</Text>
+          ) : (
+            badge
+          )}
         </View>
       ) : null}
     </View>
@@ -124,4 +133,7 @@ const styles = StyleSheet.create({
   pocket: { borderWidth: 1.5, borderStyle: 'dashed', borderRadius: 4 },
   badge: { position: 'absolute', right: 0, bottom: 0, width: 40, height: 40, borderRadius: 20, borderWidth: 3, alignItems: 'center', justifyContent: 'center' },
   badgeGlyph: { fontSize: TypeScale.control, fontWeight: '800' },
+  lock: { alignItems: 'center' },
+  shackle: { width: 10, height: 8, borderWidth: 2, borderBottomWidth: 0, borderTopLeftRadius: 5, borderTopRightRadius: 5 },
+  lockBody: { width: 14, height: 10, borderRadius: 2 },
 });

@@ -29,6 +29,6 @@ export declare function StatePanel({ title, body, art, glyph, primary, secondary
  * (a lock for private, ? for not found) at its lower right.
  */
 export declare function PocketsArt({ badge, size }: {
-    badge?: string;
+    badge?: 'lock' | string | ReactNode;
     size?: number;
 }): import("react").JSX.Element;

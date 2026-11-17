@@ -19,7 +19,7 @@ export function StatePanel({ title, body, art, glyph, primary, secondary, hint, 
 export function PocketsArt({ badge, size = 128 }) {
     const { colors, skin } = useKit();
     const pocket = (size - 24 - 12) / 3;
-    return (_jsxs(View, { "aria-hidden": true, style: { width: size + 16, height: size * 1.3 + 16 }, children: [_jsx(View, { style: [styles.page, { width: size, height: size * 1.3, backgroundColor: colors.background, borderColor: colors.hairline, borderRadius: skin.radius.panel }], children: Array.from({ length: 9 }, (_, i) => (_jsx(View, { style: [styles.pocket, { width: pocket, height: (size * 1.3 - 24 - 12) / 3, borderColor: colors.hairline, backgroundColor: colors.backgroundElement }] }, i))) }), badge ? (_jsx(View, { style: [styles.badge, { backgroundColor: colors.accent, borderColor: colors.background }], children: _jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, style: [styles.badgeGlyph, { color: colors.accentText }], children: badge }) })) : null] }));
+    return (_jsxs(View, { "aria-hidden": true, style: { width: size + 16, height: size * 1.3 + 16 }, children: [_jsx(View, { style: [styles.page, { width: size, height: size * 1.3, backgroundColor: colors.background, borderColor: colors.hairline, borderRadius: skin.radius.panel }], children: Array.from({ length: 9 }, (_, i) => (_jsx(View, { style: [styles.pocket, { width: pocket, height: (size * 1.3 - 24 - 12) / 3, borderColor: colors.hairline, backgroundColor: colors.backgroundElement }] }, i))) }), badge ? (_jsx(View, { style: [styles.badge, { backgroundColor: colors.accent, borderColor: colors.background }], children: badge === 'lock' ? (_jsxs(View, { style: styles.lock, children: [_jsx(View, { style: [styles.shackle, { borderColor: colors.accentText }] }), _jsx(View, { style: [styles.lockBody, { backgroundColor: colors.accentText }] })] })) : typeof badge === 'string' ? (_jsx(Text, { maxFontSizeMultiplier: FontScaleCap.control, style: [styles.badgeGlyph, { color: colors.accentText }], children: badge })) : (badge) })) : null] }));
 }
 const styles = StyleSheet.create({
     full: { alignItems: 'center', gap: 12, paddingVertical: 48, paddingHorizontal: 16, maxWidth: 560, alignSelf: 'center', width: '100%' },
@@ -39,4 +39,7 @@ const styles = StyleSheet.create({
     pocket: { borderWidth: 1.5, borderStyle: 'dashed', borderRadius: 4 },
     badge: { position: 'absolute', right: 0, bottom: 0, width: 40, height: 40, borderRadius: 20, borderWidth: 3, alignItems: 'center', justifyContent: 'center' },
     badgeGlyph: { fontSize: TypeScale.control, fontWeight: '800' },
+    lock: { alignItems: 'center' },
+    shackle: { width: 10, height: 8, borderWidth: 2, borderBottomWidth: 0, borderTopLeftRadius: 5, borderTopRightRadius: 5 },
+    lockBody: { width: 14, height: 10, borderRadius: 2 },
 });
